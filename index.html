@@ -30,3 +30,317 @@
 <footer><p>© 2026 Test Train Blazer Force</p></footer>
 <script src="js/script.js"></script>
 </body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration | Train Blazer Force</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+
+background:#f4f7fb;
+
+}
+
+.container{
+
+max-width:900px;
+margin:40px auto;
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,.15);
+
+}
+
+h1{
+
+text-align:center;
+color:#0176d3;
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+text-align:center;
+margin-bottom:35px;
+color:#666;
+
+}
+
+.form-group{
+
+margin-bottom:18px;
+
+}
+
+label{
+
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+
+}
+
+input,select,textarea{
+
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+
+}
+
+textarea{
+
+height:120px;
+
+}
+
+.row{
+
+display:flex;
+gap:20px;
+
+}
+
+.row .form-group{
+
+flex:1;
+
+}
+
+button{
+
+width:100%;
+padding:15px;
+background:#0176d3;
+color:white;
+border:none;
+font-size:18px;
+border-radius:6px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#005fb2;
+
+}
+
+.success{
+
+display:none;
+padding:15px;
+background:#d4edda;
+color:#155724;
+margin-top:20px;
+border-radius:6px;
+text-align:center;
+
+}
+
+@media(max-width:768px){
+
+.row{
+
+flex-direction:column;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Student Registration</h1>
+
+<p class="subtitle">
+Train Blazer Force - Salesforce Training Academy
+</p>
+
+<form id="registrationForm">
+
+<div class="row">
+
+<div class="form-group">
+<label>First Name</label>
+<input type="text" id="firstName" required>
+</div>
+
+<div class="form-group">
+<label>Last Name</label>
+<input type="text" id="lastName" required>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="email" required>
+</div>
+
+<div class="form-group">
+<label>Mobile Number</label>
+<input type="tel" id="phone" required>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="form-group">
+<label>College</label>
+<input type="text" id="college">
+</div>
+
+<div class="form-group">
+<label>Branch</label>
+
+<select id="branch">
+
+<option>CSE</option>
+<option>IT</option>
+<option>ECE</option>
+<option>EEE</option>
+<option>Mechanical</option>
+<option>Civil</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="form-group">
+
+<label>Graduation Year</label>
+
+<select id="year">
+
+<option>2026</option>
+<option>2027</option>
+<option>2028</option>
+<option>2029</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Course Interested</label>
+
+<select id="course">
+
+<option>Salesforce Admin</option>
+<option>Salesforce Developer</option>
+<option>LWC Development</option>
+<option>Agentforce & AI</option>
+<option>Complete Salesforce Program</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>How did you hear about us?</label>
+
+<select id="source">
+
+<option>LinkedIn</option>
+<option>Instagram</option>
+<option>Friend</option>
+<option>College</option>
+<option>Google</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Why do you want to join?</label>
+
+<textarea id="message"></textarea>
+
+</div>
+
+<button type="submit">
+
+Register Now
+
+</button>
+
+</form>
+
+<div class="success" id="successMessage">
+
+✅ Registration submitted successfully.
+
+</div>
+
+</div>
+
+<script>
+
+document.getElementById("registrationForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const student={
+
+firstName:document.getElementById("firstName").value,
+lastName:document.getElementById("lastName").value,
+email:document.getElementById("email").value,
+phone:document.getElementById("phone").value,
+college:document.getElementById("college").value,
+branch:document.getElementById("branch").value,
+year:document.getElementById("year").value,
+course:document.getElementById("course").value,
+source:document.getElementById("source").value,
+message:document.getElementById("message").value
+
+};
+
+console.log(student);
+
+// Salesforce API call goes here
+
+document.getElementById("successMessage").style.display="block";
+
+this.reset();
+
+});
+
+</script>
+
+</body>
+</html>
