@@ -48,6 +48,8 @@ https://templatemo.com/tm-590-topic-listing
 body {
   background-color: var(--white-color);
   font-family: var(--body-font-family); 
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
 
@@ -865,9 +867,33 @@ blockquote {
 /*---------------------------------------
   CONTACT               
 -----------------------------------------*/
-.google-map {
+.contact-card {
+  background-color: var(--white-color);
   border-radius: var(--border-radius-medium);
+  box-shadow: 0 15px 45px rgba(19, 84, 122, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
 }
+
+.contact-card h3 {
+  color: var(--primary-color);
+}
+
+.embed-frame {
+  background-color: var(--white-color);
+  border: 0;
+  border-radius: var(--border-radius-medium);
+  display: block;
+  min-height: 520px;
+  width: 100%;
+}
+
+.embed-map {
+  min-height: 320px;
+}
+
 
 .contact-form .form-floating>textarea {
   border-radius: var(--border-radius-medium);
@@ -1129,6 +1155,18 @@ blockquote {
     padding-top: 30px;
     padding-bottom: 0;
   }
+
+  .contact-card {
+    padding: 20px;
+  }
+
+  .embed-frame {
+    min-height: 430px;
+  }
+
+  .embed-map {
+    min-height: 280px;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -1150,6 +1188,18 @@ blockquote {
 
   h5 {
     font-size: 20px;
+  }
+
+  .contact-card {
+    padding: 18px;
+  }
+
+  .embed-frame {
+    min-height: 360px;
+  }
+
+  .embed-map {
+    min-height: 240px;
   }
 }
 
