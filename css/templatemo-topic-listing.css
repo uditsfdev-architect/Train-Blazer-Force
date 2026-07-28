@@ -140,6 +140,53 @@ strong {
   font-weight: var(--font-weight-bold);
 }
 
+/* Full Screen Loader */
+
+.loader-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,.75);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    backdrop-filter:blur(2px);
+}
+
+.loader-box{
+    background:#fff;
+    padding:30px 40px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.loader{
+    width:55px;
+    height:55px;
+    border:5px solid #e5e5e5;
+    border-top:5px solid #7d2ae8;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 15px;
+}
+
+.loader-box p{
+    margin:0;
+    font-size:16px;
+    font-weight:500;
+    color:#444;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
 
 /*---------------------------------------
   SECTION               

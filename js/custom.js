@@ -94,6 +94,7 @@
 
             submitButton.disabled = true;
             submitButton.value = "Registering...";
+            document.getElementById("loaderOverlay").style.display = "flex";
 
             try {
 
@@ -122,6 +123,7 @@
 
                 submitButton.disabled = false;
                 submitButton.value = "Register Now";
+                document.getElementById("loaderOverlay").style.display = "none";
 
             }
 
