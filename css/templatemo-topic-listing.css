@@ -50,6 +50,7 @@ body {
   font-family: var(--body-font-family); 
   overflow-x: hidden;
   min-height: 100vh;
+  padding-top: 72px;
 }
 
 
@@ -251,12 +252,7 @@ strong {
 -----------------------------------------*/
 .site-header {
   background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
-  padding-top: 150px;
-  padding-bottom: 80px;
-}
-
-.site-header .container {
-  height: 100%;
+  padding-top: 180px;
 }
 
 .breadcrumb-item+.breadcrumb-item::before,
@@ -290,9 +286,13 @@ strong {
 }
 
 .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background: transparent;
   border-bottom: 1px solid rgba(128, 208, 199, 0.35);
-  z-index: 9;
+  z-index: 999;
 }
 
 .navbar-brand,
@@ -1092,6 +1092,10 @@ blockquote {
     font-size: 18px;
   }
 
+  .site-header {
+    padding-top: 245px;
+  }
+
   .section-padding {
     padding-top: 50px;
     padding-bottom: 50px;
@@ -1099,6 +1103,15 @@ blockquote {
   
   .navbar {
     background-color: var(--secondary-color);
+  }
+
+  .sticky-wrapper,
+  .sticky-wrapper.is-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
   }
 
   .navbar-nav .dropdown-menu {
