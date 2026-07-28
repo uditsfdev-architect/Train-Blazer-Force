@@ -546,6 +546,15 @@ strong {
   height: 100%;
 }
 
+.form-custom-block {
+  border-radius: var(--border-radius-medium);
+  position: relative;
+  overflow: hidden;
+  padding: 0px;
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
 .custom-block:hover {
   background-color: var(--secondary-color);
   transform: translateY(-3px);
