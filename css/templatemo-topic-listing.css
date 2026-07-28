@@ -275,6 +275,7 @@ strong {
   NAVIGATION              
 -----------------------------------------*/
 .sticky-wrapper {
+  background-color: var(--secondary-color);
   position: absolute;
   top: 0;
   right: 0;
@@ -290,7 +291,7 @@ strong {
   top: 0;
   left: 0;
   right: 0;
-  background: transparent;
+  background-color: var(--secondary-color);
   border-bottom: 1px solid rgba(128, 208, 199, 0.35);
   z-index: 999;
 }
@@ -886,8 +887,10 @@ blockquote {
   border: 0;
   border-radius: var(--border-radius-medium);
   display: block;
-  min-height: 520px;
   width: 100%;
+  height: min(80vh, 860px);
+  min-height: 520px;
+  max-height: 920px;
 }
 
 .embed-map {
@@ -1174,7 +1177,8 @@ blockquote {
   }
 
   .embed-frame {
-    min-height: 430px;
+    height: min(72vh, 780px);
+    min-height: 520px;
   }
 
   .embed-map {
