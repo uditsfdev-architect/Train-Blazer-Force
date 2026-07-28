@@ -93,7 +93,7 @@
             const submitButton = form.querySelector('input[type="submit"]');
 
             submitButton.disabled = true;
-            submitButton.value = "Registering...";
+            submitButton.value = "Registering...Do not refresh or close the page.";
             document.getElementById("loaderOverlay").style.display = "flex";
 
             try {
@@ -107,7 +107,7 @@
 
                 await saveToSalesforce(data);
 
-                alert("🎉 Registration Successful!");
+                alert("🎉 🎉 Registration Successful! Thank you for registering with TrainBlazerForce. You'll receive updates on your registered Email and WhatsApp shortly.");
 
                 form.reset();
 
