@@ -224,7 +224,7 @@ strong {
 .course-image{
     height:220px;
     width:100%;
-    object-fit:cover;
+    object-fit: scale-down;
 }
 
 .course-content{
