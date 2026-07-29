@@ -102,8 +102,8 @@
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
-        console.log("Salesforce Payload");
-        console.table(data);
+        //console.log("Salesforce Payload");
+        //console.table(data);
 
         await saveToSalesforce(data);
 
@@ -171,9 +171,9 @@
 
     }
 
-    console.log("Salesforce Response");
+    //console.log("Salesforce Response");
 
-    console.log(result);
+    //console.log(result);
 
     return result;
 
@@ -193,7 +193,7 @@
           data = JSON.parse(data);
       }
 
-      console.log(data);
+      //console.log(data);
 
       document.getElementById("registrationCount").textContent =
           data.registrationCount;
@@ -226,5 +226,25 @@
     document.getElementById("visitorCount").textContent = visitors;
 
   }, 40000);
+
+  document
+    .getElementById("toggleWidget")
+    .addEventListener("click", function () {
+
+        gtag("event", "widget_click", {
+            button_name: "Toggle Widget"
+        });
+
+    });
+
+    document
+    .getElementById("registerBtn")
+    .addEventListener("click", function () {
+
+        gtag("event", "register_click", {
+            button_name: "Register Now"
+        });
+
+    });
 
 })(window.jQuery);
