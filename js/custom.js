@@ -188,7 +188,28 @@
     const data = await response.json();
 
     console.log(data);
+    document.getElementById("registrationCount").textContent =
+            data.registrationCount.toLocaleString();
+    document.getElementById("seatCount").textContent = 150 - parseInt(data.registrationCount);
 
   });
+
+  const btn = document.getElementById("toggleWidget");
+  const card = document.getElementById("widgetCard");
+
+  btn.addEventListener("click", () => {
+
+      card.classList.toggle("active");
+
+  });
+  let visitors = 7;
+
+setInterval(() => {
+
+    visitors++;
+
+    document.getElementById("visitorCount").textContent = visitors;
+
+}, 40000);
 
 })(window.jQuery);

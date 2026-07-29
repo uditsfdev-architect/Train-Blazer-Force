@@ -1467,6 +1467,214 @@ blockquote {
   border-color: transparent;
 }
 
+.registration-tracker {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #ffffff;
+    padding: 12px 18px;
+    border-radius: 50px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.15);
+
+    animation: floatUp .5s ease;
+    transition: all .3s ease;
+
+    cursor: default;
+}
+
+.registration-tracker:hover{
+    transform: translateY(-4px);
+    box-shadow:0 12px 30px rgba(0,0,0,.2);
+}
+
+.tracker-icon{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:#0176d3;
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:24px;
+}
+
+.tracker-title{
+    font-size:13px;
+    color:#666;
+}
+
+.tracker-count{
+    font-size:28px;
+    font-weight:700;
+    color:#0176d3;
+    line-height:1;
+}
+
+@keyframes floatUp{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@media(max-width:768px){
+
+    .registration-tracker{
+
+        right:12px;
+        left:12px;
+        bottom:12px;
+
+        border-radius:16px;
+
+        justify-content:center;
+    }
+
+    .tracker-icon{
+        width:42px;
+        height:42px;
+        font-size:20px;
+    }
+
+    .tracker-count{
+        font-size:24px;
+    }
+
+}
+
+.floating-widget{
+
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:99999;
+
+}
+
+.floating-btn{
+
+    width:65px;
+    height:65px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#0176d3;
+    color:white;
+
+    font-size:30px;
+    cursor:pointer;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+    transition:.3s;
+
+}
+
+.floating-btn:hover{
+
+    transform:scale(1.08);
+
+}
+
+.widget-card{
+
+    position:absolute;
+    bottom:80px;
+    right:0;
+
+    width:280px;
+
+    background:white;
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+
+    display:none;
+
+}
+
+.widget-card.active{
+
+    display:block;
+
+    animation:popup .3s ease;
+
+}
+
+.widget-header{
+
+    background:#0176d3;
+
+    color:white;
+
+    padding:15px;
+
+    font-weight:bold;
+
+}
+
+.widget-body{
+
+    padding:15px;
+
+}
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:12px 0;
+
+}
+
+@keyframes popup{
+
+    from{
+
+        opacity:0;
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .widget-card{
+
+        width:260px;
+
+    }
+
+}
+
 
 /*---------------------------------------
   SITE FOOTER              
