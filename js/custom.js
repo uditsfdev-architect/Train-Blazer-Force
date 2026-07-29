@@ -181,16 +181,27 @@
 
   window.addEventListener("load", async () => {
 
-    const response = await fetch(
-      "https://d2v000001uzk4eao-dev-ed.my.salesforce-sites.com/services/apexrest/websiteData"
-    );
+    try {
 
-    const data = await response.json();
+      const response = await fetch(
+        "https://d2v000001uzk4eao-dev-ed.my.salesforce-sites.com/services/apexrest/websiteData"
+      );
 
-    console.log(data);
-    document.getElementById("registrationCount").textContent =
-            data.registrationCount.toLocaleString();
-    document.getElementById("seatCount").textContent = 150 - parseInt(data.registrationCount);
+      const data = await response.json();
+
+      console.log(data);
+
+      document.getElementById("registrationCount").textContent =
+        data.registrationCount;
+
+      document.getElementById("seatCount").textContent =
+        150 - Number(data.registrationCount);
+
+    } catch (e) {
+
+      console.error(e);
+
+    }
 
   });
 
@@ -199,17 +210,17 @@
 
   btn.addEventListener("click", () => {
 
-      card.classList.toggle("active");
+    card.classList.toggle("active");
 
   });
   let visitors = 7;
 
-setInterval(() => {
+  setInterval(() => {
 
     visitors++;
 
     document.getElementById("visitorCount").textContent = visitors;
 
-}, 40000);
+  }, 40000);
 
 })(window.jQuery);
