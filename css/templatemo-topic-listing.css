@@ -206,6 +206,190 @@ strong {
     box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
 }
 
+.course-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    transition:.35s;
+    box-shadow:0 12px 35px rgba(0,0,0,.08);
+    height:100%;
+    position:relative;
+}
+
+.course-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 25px 50px rgba(0,0,0,.18);
+}
+
+.course-image{
+    height:220px;
+    width:100%;
+    object-fit:cover;
+}
+
+.course-content{
+    padding:28px;
+}
+
+.course-content h3{
+    font-weight:700;
+    color:#16325c;
+    margin-bottom:12px;
+}
+
+.duration{
+    display:inline-block;
+    background:#eef6ff;
+    color:#0176d3;
+    padding:8px 15px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:18px;
+}
+
+.course-text{
+    color:#555;
+    min-height:70px;
+}
+
+.course-list{
+    list-style:none;
+    padding:0;
+    margin:25px 0;
+}
+
+.course-list li{
+    padding:8px 0;
+    border-bottom:1px dashed #ddd;
+    font-size:15px;
+}
+
+.course-list li::before{
+    content:"✔";
+    color:#2ecc71;
+    margin-right:10px;
+    font-weight:bold;
+}
+
+.price-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:25px 0;
+}
+
+.price-box h2{
+    color:#0176d3;
+    font-weight:700;
+    margin:0;
+}
+
+.price-box h4{
+    color:#888;
+    margin:0;
+}
+
+.enroll-btn{
+    width:100%;
+    background:linear-gradient(135deg,#0176d3,#0b5cab);
+    color:#fff;
+    border-radius:50px;
+    padding:14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.enroll-btn:hover{
+    background:#16325c;
+    color:#fff;
+    transform:scale(1.03);
+}
+
+.course-badge{
+    position:absolute;
+    top:18px;
+    left:18px;
+    background:#16325c;
+    color:#fff;
+    padding:8px 18px;
+    border-radius:50px;
+    font-size:13px;
+    font-weight:700;
+    z-index:2;
+}
+
+.student-card{
+    border-top:6px solid #00A1E0;
+}
+
+.career-card{
+    border-top:6px solid #6f42c1;
+}
+
+.interview-card{
+    border-top:6px solid #f39c12;
+}
+
+@media(max-width:768px){
+
+.course-content{
+padding:20px;
+}
+
+.course-image{
+height:180px;
+}
+
+}
+
+.guidelines-container h5 {
+    color: var(--primary-color);
+}
+
+.guidelines-list li {
+    margin-bottom: 2px;
+    color: #333;
+    font-size: 16px;
+}
+
+.guidelines-list li b{
+    font-weight: bold;
+}
+
+.guidelines-list a {
+    color: black;
+    text-decoration: underline;
+}
+
+.guidelines-list a:hover {
+    text-decoration: underline;
+}
+
+.important-note {
+    margin-top: 25px;
+    padding: 16px;
+    background: #fff8e1;
+    border-left: 5px solid #ff9800;
+    border-radius: 6px;
+    color: #444;
+}
+
+/* Mobile scrolling */
+@media (max-width: 1200px) {
+
+    .custom-block-overlay-text {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .guidelines-container {
+        width: 100%;
+        padding-right: 10px;
+    }
+}
 
 /*---------------------------------------
   SECTION               
@@ -708,8 +892,8 @@ form .button input:hover {
   background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
   position: relative;
   overflow: hidden;
-  padding-top: 150px;
-  padding-bottom: 150px;
+  padding-top: 100px;
+  padding-bottom: 100px;
 }
 
 .hero-section .input-group {
