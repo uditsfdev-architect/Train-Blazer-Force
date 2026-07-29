@@ -190,12 +190,14 @@
       const data = await response.json();
 
       console.log(data);
+      console.log(document.getElementById("registrationCount"));
+      console.log(document.getElementById("registrationCount").textContent);
 
       document.getElementById("registrationCount").textContent =
         data.registrationCount;
 
-      document.getElementById("seatCount").textContent =
-        150 - Number(data.registrationCount);
+      /*document.getElementById("seatCount").textContent =
+        150 - Number(data.registrationCount);*/
 
     } catch (e) {
 
