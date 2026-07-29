@@ -187,17 +187,19 @@
         "https://d2v000001uzk4eao-dev-ed.my.salesforce-sites.com/services/apexrest/websiteData"
       );
 
-      const data = await response.json();
+      let data = await response.json();
+
+      if (typeof data === "string") {
+          data = JSON.parse(data);
+      }
 
       console.log(data);
-      console.log(document.getElementById("registrationCount"));
-      console.log(document.getElementById("registrationCount").textContent);
 
       document.getElementById("registrationCount").textContent =
-        data.registrationCount;
+          data.registrationCount;
 
-      /*document.getElementById("seatCount").textContent =
-        150 - Number(data.registrationCount);*/
+      document.getElementById("seatCount").textContent =
+        150 - Number(data.registrationCount);
 
     } catch (e) {
 
