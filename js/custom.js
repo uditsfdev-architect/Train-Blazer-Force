@@ -120,6 +120,7 @@
         await saveToSalesforce(data);
 
         showFormMessage("success", "Registration successful. You will receive updates on your email and WhatsApp shortly.");
+        showReferralModal(data.Referral_Code__c);
         form.reset();
 
       }
@@ -161,6 +162,60 @@
       }
 
       return code;
+  }
+
+  function showReferralModal(code) {
+      const modalInput = document.getElementById("generatedReferralCode");
+      if (!modalInput) return;
+
+      modalInput.value = code;
+      const modalEl = document.getElementById("referralModal");
+      if (!modalEl) return;
+
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+  }
+
+  function copyReferralCode() {
+      const modalInput = document.getElementById("generatedReferralCode");
+      if (!modalInput) return;
+
+      navigator.clipboard.writeText(modalInput.value).catch(() => {
+          modalInput.select();
+          document.execCommand('copy');
+      });
+  }
+
+  function shareReferralLink() {
+      const modalInput = document.getElementById("generatedReferralCode");
+      if (!modalInput) return;
+      const code = modalInput.value;
+      const currentUrl = window.location.href.split('#')[0];
+      const referralName = encodeURIComponent(code);
+      const shareUrl = `${currentUrl}?referral=${referralName}`;
+
+      if (navigator.share) {
+          navigator.share({
+              title: 'Join Train Blazer Force',
+              text: 'Register with my referral code and get connected.',
+              url: shareUrl,
+          }).catch(() => {
+              window.location.href = `https://wa.me/?text=${encodeURIComponent('Join Train Blazer Force: ' + shareUrl)}`;
+          });
+      } else {
+          window.location.href = `https://wa.me/?text=${encodeURIComponent('Join Train Blazer Force: ' + shareUrl)}`;
+      }
+  }
+
+  function populateReferralFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const referralValue = params.get('referral');
+      if (referralValue) {
+          const referralInput = document.getElementById('Referral_Name__c');
+          const referralCodeInput = document.getElementById('Referral_Code__c');
+          if (referralInput) referralInput.value = referralValue;
+          if (referralCodeInput && !referralCodeInput.value) referralCodeInput.value = referralValue;
+      }
   }
 
   // =====================================================
@@ -213,6 +268,8 @@
 
   window.addEventListener("load", async () => {
 
+    populateReferralFromUrl();
+
     try {
 
       const response = await fetch(
@@ -250,6 +307,17 @@
 
   });
   let visitors = 7;
+
+  const copyReferralCodeBtn = document.getElementById("copyReferralCodeBtn");
+  const shareReferralBtn = document.getElementById("shareReferralBtn");
+
+  if (copyReferralCodeBtn) {
+    copyReferralCodeBtn.addEventListener("click", copyReferralCode);
+  }
+
+  if (shareReferralBtn) {
+    shareReferralBtn.addEventListener("click", shareReferralLink);
+  }
 
   setInterval(() => {
 
