@@ -270,9 +270,10 @@
   async function refreshRegistrationStats() {
 
     const registrationCountEl = document.getElementById("registrationCount");
-    const seatCountEl = document.getElementById("seatCount");
+    // const seatCountEl = document.getElementById("seatCount");
 
-    if (!registrationCountEl || !seatCountEl) {
+    // if (!registrationCountEl || !seatCountEl) {
+    if (!registrationCountEl) {
       return;
     }
 
@@ -291,7 +292,7 @@
       const registrationCount = Number(data?.registrationCount ?? 0);
 
       registrationCountEl.textContent = registrationCount;
-      seatCountEl.textContent = Math.max(150 - registrationCount, 0);
+      // seatCountEl.textContent = Math.max(150 - registrationCount, 0);
 
     } catch (e) {
 
