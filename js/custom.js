@@ -303,6 +303,7 @@
   }
 
   window.addEventListener("load", () => {
+    populateReferralFromUrl();
     refreshRegistrationStats();
 
     setInterval(() => {
