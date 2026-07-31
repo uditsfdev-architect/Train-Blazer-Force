@@ -303,12 +303,12 @@
   }
 
   window.addEventListener("load", () => {
-    populateReferralFromUrl();
+    // populateReferralFromUrl();
     refreshRegistrationStats();
 
-    setInterval(() => {
-      refreshRegistrationStats();
-    }, 5000);
+    // setInterval(() => {
+    //   refreshRegistrationStats();
+    // }, 5000);
 
   });
 
