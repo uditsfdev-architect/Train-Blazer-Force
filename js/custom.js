@@ -83,6 +83,16 @@
   // =====================================================
 
   const form = document.getElementById("registrationForm");
+  const formMessage = document.getElementById("formMessage");
+
+  function showFormMessage(type, message) {
+    if (!formMessage) {
+      return;
+    }
+
+    formMessage.className = `message-banner ${type}`;
+    formMessage.textContent = message;
+  }
 
   if (form) {
 
@@ -92,6 +102,7 @@
 
       const submitButton = form.querySelector('input[type="submit"]');
 
+      showFormMessage("success", "");
       submitButton.disabled = true;
       submitButton.value = "Registering...Do not refresh or close the page.";
       document.getElementById("loaderOverlay").style.display = "flex";
@@ -101,14 +112,14 @@
         // Convert form directly into JSON
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        data.Referral_Code__c = generateReferralCode();
 
         //console.log("Salesforce Payload");
         //console.table(data);
 
         await saveToSalesforce(data);
 
-        alert("🎉 🎉 Registration Successful! Thank you for registering with TrainBlazerForce. You'll receive updates on your registered Email and WhatsApp shortly.");
-
+        showFormMessage("success", "Registration successful. You will receive updates on your email and WhatsApp shortly.");
         form.reset();
 
       }
@@ -116,7 +127,7 @@
 
         console.error(error);
 
-        alert("Registration Failed.\n\n" + error.message);
+        showFormMessage("error", error.message || "Registration failed. Please try again.");
 
       }
       finally {
@@ -129,6 +140,27 @@
 
     });
 
+  }
+
+  // =========================================
+  // Referral Code Generator
+  // Format: TBF + 6 Random Alphanumeric Characters
+  // Example: TBFYDGG2, TBF8XK29
+  // =========================================
+
+  const REFERRAL_PREFIX = "TBF";
+  const REFERRAL_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  function generateReferralCode(length = 6) {
+      let code = REFERRAL_PREFIX;
+
+      for (let i = 0; i < length; i++) {
+          code += REFERRAL_CHARS.charAt(
+              Math.floor(Math.random() * REFERRAL_CHARS.length)
+          );
+      }
+
+      return code;
   }
 
   // =====================================================
@@ -190,13 +222,13 @@
       let data = await response.json();
 
       if (typeof data === "string") {
-          data = JSON.parse(data);
+        data = JSON.parse(data);
       }
 
       //console.log(data);
 
       document.getElementById("registrationCount").textContent =
-          data.registrationCount;
+        data.registrationCount;
 
       document.getElementById("seatCount").textContent =
         150 - Number(data.registrationCount);
@@ -231,19 +263,19 @@
     .getElementById("toggleWidget")
     .addEventListener("click", function () {
 
-        gtag("event", "widget_click", {
-            button_name: "Toggle Widget"
-        });
+      gtag("event", "widget_click", {
+        button_name: "Toggle Widget"
+      });
 
     });
 
-    document
+  document
     .getElementById("registerBtn")
     .addEventListener("click", function () {
 
-        gtag("event", "register_click", {
-            button_name: "Register Now"
-        });
+      gtag("event", "register_click", {
+        button_name: "Register Now"
+      });
 
     });
 
