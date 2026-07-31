@@ -267,9 +267,14 @@
 
   }
 
-  window.addEventListener("load", async () => {
+  async function refreshRegistrationStats() {
 
-    populateReferralFromUrl();
+    const registrationCountEl = document.getElementById("registrationCount");
+    const seatCountEl = document.getElementById("seatCount");
+
+    if (!registrationCountEl || !seatCountEl) {
+      return;
+    }
 
     try {
 
@@ -283,19 +288,25 @@
         data = JSON.parse(data);
       }
 
-      //console.log(data);
+      const registrationCount = Number(data?.registrationCount ?? 0);
 
-      document.getElementById("registrationCount").textContent =
-        data.registrationCount;
-
-      document.getElementById("seatCount").textContent =
-        150 - Number(data.registrationCount);
+      registrationCountEl.textContent = registrationCount;
+      seatCountEl.textContent = Math.max(150 - registrationCount, 0);
 
     } catch (e) {
 
-      console.error(e);
+      console.error("Unable to refresh registration stats:", e);
 
     }
+
+  }
+
+  window.addEventListener("load", () => {
+    refreshRegistrationStats();
+
+    setInterval(() => {
+      refreshRegistrationStats();
+    }, 5000);
 
   });
 
