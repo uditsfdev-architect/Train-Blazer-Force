@@ -2564,7 +2564,6 @@ blockquote {
     }
 
     .formcontainer form .user__details {
-      max-height: 400px;
       overflow-y: scroll;
     }
 
