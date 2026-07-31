@@ -114,13 +114,14 @@
         const data = Object.fromEntries(formData.entries());
         data.Referral_Code__c = generateReferralCode();
 
+        showReferralModal(data.Referral_Code__c);
         //console.log("Salesforce Payload");
         //console.table(data);
 
         await saveToSalesforce(data);
 
         showFormMessage("success", "Registration successful. You will receive updates on your email and WhatsApp shortly.");
-        showReferralModal(data.Referral_Code__c);
+        
         form.reset();
 
       }
