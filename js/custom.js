@@ -268,7 +268,7 @@
   }
 
   async function refreshRegistrationStats() {
-
+    console.log("Refreshing registration stats...");
     const registrationCountEl = document.getElementById("registrationCount");
     // const seatCountEl = document.getElementById("seatCount");
 
