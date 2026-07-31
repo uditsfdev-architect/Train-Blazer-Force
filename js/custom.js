@@ -306,21 +306,20 @@
     // populateReferralFromUrl();
     refreshRegistrationStats();
 
-    // setInterval(() => {
-    //   refreshRegistrationStats();
-    // }, 5000);
+    setInterval(() => {
+      refreshRegistrationStats();
+    }, 5000);
 
   });
 
   const btn = document.getElementById("toggleWidget");
   const card = document.getElementById("widgetCard");
 
-  btn.addEventListener("click", () => {
-
-    card.classList.toggle("active");
-
-  });
-  let visitors = 7;
+  if (btn && card) {
+    btn.addEventListener("click", () => {
+      card.classList.toggle("active");
+    });
+  }
 
   const copyReferralCodeBtn = document.getElementById("copyReferralCodeBtn");
   const shareReferralBtn = document.getElementById("shareReferralBtn");
@@ -333,32 +332,32 @@
     shareReferralBtn.addEventListener("click", shareReferralLink);
   }
 
+  let visitors = 7;
+
   setInterval(() => {
-
     visitors++;
-
-    document.getElementById("visitorCount").textContent = visitors;
-
+    const visitorCountEl = document.getElementById("visitorCount");
+    if (visitorCountEl) {
+      visitorCountEl.textContent = visitors;
+    }
   }, 40000);
 
-  document
-    .getElementById("toggleWidget")
-    .addEventListener("click", function () {
-
+  const toggleWidgetEl = document.getElementById("toggleWidget");
+  if (toggleWidgetEl) {
+    toggleWidgetEl.addEventListener("click", function () {
       gtag("event", "widget_click", {
         button_name: "Toggle Widget"
       });
-
     });
+  }
 
-  document
-    .getElementById("registerBtn")
-    .addEventListener("click", function () {
-
+  const registerBtnEl = document.getElementById("registerBtn");
+  if (registerBtnEl) {
+    registerBtnEl.addEventListener("click", function () {
       gtag("event", "register_click", {
         button_name: "Register Now"
       });
-
     });
+  }
 
 })(window.jQuery);
