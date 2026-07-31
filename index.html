@@ -42,52 +42,35 @@ https://templatemo.com/tm-590-topic-listing
 </head>
 
 <body id="top">
-    <div class="registration-tracker" id="course-tracker" style="display: none;">
-        <button class="tracker-icon" id="course-tracker-icon">
-            🛒
+    <div class="compact-widget" id="course-tracker" style="display: inline-flex;">
+        <!-- Left Section: Students Counter -->
+        <button class="tracker-icon" id="course-tracker-icon" onclick="window.location.href='mailto:support@trainblazerforce.com';">
+            📩
         </button>
-        <div class="tracker-content">
-            <div class="tracker-badge" id="course-tracker-badge">
-                1 Course Selected
+        <div class="widget-text-group">
+            <div class="widget-count" id="registrationCount">0</div>
+            <div class="widget-label">Registered</div>
+        </div>
+
+        <!-- Middle Section (Course Counter) - Hidden by default -->
+        <div id="tracker-courses-view" style="display: none; align-items: center; gap: 16px;">
+            <div class="widget-divider"></div>
+            <div class="widget-text-group">
+                <div class="widget-count" id="course-count">0</div>
+                <div class="widget-label">Course</div>
             </div>
-            <div class="tracker-footer">
-                <div>
-                    <div class="tracker-title">
-                        Selected Courses
-                    </div>
-                    <div class="tracker-count" id="course-count">
-                        1
-                    </div>
-                </div>
-            </div>
+        </div>
+
+        <!-- Default View Elements (for JS to hide/show) -->
+        <div id="tracker-default-view" style="display: none;"></div>
+        <div id="course-tracker-badge" style="display: none;"></div>
+
+        <!-- Right Section: Action Button -->
+        <button class="widget-action-btn" onclick="window.location.href='mailto:support@trainblazerforce.com';">
+            ask
+        </button>
         </div>
     </div>
-
-    <!-- <div class="floating-widget">
-
-        <div class="widget-card" id="widgetCard">
-
-            <div class="widget-header">
-                🎓 Train Blazer Force
-            </div>
-
-            <div class="widget-body">
-
-                <div class="widget-row">
-                    <span>👀 Viewing</span>
-                    <strong id="visitorCount">9</strong>
-                </div>
-
-                <div class="widget-row">
-                    <span>🟢 Seats Left</span>
-                    <strong id="seatCount">119</strong>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div> -->
 
     <main>
 

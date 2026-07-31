@@ -459,48 +459,62 @@
   const courseTrackerBadge = document.getElementById('course-tracker-badge');
   const enrolledCoursesInput = document.getElementById('Enrolled_Courses__c');
   const courseTrackerIcon = document.getElementById('course-tracker-icon');
+ 
+  const coursesView = document.getElementById('tracker-courses-view');
 
   function updateCourseTracker() {
     const count = selectedCourses.length;
     if (count > 0) {
-      courseTracker.style.display = 'flex';
+      // Show selected courses view
+      coursesView.style.display = 'flex';
       courseCountEl.textContent = count;
       courseTrackerBadge.textContent = `${count} Course${count > 1 ? 's' : ''} Selected`;
       enrolledCoursesInput.value = selectedCourses.join(';');
     } else {
-      courseTracker.style.display = 'none';
+      // Show default view
+      coursesView.style.display = 'none';
       enrolledCoursesInput.value = '';
     }
+    // Ensure the main tracker is always visible
+    courseTracker.style.display = 'flex';
   }
-
+ 
   document.querySelectorAll('.enroll-btn').forEach(button => {
     button.addEventListener('click', function(e) {
-      if (this.disabled) {
-        showFormMessage("error", "You have already selected this course.");
-        return;
-      }
+      e.preventDefault();
       const courseName = this.getAttribute('data-course');
-      if (courseName && !selectedCourses.includes(courseName)) {
-        selectedCourses.push(courseName);
+      if (courseName) {
+        const courseIndex = selectedCourses.indexOf(courseName);
+        if (courseIndex > -1) {
+          // Course is selected, so deselect it
+          selectedCourses.splice(courseIndex, 1);
+          this.textContent = "Enroll Now";
+          this.classList.remove('enrolled');
+        } else {
+          // Course is not selected, so select it
+          selectedCourses.push(courseName);
+          this.textContent = "Selected ✔";
+          this.classList.add('enrolled');
+        }
         updateCourseTracker();
-        this.disabled = true;
-        this.textContent = "Selected ✔";
       }
     });
   });
-
+ 
   if (courseTrackerIcon) {
     courseTrackerIcon.addEventListener('click', function() {
-      const registrationSection = document.getElementById('section_2');
-      if (registrationSection) {
-        const header_height = $('.navbar').height() || 0;
-        scrollToDiv($(registrationSection), header_height);
+      if (selectedCourses.length > 0) {
+        // If courses are selected, scroll to registration
+        const registrationSection = document.getElementById('section_2');
+        if (registrationSection) {
+          const header_height = $('.navbar').height() || 0;
+          scrollToDiv($(registrationSection), header_height);
+        }
+      } else {
+        // Otherwise, open mail
+        window.location.href = 'mailto:support@trainblazerforce.com';
       }
     });
-  }
-
-  if (courseTracker) {
-      courseTracker.addEventListener('click', () => document.querySelector('.enroll-btn[data-course]').click());
   }
 
 })(window.jQuery);
