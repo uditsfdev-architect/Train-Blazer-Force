@@ -77,11 +77,18 @@
   // =====================================================
 
   const form = document.getElementById("registrationForm");
+  const emailInput = document.getElementById("Email__c");
+  const submitButton = form ? form.querySelector('input[type="submit"]') : null;
   const formMessage = document.getElementById("formMessage");
 
   function showFormMessage(type, message) {
     if (!formMessage) {
       return;
+    }
+
+    // Clear any existing timeout
+    if (formMessage.timeoutId) {
+      clearTimeout(formMessage.timeoutId);
     }
 
     formMessage.className = `message-banner ${type}`;
@@ -91,12 +98,16 @@
       formMessage.style.display = "block";
     }
     formMessage.textContent = message;
+
+    // Auto-hide after 5 seconds
+    formMessage.timeoutId = setTimeout(() => {
+      showFormMessage(type, "");
+    }, 5000);
   }
 
   if (form) {
 
     form.addEventListener("submit", async function (event) {
-
       event.preventDefault();
 
       const submitButton = form.querySelector('input[type="submit"]');
@@ -121,10 +132,10 @@
         await saveToSalesforce(data);
 
         showFormMessage("success", "Registration successful. You will receive updates on your email and WhatsApp shortly.");
-        
+
         form.reset();
         selectedCourses = [];
-        updateCourseTracker();
+        resetCourseButtons();
 
       }
       catch (error) {
@@ -144,6 +155,48 @@
 
     });
 
+    if (emailInput) {
+      emailInput.addEventListener('blur', async function () {
+        const email = this.value;
+        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+          return; // Don't check invalid emails
+        }
+
+        try {
+          const isRegistered = await checkEmailInSalesforce(email);
+          if (isRegistered) {
+            showFormMessage("error", "This email is already registered. Please use a different email.");
+            if (submitButton) {
+              submitButton.disabled = true;
+              submitButton.value = "Email Already Registered";
+            }
+          } else {
+            // Clear message if it was previously shown for this reason
+            if (formMessage.textContent.includes("already registered")) {
+              showFormMessage("error", "");
+            }
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.value = "Register Now";
+            }
+          }
+        } catch (error) {
+          console.error("Email check failed:", error);
+          // Decide if you want to show a generic error to the user
+        }
+      });
+    }
+
+  }
+
+  // Reset course buttons after successful registration
+  function resetCourseButtons() {
+    updateCourseTracker();
+    document.querySelectorAll('.enroll-btn').forEach(button => {
+      button.disabled = false;
+      button.textContent = "Enroll Now";
+      button.classList.remove('enrolled');
+    });
   }
 
   // =========================================
@@ -267,6 +320,36 @@
 
     return result;
 
+  }
+  
+  /**
+   * NOTE: This function requires a new Apex REST endpoint in Salesforce.
+   * The endpoint should accept an email and return whether it exists.
+   * 
+   * Example Apex Controller:
+   * @RestResource(urlMapping='/checkEmail/*')
+   * global with sharing class CheckEmail_Controller {
+   *   @HttpGet
+   *   global static Map<String, Boolean> isEmailRegistered() {
+   *     RestRequest req = RestContext.request;
+   *     String email = req.params.get('email');
+   *     Map<String, Boolean> response = new Map<String, Boolean>();
+   *     
+   *     if (String.isBlank(email)) {
+   *       response.put('isRegistered', false);
+   *       return response;
+   *     }
+   *     
+   *     List<Contact> existingContacts = [SELECT Id FROM Contact WHERE Email = :email LIMIT 1];
+   *     response.put('isRegistered', !existingContacts.isEmpty());
+   *     return response;
+   *   }
+   * }
+   */
+  async function checkEmailInSalesforce(email) {
+    const response = await fetch(`https://d2v000001uzk4eao-dev-ed.my.salesforce-sites.com/services/apexrest/checkEmail?email=${encodeURIComponent(email)}`);
+    const result = await response.json();
+    return result.isRegistered === true;
   }
 
   async function refreshRegistrationStats() {
@@ -392,10 +475,16 @@
 
   document.querySelectorAll('.enroll-btn').forEach(button => {
     button.addEventListener('click', function(e) {
+      if (this.disabled) {
+        showFormMessage("error", "You have already selected this course.");
+        return;
+      }
       const courseName = this.getAttribute('data-course');
       if (courseName && !selectedCourses.includes(courseName)) {
         selectedCourses.push(courseName);
         updateCourseTracker();
+        this.disabled = true;
+        this.textContent = "Selected ✔";
       }
     });
   });

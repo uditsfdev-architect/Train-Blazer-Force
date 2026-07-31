@@ -399,6 +399,12 @@ article {
   transform: scale(1.03);
 }
 
+.enroll-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .course-badge {
   position: absolute;
   top: 18px;
