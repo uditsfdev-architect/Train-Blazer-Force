@@ -42,21 +42,21 @@ https://templatemo.com/tm-590-topic-listing
 </head>
 
 <body id="top">
-    <div class="registration-tracker">
-        <button class="tracker-icon" onclick="window.location.href='mailto:someone@example.com';">
-            📩
+    <div class="registration-tracker" id="course-tracker" style="display: none;">
+        <button class="tracker-icon" id="course-tracker-icon">
+            🛒
         </button>
         <div class="tracker-content">
-            <div class="tracker-badge" onclick="window.location.href='mailto:someone@example.com';">
-                💬 Have Questions?
+            <div class="tracker-badge" id="course-tracker-badge">
+                1 Course Selected
             </div>
             <div class="tracker-footer">
                 <div>
                     <div class="tracker-title">
-                        👨‍🎓 Students Registered
+                        Selected Courses
                     </div>
-                    <div class="tracker-count" id="registrationCount">
-                        6
+                    <div class="tracker-count" id="course-count">
+                        1
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@ https://templatemo.com/tm-590-topic-listing
                                 real-world projects, expert mentorship, and placement support.</p>
 
                             <div class="hero-actions">
-                                <a href="#section_2" class="btn hero-primary">Register Now (FREE)</a>
+                                <a href="#section_3" class="btn hero-primary smoothscroll">Register Now (FREE)</a>
                                 <a href="#section_3" class="btn hero-secondary">Explore Courses</a>
                             </div>
                         </div>
@@ -439,6 +439,12 @@ https://templatemo.com/tm-590-topic-listing
                                                         placeholder="Enter your questions or doubts"
                                                         rows="4"></textarea>
                                                 </div>
+                                                
+                                                <div class="input__box" style="display:none;">
+                                                    <span class="details">Enrolled Courses</span>
+                                                    <input type="text" id="Enrolled_Courses__c" name="Enrolled_Courses__c"
+                                                        placeholder="Selected Courses">
+                                                </div>
 
                                             </div>
 
@@ -468,8 +474,6 @@ https://templatemo.com/tm-590-topic-listing
                     </div>
                 </div>
             </div>
-        </section>
-
         </section>
 
         <div class="modal fade" id="referralModal" tabindex="-1" aria-labelledby="referralModalLabel"
@@ -592,7 +596,7 @@ https://templatemo.com/tm-590-topic-listing
 
                                 </div>
 
-                                <a href="#section_2" class="btn enroll-btn">
+                                <a href="#section_2" class="btn enroll-btn smoothscroll" data-course="Student Program">
                                     Enroll Now
                                 </a>
 
@@ -663,7 +667,7 @@ https://templatemo.com/tm-590-topic-listing
 
                                 </div>
 
-                                <a href="#section_2" class="btn enroll-btn">
+                                <a href="#section_2" class="btn enroll-btn smoothscroll" data-course="Career Switch Program">
 
                                     Enroll Now
 
@@ -740,7 +744,7 @@ https://templatemo.com/tm-590-topic-listing
                                 </div>
 
 
-                                <a href="#section_2" class="btn enroll-btn">
+                                <a href="#section_2" class="btn enroll-btn smoothscroll" data-course="Interview Accelerator Program">
 
                                     Enroll Now
 

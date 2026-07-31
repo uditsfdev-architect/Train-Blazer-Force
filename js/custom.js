@@ -14,26 +14,23 @@
   // SMOOTH SCROLL
   // ==========================
 
-  $('.smoothscroll').click(function () {
+  function scrollToDiv(element, navheight) {
+    var offset = element.offset();
+    var offsetTop = offset.top;
+    var totalScroll = offsetTop - navheight;
 
+    $('body, html').animate({
+      scrollTop: totalScroll
+    }, 300);
+  }
+
+  $('.smoothscroll').click(function () {
     var el = $(this).attr('href');
     var elWrapped = $(el);
     var header_height = $('.navbar').height();
 
     scrollToDiv(elWrapped, header_height);
-
     return false;
-
-    function scrollToDiv(element, navheight) {
-
-      var offset = element.offset();
-      var offsetTop = offset.top;
-      var totalScroll = offsetTop - navheight;
-
-      $('body, html').animate({
-        scrollTop: totalScroll
-      }, 300);
-    }
   });
 
   // ==========================
@@ -41,42 +38,39 @@
   // ==========================
 
   $(window).on('scroll', function () {
+    var timeline = $('#vertical-scrollable-timeline li');
+    if (timeline.length) {
+      Array.from(timeline).forEach(isScrollIntoView);
+    }
+  });
 
-    function isScrollIntoView(elem) {
+  function isScrollIntoView(elem) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
 
-      var docViewTop = $(window).scrollTop();
-      var docViewBottom = docViewTop + $(window).height();
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(window).height() * .5;
 
-      var elemTop = $(elem).offset().top;
-      var elemBottom = elemTop + $(window).height() * .5;
-
-      if (elemBottom <= docViewBottom && elemTop >= docViewTop) {
-        $(elem).addClass('active');
-      }
-
-      if (!(elemBottom <= docViewBottom)) {
-        $(elem).removeClass('active');
-      }
-
-      var MainTimelineContainer = $('#vertical-scrollable-timeline')[0];
-
-      if (MainTimelineContainer) {
-
-        var MainTimelineContainerBottom =
-          MainTimelineContainer.getBoundingClientRect().bottom -
-          $(window).height() * .5;
-
-        $(MainTimelineContainer)
-          .find('.inner')
-          .css('height', MainTimelineContainerBottom + 'px');
-      }
+    if (elemBottom <= docViewBottom && elemTop >= docViewTop) {
+      $(elem).addClass('active');
     }
 
-    var timeline = $('#vertical-scrollable-timeline li');
+    if (!(elemBottom <= docViewBottom)) {
+      $(elem).removeClass('active');
+    }
 
-    Array.from(timeline).forEach(isScrollIntoView);
+    var MainTimelineContainer = $('#vertical-scrollable-timeline')[0];
 
-  });
+    if (MainTimelineContainer) {
+      var MainTimelineContainerBottom =
+        MainTimelineContainer.getBoundingClientRect().bottom -
+        $(window).height() * .5;
+
+      $(MainTimelineContainer)
+        .find('.inner')
+        .css('height', MainTimelineContainerBottom + 'px');
+    }
+  }
 
   // =====================================================
   // REGISTRATION FORM
@@ -91,6 +85,11 @@
     }
 
     formMessage.className = `message-banner ${type}`;
+    if (message === "") {
+      formMessage.style.display = "none";
+    } else {
+      formMessage.style.display = "block";
+    }
     formMessage.textContent = message;
   }
 
@@ -113,6 +112,7 @@
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
         data.Referral_Code__c = generateReferralCode();
+        data.Enrolled_Courses__c = selectedCourses.join(';');
 
         showReferralModal(data.Referral_Code__c);
         //console.log("Salesforce Payload");
@@ -123,6 +123,8 @@
         showFormMessage("success", "Registration successful. You will receive updates on your email and WhatsApp shortly.");
         
         form.reset();
+        selectedCourses = [];
+        updateCourseTracker();
 
       }
       catch (error) {
@@ -303,7 +305,7 @@
   }
 
   window.addEventListener("load", () => {
-    // populateReferralFromUrl();
+    populateReferralFromUrl();
     refreshRegistrationStats();
 
     setInterval(() => {
@@ -332,15 +334,20 @@
     shareReferralBtn.addEventListener("click", shareReferralLink);
   }
 
-  let visitors = 7;
+  let visitors = localStorage.getItem("visitorCount") ? parseInt(localStorage.getItem("visitorCount")) : 7;
+  const visitorCountEl = document.getElementById("visitorCount");
+  if (visitorCountEl) {
+    visitorCountEl.textContent = visitors;
+  }
 
   setInterval(() => {
     visitors++;
-    const visitorCountEl = document.getElementById("visitorCount");
+    localStorage.setItem("visitorCount", visitors);
     if (visitorCountEl) {
       visitorCountEl.textContent = visitors;
     }
   }, 40000);
+
 
   const toggleWidgetEl = document.getElementById("toggleWidget");
   if (toggleWidgetEl) {
@@ -358,6 +365,53 @@
         button_name: "Register Now"
       });
     });
+  }
+
+  // =====================================================
+  // COURSE SELECTION
+  // =====================================================
+  let selectedCourses = [];
+  const courseTracker = document.getElementById('course-tracker');
+  const courseCountEl = document.getElementById('course-count');
+  const courseTrackerBadge = document.getElementById('course-tracker-badge');
+  const enrolledCoursesInput = document.getElementById('Enrolled_Courses__c');
+  const courseTrackerIcon = document.getElementById('course-tracker-icon');
+
+  function updateCourseTracker() {
+    const count = selectedCourses.length;
+    if (count > 0) {
+      courseTracker.style.display = 'flex';
+      courseCountEl.textContent = count;
+      courseTrackerBadge.textContent = `${count} Course${count > 1 ? 's' : ''} Selected`;
+      enrolledCoursesInput.value = selectedCourses.join(';');
+    } else {
+      courseTracker.style.display = 'none';
+      enrolledCoursesInput.value = '';
+    }
+  }
+
+  document.querySelectorAll('.enroll-btn').forEach(button => {
+    button.addEventListener('click', function(e) {
+      const courseName = this.getAttribute('data-course');
+      if (courseName && !selectedCourses.includes(courseName)) {
+        selectedCourses.push(courseName);
+        updateCourseTracker();
+      }
+    });
+  });
+
+  if (courseTrackerIcon) {
+    courseTrackerIcon.addEventListener('click', function() {
+      const registrationSection = document.getElementById('section_2');
+      if (registrationSection) {
+        const header_height = $('.navbar').height() || 0;
+        scrollToDiv($(registrationSection), header_height);
+      }
+    });
+  }
+
+  if (courseTracker) {
+      courseTracker.addEventListener('click', () => document.querySelector('.enroll-btn[data-course]').click());
   }
 
 })(window.jQuery);
