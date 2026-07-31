@@ -198,7 +198,7 @@
       if (navigator.share) {
           navigator.share({
               title: 'Join Train Blazer Force',
-              text: 'Register with my referral code and get connected.',
+              text: 'Hi! 👋 I\'m learning with Train Blazer Force. Please join using my referral link:',
               url: shareUrl,
           }).catch(() => {
               window.location.href = `https://wa.me/?text=${encodeURIComponent('Join Train Blazer Force: ' + shareUrl)}`;
