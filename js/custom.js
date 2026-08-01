@@ -194,7 +194,7 @@
     updateCourseTracker();
     document.querySelectorAll('.enroll-btn').forEach(button => {
       button.disabled = false;
-      button.textContent = "Enroll Now";
+      button.textContent = "Yes, Intrested";
       button.classList.remove('enrolled');
     });
   }
@@ -488,7 +488,7 @@
         if (courseIndex > -1) {
           // Course is selected, so deselect it
           selectedCourses.splice(courseIndex, 1);
-          this.textContent = "Enroll Now";
+          this.textContent = "Yes, Intrested";
           this.classList.remove('enrolled');
         } else {
           // Course is not selected, so select it
