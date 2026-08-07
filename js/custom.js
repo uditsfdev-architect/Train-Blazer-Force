@@ -26,8 +26,14 @@
 
   $('.smoothscroll').click(function () {
     var el = $(this).attr('href');
+    if (!el || el.charAt(0) !== '#') {
+      return;
+    }
     var elWrapped = $(el);
-    var header_height = $('.navbar').height();
+    if (!elWrapped.length) {
+      return false;
+    }
+    var header_height = $('.navbar-glass').height() || $('.navbar').height() || 0;
 
     scrollToDiv(elWrapped, header_height);
     return false;
@@ -73,20 +79,41 @@
   }
 
   // =====================================================
-  // REGISTRATION FORM
+  // REGISTRATION WIZARD + FORM
   // =====================================================
+
+  let selectedCourses = [];
+  let currentWizardStep = 1;
+  let step1Complete = false;
+  let step2Complete = false;
+  let emailAlreadyRegistered = false;
 
   const form = document.getElementById("registrationForm");
   const emailInput = document.getElementById("Email__c");
-  const submitButton = form ? form.querySelector('input[type="submit"]') : null;
+  const submitButton = document.getElementById("registerBtn");
   const formMessage = document.getElementById("formMessage");
+  const acceptGuidelines = document.getElementById("acceptGuidelines");
+  const continueToStep2Btn = document.getElementById("continueToStep2");
+  const continueToStep3Btn = document.getElementById("continueToStep3");
+  const backToStep1Btn = document.getElementById("backToStep1");
+  const backToStep2Btn = document.getElementById("backToStep2");
+  const step1Hint = document.getElementById("step1Hint");
+  const wizardTabs = {
+    1: document.getElementById("wizardTab1"),
+    2: document.getElementById("wizardTab2"),
+    3: document.getElementById("wizardTab3")
+  };
+  const wizardPanels = {
+    1: document.getElementById("wizard-step-1"),
+    2: document.getElementById("wizard-step-2"),
+    3: document.getElementById("wizard-step-3")
+  };
 
   function showFormMessage(type, message) {
     if (!formMessage) {
       return;
     }
 
-    // Clear any existing timeout
     if (formMessage.timeoutId) {
       clearTimeout(formMessage.timeoutId);
     }
@@ -99,105 +126,265 @@
     }
     formMessage.textContent = message;
 
-    // Auto-hide after 5 seconds
     formMessage.timeoutId = setTimeout(() => {
       showFormMessage(type, "");
     }, 5000);
   }
 
-  if (form) {
+  function setSubmitButtonState() {
+    if (!submitButton) {
+      return;
+    }
 
+    const canSubmit =
+      step1Complete &&
+      step2Complete &&
+      currentWizardStep === 3 &&
+      acceptGuidelines &&
+      acceptGuidelines.checked &&
+      !emailAlreadyRegistered;
+
+    submitButton.disabled = !canSubmit;
+    submitButton.textContent = emailAlreadyRegistered
+      ? "Email Already Registered"
+      : "Register Now";
+  }
+
+  function updateWizardProgressUI() {
+    [1, 2, 3].forEach((step) => {
+      const tab = wizardTabs[step];
+      const panel = wizardPanels[step];
+      if (!tab || !panel) {
+        return;
+      }
+
+      const isActive = currentWizardStep === step;
+      const isComplete =
+        (step === 1 && step1Complete && currentWizardStep > 1) ||
+        (step === 2 && step2Complete && currentWizardStep > 2);
+      const isLocked =
+        (step === 2 && !step1Complete) ||
+        (step === 3 && !(step1Complete && step2Complete));
+
+      tab.classList.toggle("is-active", isActive);
+      tab.classList.toggle("is-complete", isComplete);
+      tab.classList.toggle("is-locked", isLocked);
+      tab.disabled = isLocked;
+
+      panel.hidden = !isActive;
+      panel.classList.toggle("is-active", isActive);
+      panel.classList.toggle("is-locked", isLocked);
+    });
+
+    if (continueToStep2Btn) {
+      continueToStep2Btn.disabled = !step1Complete;
+    }
+
+    if (step1Hint) {
+      if (step1Complete) {
+        step1Hint.textContent = `${selectedCourses.length} program${selectedCourses.length > 1 ? "s" : ""} selected. Continue when ready.`;
+        step1Hint.classList.add("is-ready");
+      } else {
+        step1Hint.textContent = "Tap a program to view details and mark interest.";
+        step1Hint.classList.remove("is-ready");
+      }
+    }
+
+    setSubmitButtonState();
+  }
+
+  function goToWizardStep(step) {
+    if (step === 2 && !step1Complete) {
+      return;
+    }
+    if (step === 3 && !(step1Complete && step2Complete)) {
+      return;
+    }
+
+    currentWizardStep = step;
+    updateWizardProgressUI();
+
+    const target = wizardPanels[step] || document.getElementById("section_2");
+    if (target) {
+      const header_height = $(".navbar").height() || 0;
+      scrollToDiv($(target), header_height);
+    }
+  }
+
+  function validateRegistrationForm() {
+    if (!form) {
+      return false;
+    }
+
+    if (emailAlreadyRegistered) {
+      showFormMessage("error", "This email is already registered. Please use a different email.");
+      return false;
+    }
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      showFormMessage("error", "Please complete all required fields before continuing.");
+      return false;
+    }
+
+    if (!selectedCourses.length) {
+      showFormMessage("error", "Please select at least one interested course in Step 1.");
+      return false;
+    }
+
+    return true;
+  }
+
+  function resetWizardAfterSuccess() {
+    step1Complete = false;
+    step2Complete = false;
+    emailAlreadyRegistered = false;
+    if (acceptGuidelines) {
+      acceptGuidelines.checked = false;
+    }
+    currentWizardStep = 1;
+    updateWizardProgressUI();
+  }
+
+  if (form) {
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
 
-      const submitButton = form.querySelector('input[type="submit"]');
+      if (!(step1Complete && step2Complete && currentWizardStep === 3)) {
+        showFormMessage("error", "Please complete all steps before submitting.");
+        return;
+      }
+
+      if (!acceptGuidelines || !acceptGuidelines.checked) {
+        showFormMessage("error", "Please accept the program guidelines to continue.");
+        return;
+      }
+
+      if (!validateRegistrationForm()) {
+        goToWizardStep(2);
+        return;
+      }
+
+      if (!submitButton) {
+        return;
+      }
 
       showFormMessage("success", "");
       submitButton.disabled = true;
-      submitButton.value = "Registering...Do not refresh or close the page.";
+      submitButton.textContent = "Registering... Do not refresh or close the page.";
       document.getElementById("loaderOverlay").style.display = "flex";
 
       try {
-
-        // Convert form directly into JSON
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        delete data.acceptGuidelines;
         data.Referral_Code__c = generateReferralCode();
-        data.Enrolled_Courses__c = selectedCourses.join(';');
+        data.Enrolled_Courses__c = selectedCourses.join(";");
 
         showReferralModal(data.Referral_Code__c);
-        //console.log("Salesforce Payload");
-        //console.table(data);
 
         await saveToSalesforce(data);
 
-        showFormMessage("success", "Registration successful. You will receive updates on your email and WhatsApp shortly.");
+        showFormMessage(
+          "success",
+          "Registration successful. You will receive updates on your email and WhatsApp shortly."
+        );
 
         form.reset();
         selectedCourses = [];
         resetCourseButtons();
-
-      }
-      catch (error) {
-
+        resetWizardAfterSuccess();
+      } catch (error) {
         console.error(error);
-
         showFormMessage("error", error.message || "Registration failed. Please try again.");
-
-      }
-      finally {
-
-        submitButton.disabled = false;
-        submitButton.value = "Register Now";
+        setSubmitButtonState();
+      } finally {
         document.getElementById("loaderOverlay").style.display = "none";
-
+        setSubmitButtonState();
       }
-
     });
 
     if (emailInput) {
-      emailInput.addEventListener('blur', async function () {
+      emailInput.addEventListener("blur", async function () {
         const email = this.value;
         if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-          return; // Don't check invalid emails
+          return;
         }
 
         try {
           const isRegistered = await checkEmailInSalesforce(email);
+          emailAlreadyRegistered = isRegistered;
+
           if (isRegistered) {
-            showFormMessage("error", "This email is already registered. Please use a different email.");
-            if (submitButton) {
-              submitButton.disabled = true;
-              submitButton.value = "Email Already Registered";
-            }
-          } else {
-            // Clear message if it was previously shown for this reason
-            if (formMessage.textContent.includes("already registered")) {
-              showFormMessage("error", "");
-            }
-            if (submitButton) {
-              submitButton.disabled = false;
-              submitButton.value = "Register Now";
-            }
+            showFormMessage(
+              "error",
+              "This email is already registered. Please use a different email."
+            );
+          } else if (formMessage && formMessage.textContent.includes("already registered")) {
+            showFormMessage("error", "");
           }
+
+          setSubmitButtonState();
         } catch (error) {
           console.error("Email check failed:", error);
-          // Decide if you want to show a generic error to the user
         }
       });
     }
-
   }
 
-  // Reset course buttons after successful registration
-  function resetCourseButtons() {
-    updateCourseTracker();
-    document.querySelectorAll('.enroll-btn').forEach(button => {
-      button.disabled = false;
-      button.textContent = "Yes, Intrested";
-      button.classList.remove('enrolled');
+  if (continueToStep2Btn) {
+    continueToStep2Btn.addEventListener("click", function () {
+      if (!step1Complete) {
+        return;
+      }
+      goToWizardStep(2);
     });
   }
+
+  if (continueToStep3Btn) {
+    continueToStep3Btn.addEventListener("click", function () {
+      if (!step1Complete) {
+        goToWizardStep(1);
+        return;
+      }
+      if (!validateRegistrationForm()) {
+        return;
+      }
+      step2Complete = true;
+      goToWizardStep(3);
+    });
+  }
+
+  if (backToStep1Btn) {
+    backToStep1Btn.addEventListener("click", function () {
+      goToWizardStep(1);
+    });
+  }
+
+  if (backToStep2Btn) {
+    backToStep2Btn.addEventListener("click", function () {
+      if (!step1Complete) {
+        return;
+      }
+      goToWizardStep(2);
+    });
+  }
+
+  if (acceptGuidelines) {
+    acceptGuidelines.addEventListener("change", setSubmitButtonState);
+  }
+
+  Object.keys(wizardTabs).forEach((key) => {
+    const tab = wizardTabs[key];
+    if (!tab) {
+      return;
+    }
+    tab.addEventListener("click", function () {
+      goToWizardStep(Number(key));
+    });
+  });
+
+  updateWizardProgressUI();
 
   // =========================================
   // Referral Code Generator
@@ -451,68 +638,250 @@
   }
 
   // =====================================================
-  // COURSE SELECTION
+  // COURSE SELECTION + DETAIL SHEET
   // =====================================================
-  let selectedCourses = [];
-  const courseTracker = document.getElementById('course-tracker');
-  const courseCountEl = document.getElementById('course-count');
-  const courseTrackerBadge = document.getElementById('course-tracker-badge');
-  const enrolledCoursesInput = document.getElementById('Enrolled_Courses__c');
-  const courseTrackerIcon = document.getElementById('course-tracker-icon');
- 
-  const coursesView = document.getElementById('tracker-courses-view');
+  const courseTracker = document.getElementById("course-tracker");
+  const courseCountEl = document.getElementById("course-count");
+  const courseTrackerBadge = document.getElementById("course-tracker-badge");
+  const enrolledCoursesInput = document.getElementById("Enrolled_Courses__c");
+  const courseTrackerIcon = document.getElementById("course-tracker-icon");
+  const coursesView = document.getElementById("tracker-courses-view");
+  const courseSheet = document.getElementById("courseSheet");
+  const courseSheetOverlay = document.getElementById("courseSheetOverlay");
+  const courseSheetBack = document.getElementById("courseSheetBack");
+  const courseSheetClose = document.getElementById("courseSheetClose");
+  const courseSheetInterestBtn = document.getElementById("courseSheetInterestBtn");
+  const courseSheetTitle = document.getElementById("courseSheetTitle");
+  const courseSheetDesc = document.getElementById("courseSheetDesc");
+  const courseSheetDuration = document.getElementById("courseSheetDuration");
+  const courseSheetOffer = document.getElementById("courseSheetOffer");
+  const courseSheetRegular = document.getElementById("courseSheetRegular");
+  const courseSheetFeatures = document.getElementById("courseSheetFeatures");
+  const courseSheetIcon = document.getElementById("courseSheetIcon");
+
+  const COURSE_CATALOG = {
+    "Student Program": {
+      title: "Campus-to-Career Program",
+      tone: "student",
+      icon: "bi-mortarboard-fill",
+      duration: "60 Days",
+      offer: "₹1999",
+      regular: "₹2999",
+      description:
+        "For UG/PG students (B.Tech, BCA, MCA, B.Sc and more) building Salesforce Admin, Developer, and AI fundamentals.",
+      features: [
+        "Salesforce Admin",
+        "Salesforce Developer",
+        "AI & Agentforce Basics",
+        "Assignments & Quizzes",
+        "Study Materials",
+        "Certificate of Completion"
+      ]
+    },
+    "Career Switch Program": {
+      title: "Career Switch Program",
+      tone: "career",
+      icon: "bi-people-fill",
+      duration: "70 Days",
+      offer: "₹2999",
+      regular: "₹3999",
+      description:
+        "For working professionals who want to switch into Salesforce / upgrade Salesforce skills with Admin, Developer, and modern AI tools.",
+      features: [
+        "Salesforce Admin + Developer",
+        "Apex, SOQL & LWC",
+        "Git, VS Code & SFDX",
+        "AI Tools (Copilot / Cursor)",
+        "Integrations Basics",
+        "Certificate of Completion"
+      ]
+    },
+    "Interview Accelerator Program": {
+      title: "Job Ready Program",
+      tone: "interview",
+      icon: "bi-chat-dots-fill",
+      duration: "90 Days",
+      offer: "₹3999",
+      regular: "₹4999",
+      description:
+        "Structured Salesforce + AI learning path with interview preparation topics to strengthen confidence before interviews.",
+      features: [
+        "Admin + Developer Coverage",
+        "Interview Preparation Topics",
+        "Technical Q&A Practice",
+        "LinkedIn Branding Tips",
+        "Assignments & Guidance",
+        "Certificate of Completion"
+      ]
+    }
+  };
+
+  function syncProgramListCards() {
+    document.querySelectorAll(".program-list-card").forEach((card) => {
+      const courseName = card.getAttribute("data-course");
+      const selected = selectedCourses.includes(courseName);
+      card.classList.toggle("is-selected", selected);
+    });
+  }
+
+  function syncSheetInterestButton(courseName) {
+    if (!courseSheetInterestBtn || !courseName) {
+      return;
+    }
+
+    const selected = selectedCourses.includes(courseName);
+    courseSheetInterestBtn.dataset.course = courseName;
+    courseSheetInterestBtn.classList.toggle("enrolled", selected);
+    courseSheetInterestBtn.textContent = selected ? "Selected" : "Yes, Interested";
+  }
+
+  function closeCourseSheet() {
+    if (!courseSheet || !courseSheetOverlay) {
+      return;
+    }
+
+    courseSheet.classList.remove("is-open");
+    document.body.classList.remove("course-sheet-open");
+
+    window.setTimeout(() => {
+      courseSheet.hidden = true;
+      courseSheetOverlay.hidden = true;
+    }, 220);
+  }
+
+  function openCourseSheet(courseName) {
+    const course = COURSE_CATALOG[courseName];
+    if (!course || !courseSheet || !courseSheetOverlay) {
+      return;
+    }
+
+    courseSheetTitle.textContent = course.title;
+    courseSheetDesc.textContent = course.description;
+    courseSheetDuration.textContent = course.duration;
+    courseSheetOffer.textContent = course.offer;
+    courseSheetRegular.innerHTML = `<del>${course.regular}</del>`;
+    courseSheetFeatures.innerHTML = course.features
+      .map((item) => `<li>${item}</li>`)
+      .join("");
+
+    courseSheetIcon.className = `course-sheet-icon tone-${course.tone}`;
+    courseSheetIcon.innerHTML = `<i class="bi ${course.icon}"></i>`;
+
+    syncSheetInterestButton(courseName);
+
+    courseSheetOverlay.hidden = false;
+    courseSheet.hidden = false;
+    document.body.classList.add("course-sheet-open");
+
+    requestAnimationFrame(() => {
+      courseSheet.classList.add("is-open");
+    });
+  }
+
+  function toggleCourseSelection(courseName) {
+    if (!courseName) {
+      return;
+    }
+
+    const courseIndex = selectedCourses.indexOf(courseName);
+    if (courseIndex > -1) {
+      selectedCourses.splice(courseIndex, 1);
+    } else {
+      selectedCourses.push(courseName);
+    }
+
+    updateCourseTracker();
+    syncSheetInterestButton(courseName);
+  }
 
   function updateCourseTracker() {
     const count = selectedCourses.length;
-    if (count > 0) {
-      // Show selected courses view
-      coursesView.style.display = 'flex';
-      courseCountEl.textContent = count;
-      courseTrackerBadge.textContent = `${count} Course${count > 1 ? 's' : ''} Selected`;
-      enrolledCoursesInput.value = selectedCourses.join(';');
-    } else {
-      // Show default view
-      coursesView.style.display = 'none';
-      enrolledCoursesInput.value = '';
-    }
-    // Ensure the main tracker is always visible
-    courseTracker.style.display = 'flex';
-  }
- 
-  document.querySelectorAll('.enroll-btn').forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      const courseName = this.getAttribute('data-course');
-      if (courseName) {
-        const courseIndex = selectedCourses.indexOf(courseName);
-        if (courseIndex > -1) {
-          // Course is selected, so deselect it
-          selectedCourses.splice(courseIndex, 1);
-          this.textContent = "Yes, Intrested";
-          this.classList.remove('enrolled');
-        } else {
-          // Course is not selected, so select it
-          selectedCourses.push(courseName);
-          this.textContent = "Selected ✔";
-          this.classList.add('enrolled');
-        }
-        updateCourseTracker();
+    step1Complete = count > 0;
+
+    if (!step1Complete) {
+      step2Complete = false;
+      if (currentWizardStep > 1) {
+        currentWizardStep = 1;
       }
+      if (acceptGuidelines) {
+        acceptGuidelines.checked = false;
+      }
+    }
+
+    if (coursesView && courseCountEl && courseTrackerBadge) {
+      if (count > 0) {
+        coursesView.style.display = "flex";
+        courseCountEl.textContent = count;
+        courseTrackerBadge.textContent = `${count} Course${count > 1 ? "s" : ""} Selected`;
+      } else {
+        coursesView.style.display = "none";
+      }
+    }
+
+    if (enrolledCoursesInput) {
+      enrolledCoursesInput.value = count > 0 ? selectedCourses.join(";") : "";
+    }
+
+    if (courseTracker) {
+      courseTracker.style.display = "flex";
+    }
+
+    syncProgramListCards();
+    updateWizardProgressUI();
+  }
+
+  function resetCourseButtons() {
+    syncProgramListCards();
+    if (courseSheetInterestBtn) {
+      courseSheetInterestBtn.classList.remove("enrolled");
+      courseSheetInterestBtn.textContent = "Yes, Interested";
+    }
+    updateCourseTracker();
+  }
+
+  document.querySelectorAll("[data-open-course]").forEach((card) => {
+    card.addEventListener("click", function () {
+      openCourseSheet(this.getAttribute("data-open-course"));
     });
   });
- 
+
+  if (courseSheetInterestBtn) {
+    courseSheetInterestBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const courseName = this.getAttribute("data-course");
+      toggleCourseSelection(courseName);
+      closeCourseSheet();
+    });
+  }
+
+  if (courseSheetOverlay) {
+    courseSheetOverlay.addEventListener("click", closeCourseSheet);
+  }
+
+  if (courseSheetBack) {
+    courseSheetBack.addEventListener("click", closeCourseSheet);
+  }
+
+  if (courseSheetClose) {
+    courseSheetClose.addEventListener("click", closeCourseSheet);
+  }
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && courseSheet && !courseSheet.hidden) {
+      closeCourseSheet();
+    }
+  });
+
   if (courseTrackerIcon) {
-    courseTrackerIcon.addEventListener('click', function() {
+    courseTrackerIcon.addEventListener("click", function () {
       if (selectedCourses.length > 0) {
-        // If courses are selected, scroll to registration
-        const registrationSection = document.getElementById('section_2');
+        const registrationSection = document.getElementById("section_2");
         if (registrationSection) {
-          const header_height = $('.navbar').height() || 0;
+          const header_height = $(".navbar-glass").height() || $(".navbar").height() || 0;
           scrollToDiv($(registrationSection), header_height);
         }
       } else {
-        // Otherwise, open mail
-        window.location.href = 'mailto:support@trainblazerforce.com';
+        window.location.href = "mailto:support@trainblazerforce.com";
       }
     });
   }

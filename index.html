@@ -2,57 +2,38 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BW5N338D43"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-BW5N338D43');
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>TrainBlazerForce</title>
-
-    <!-- CSS FILES -->
+    <meta name="description" content="Train Blazer Force — Register free for Salesforce Admin, Developer, and Interview courses. Clear guidelines and simple registration.">
+    <meta name="author" content="Train Blazer Force">
+    <title>Train Blazer Force | Master Salesforce</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap"
-        rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
     <link href="css/bootstrap-icons.css" rel="stylesheet">
-
-    <link href="css/templatemo-topic-listing.css" rel="stylesheet">
-    <!--
-
-TemplateMo 590 topic listing
-
-https://templatemo.com/tm-590-topic-listing
-
--->
+    <link href="css/templatemo-topic-listing.css?v=20260808k" rel="stylesheet">
+    <link href="css/design-system.css?v=20260808k" rel="stylesheet">
 </head>
 
 <body id="top">
+    <a class="visually-hidden-focusable" href="#main">Skip to content</a>
+
     <div class="compact-widget" id="course-tracker" style="display: inline-flex;">
-        <!-- Left Section: Students Counter -->
-        <button class="tracker-icon" id="course-tracker-icon" onclick="window.location.href='mailto:support@trainblazerforce.com';">
-            📩
+        <button class="tracker-icon" id="course-tracker-icon" type="button" aria-label="Contact support or view registration">
+            <i data-lucide="mail"></i>
         </button>
         <div class="widget-text-group">
             <div class="widget-count" id="registrationCount">0</div>
             <div class="widget-label">Registered</div>
         </div>
-
-        <!-- Middle Section (Course Counter) - Hidden by default -->
         <div id="tracker-courses-view" style="display: none; align-items: center; gap: 16px;">
             <div class="widget-divider"></div>
             <div class="widget-text-group">
@@ -60,377 +41,725 @@ https://templatemo.com/tm-590-topic-listing
                 <div class="widget-label">Course</div>
             </div>
         </div>
-
-        <!-- Default View Elements (for JS to hide/show) -->
         <div id="tracker-default-view" style="display: none;"></div>
         <div id="course-tracker-badge" style="display: none;"></div>
-
-        <!-- Right Section: Action Button -->
-        <button class="widget-action-btn" onclick="window.location.href='mailto:support@trainblazerforce.com';">
-            ask
-        </button>
-        </div>
+        <button class="widget-action-btn" type="button" onclick="window.location.href='mailto:support@trainblazerforce.com';">ask</button>
     </div>
 
-    <main>
+    <header class="navbar-glass" id="siteNav">
+        <div class="navbar-inner">
+            <a class="brand" href="index.html">
+                <img src="images/topics/TBF_Logo.png" width="40" height="40" alt="">
+                <span>Train Blazer Force</span>
+            </a>
+            <nav aria-label="Primary">
+                <ul class="nav-links">
+                    <li><a href="index.html" class="is-active">Home</a></li>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="#section_2" class="smoothscroll">Register</a></li>
+                    <li><a href="#section_2" class="smoothscroll">Guidelines</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="#section_2" class="btn-tbf btn-primary btn-glow nav-cta smoothscroll">Register Now</a>
+            <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navDrawer">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </header>
 
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">
-                    <img src="images/topics/TBF_Logo.png" width="88" alt="Train Blazer Force logo">
-                    <span>Train Blazer Force</span>
-                </a>
+    <div class="nav-drawer-overlay" id="navDrawerOverlay"></div>
+    <aside class="nav-drawer" id="navDrawer" aria-label="Mobile menu">
+        <div class="nav-drawer-header">
+            <a class="brand" href="index.html">
+                <img src="images/topics/TBF_Logo.png" width="36" height="36" alt="">
+                <span>Train Blazer Force</span>
+            </a>
+            <button class="nav-toggle" id="navDrawerClose" type="button" aria-label="Close menu">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <ul class="nav-drawer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="#section_2" class="smoothscroll">Register</a></li>
+            <li><a href="#section_2" class="smoothscroll">Guidelines</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#section_2" class="smoothscroll">Register Now (FREE)</a></li>
+        </ul>
+        <div class="nav-drawer-social">
+            <a href="https://www.linkedin.com/company/trainblazerforce" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+            <a href="https://www.youtube.com/@trainblazerforce" target="_blank" rel="noopener" aria-label="YouTube"><i data-lucide="youtube"></i></a>
+            <a href="https://www.instagram.com/trainblazerforce" target="_blank" rel="noopener" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+        </div>
+    </aside>
 
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-lg-5 me-lg-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#section_1">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#section_2">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#section_3">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#section_5">Support</a>
-                        </li>
-                    </ul>
-                    <div class="dark-pill">
-                        <article>AI Enabled</article>
-                    </div>
-                </div> -->
-            </div>
-        </nav>
-
+    <main id="main">
         <section class="hero-section" id="section_1">
-            <div class="container">
-                <div class="row align-items-center gy-4">
-                    <div class="col-xl-6 col-lg-7">
-                        <div class="hero-content">
-                            <div class="hero-pill">AI powered learning</div>
-                            <h1>Launch your career in <span class="text-gradient">Salesforce + AI</span></h1>
-                            <p class="hero-copy">Become job-ready in just 60 days with industry-focused training,
-                                real-world projects, expert mentorship, and placement support.</p>
-
-                            <div class="hero-actions">
-                                <a href="#section_3" class="btn hero-primary smoothscroll">Register Now (FREE)</a>
-                                <a href="#section_3" class="btn hero-secondary">Explore Courses</a>
+            <div class="container-tbf">
+                <div class="hero-grid">
+                    <div class="hero-content">
+                        <div class="section-eyebrow">Train Blazer Force Academy</div>
+                        <h1 class="hero-title">Train Blazer Force<br><span class="text-gradient">Salesforce + AI</span></h1>
+                        <p class="section-lead" style="margin:0.75rem 0 0;">LEARN · BUILD · SUCCESS — 60 to 90-day programs with free registration and clear guidelines.</p>
+                        <div class="hero-tracks">
+                            <span class="badge-tbf badge-green">Campus-to-Career</span>
+                            <span class="badge-tbf badge-purple">Career Switch</span>
+                            <span class="badge-tbf badge-orange">Job Ready</span>
+                        </div>
+                        <div class="hero-meta">
+                            <span><i data-lucide="calendar-days"></i> 60–90 Days</span>
+                            <span><i data-lucide="book-open"></i> 3 Courses</span>
+                            <span><i data-lucide="clipboard-check"></i> Free Registration</span>
+                            <span><i data-lucide="file-text"></i> Clear Guidelines</span>
+                        </div>
+                        <div class="hero-actions">
+                            <a href="courses.html" class="btn-tbf btn-primary">Explore Courses</a>
+                            <a href="#section_2" class="btn-tbf btn-ghost smoothscroll">Register Now (FREE)</a>
+                        </div>
+                    </div>
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="float-chip admin"><i data-lucide="shield-check"></i> Admin</div>
+                        <div class="float-chip dev"><i data-lucide="code-2"></i> Developer</div>
+                        <div class="float-chip agent"><i data-lucide="bot"></i> Agentforce</div>
+                        <div class="float-chip cloud"><i data-lucide="cloud"></i> Cloud</div>
+                        <div class="float-chip projects"><i data-lucide="clipboard-check"></i> Register</div>
+                        <div class="float-chip interview"><i data-lucide="messages-square"></i> Interview</div>
+                        <div class="hero-orb">
+                            <div class="hero-orb-core">
+                                <img src="images/topics/TBF_Logo.png" alt="Train Blazer Force Logo" class="hero-orb-logo">
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-xl-6 col-lg-5">
-                    </div>
-                </div>
-
-                <!-- <div class="row row-cols-1 row-cols-md-4 g-3 mt-4 hero-feature-row">
-                    <div class="col">
-                        <div class="feature-chip"><strong>AI Enabled</strong><span>Smart learning</span></div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-chip"><strong>Live Projects</strong><span>Real business work</span></div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-chip"><strong>Expert Mentors</strong><span>Industry-led sessions</span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="feature-chip"><strong>Placement Help</strong><span>Career support</span></div>
-                    </div>
-                </div> -->
-            </div>
-        </section>
-
-        <section class="section-padding steps-section">
-            <div class="container">
-                <div class="row align-items-end mb-4">
-                    <div class="col-lg-8">
-                        <div class="hero-badge">Simple steps to get started</div>
-                        <h2>Start in minutes with a guided registration flow.</h2>
-                    </div>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-6 col-xl-3">
-                        <div class="step-card">
-                            <div class="step-number">01</div>
-                            <h5>Register Online</h5>
-                            <p>Fill the registration form in 2 minutes.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <div class="step-card">
-                            <div class="step-number">02</div>
-                            <h5>Get Confirmation</h5>
-                            <p>Receive email/WhatsApp confirmation.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <div class="step-card">
-                            <div class="step-number">03</div>
-                            <h5>Join Classes</h5>
-                            <p>Attend classes and start your learning.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <div class="step-card">
-                            <div class="step-number">04</div>
-                            <h5>Build & Grow</h5>
-                            <p>Build projects and grow your career.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="featured-section">
-            <div class="container">
-                <div class="row g-4 justify-content-center">
-                    <div class="col-12 mb-3">
-                        <div class="custom-block custom-block-overlay">
-                            <div class="d-flex flex-column h-100">
-                                <div class="custom-block-overlay-text d-flex">
-                                    <div class="guidelines-container">
-                                        <h5>📌 Program guidelines</h5>
+        <section class="section" id="stats">
+            <div class="container-tbf">
+                <div class="stats-row reveal">
+                    <article class="stat-card">
+                        <div class="icon-box"><i data-lucide="calendar-days"></i></div>
+                        <div class="stat-value">60–90</div>
+                        <div class="stat-label">Days Program</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="icon-box purple"><i data-lucide="book-open"></i></div>
+                        <div class="stat-value"><span data-counter="3">0</span></div>
+                        <div class="stat-label">Courses</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="icon-box green"><i data-lucide="clipboard-check"></i></div>
+                        <div class="stat-value">Free</div>
+                        <div class="stat-label">Registration</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="icon-box"><i data-lucide="file-text"></i></div>
+                        <div class="stat-value">Clear</div>
+                        <div class="stat-label">Guidelines</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="icon-box orange"><i data-lucide="shield-check"></i></div>
+                        <div class="stat-value">Admin</div>
+                        <div class="stat-label">Track</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="icon-box purple"><i data-lucide="code-2"></i></div>
+                        <div class="stat-value">Developer</div>
+                        <div class="stat-label">Track</div>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-                                        <ul class="guidelines-list">
-                                            <li>Registration does <b>not guarantee admission</b>. Admission will be
-                                                confirmed only after document verification and fee payment.</li>
-                                            <li><b>Training fees will be collected only at the official Train Blazer
-                                                    Force Training Center.</b> We do not ask for online payments for
-                                                registration.</li>
-                                            <li>The <b>Train Blazer Force Training Center</b> location will be shared
-                                                soon. It will be located near <b>IIMT University, Ganganagar</b>.</li>
-                                            <li>Batch timings, course schedule, and commencement date will be
-                                                communicated via <b>Email</b> and/or <b>WhatsApp</b> after registrations
-                                                are completed.</li>
-                                            <li><b>Registrations will close on 7 August 2026</b> or earlier if all
-                                                available seats are filled.</li>
-                                            <li>Once registrations are closed, <b>no further registrations</b> will be
-                                                accepted for the current batch.</li>
-                                            <li>The <b>first 50 eligible registered candidates</b> will receive priority
-                                                notifications and early-bird benefits (if applicable).</li>
-                                            <li>Please ensure that your <b>Name, Email Address, and Mobile Number</b>
-                                                are entered correctly. Train Blazer Force is not responsible for
-                                                communication issues caused by incorrect details.</li>
-                                            <li>Only <b>one registration per candidate</b> is allowed. Duplicate
-                                                registrations may be removed.</li>
-                                            <li>Please check your <b>Email Inbox, Spam Folder, and WhatsApp</b>
-                                                regularly for important updates.</li>
-                                            <li><b>Registration is free</b> and does not obligate the candidate to join
-                                                the training program.</li>
-                                            <li>Candidates may be required to present a <b>valid photo ID</b> during
-                                                admission.</li>
-                                            <li>Course curriculum, trainers, batch schedules, and training mode may
-                                                change based on operational requirements.</li>
-                                            <li>Train Blazer Force reserves the right to postpone, reschedule, merge, or
-                                                cancel a batch due to unforeseen circumstances or insufficient
-                                                registrations.</li>
-                                            <li>Providing false or misleading information may result in cancellation of
-                                                the registration.</li>
-                                            <li>Your personal information will be used only for admission,
-                                                communication, and training-related purposes. We do not sell or share
-                                                your information with third parties, except where required by law.</li>
-                                            <li>Official communication will only be sent through Train Blazer Force's
-                                                official contact details. Please beware of fraudulent payment requests.
-                                            </li>
-                                            <li>Scholarships, referral rewards, discounts, or promotional offers are
-                                                subject to the terms announced by Train Blazer Force and may be modified
-                                                or withdrawn without prior notice.</li>
-                                            <li>For any queries, contact us at <a
-                                                    href="mailto:support@trainblazerforce.com">support@trainblazerforce.com</a>.
-                                            </li>
-                                        </ul>
+        <section class="section section-alt" id="programs">
+            <div class="container-tbf">
+                <div class="section-header reveal">
+                    <div class="section-eyebrow">Our Programs</div>
+                    <h2 class="section-title">Choose your Salesforce path</h2>
+                    <p class="section-lead">Campus-to-Career, Career Switch, and Job Ready — Salesforce + AI paths. Choose a course, register free, and accept the guidelines.</p>
+                </div>
+                <div class="courses-grid">
+                    <article class="course-card accent-green reveal">
+                        <div class="icon-box green"><i data-lucide="graduation-cap"></i></div>
+                        <span class="badge-tbf badge-green">60 Days · Launch ₹1999</span>
+                        <h3>Campus-to-Career Program</h3>
+                        <p>For UG/PG students (B.Tech, BCA, MCA, B.Sc and more) building Salesforce Admin, Developer, and AI fundamentals.</p>
+                        <ul>
+                            <li><i data-lucide="check"></i> Salesforce Admin</li>
+                            <li><i data-lucide="check"></i> Salesforce Developer</li>
+                            <li><i data-lucide="check"></i> AI &amp; Agentforce Basics</li>
+                            <li><i data-lucide="check"></i> Certificate of Completion</li>
+                        </ul>
+                        <a class="card-footer-link smoothscroll" href="#section_2">View Details <i data-lucide="arrow-right"></i></a>
+                    </article>
+                    <article class="course-card accent-purple reveal">
+                        <div class="icon-box purple"><i data-lucide="users"></i></div>
+                        <span class="badge-tbf badge-purple">70 Days · Launch ₹2999</span>
+                        <h3>Career Switch Program</h3>
+                        <p>For professionals switching into Salesforce / upgrading skills with Admin, Developer, and modern AI tools.</p>
+                        <ul>
+                            <li><i data-lucide="check"></i> Admin + Developer</li>
+                            <li><i data-lucide="check"></i> Apex, SOQL &amp; LWC</li>
+                            <li><i data-lucide="check"></i> Git, VS Code &amp; SFDX</li>
+                            <li><i data-lucide="check"></i> AI Tools (Copilot / Cursor)</li>
+                        </ul>
+                        <a class="card-footer-link smoothscroll" href="#section_2">View Details <i data-lucide="arrow-right"></i></a>
+                    </article>
+                    <article class="course-card accent-orange reveal">
+                        <div class="icon-box orange"><i data-lucide="rocket"></i></div>
+                        <span class="badge-tbf badge-orange">90 Days · Launch ₹3999</span>
+                        <h3>Job Ready Program</h3>
+                        <p>Structured Salesforce + AI path with interview preparation topics to build confidence.</p>
+                        <ul>
+                            <li><i data-lucide="check"></i> Admin + Developer Coverage</li>
+                            <li><i data-lucide="check"></i> Interview Preparation Topics</li>
+                            <li><i data-lucide="check"></i> Technical Q&amp;A Practice</li>
+                            <li><i data-lucide="check"></i> Certificate of Completion</li>
+                        </ul>
+                        <a class="card-footer-link smoothscroll" href="#section_2">View Details <i data-lucide="arrow-right"></i></a>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-                                        <div class="important-note">
-                                            <b>⚠ Important:</b> By submitting this registration form, you confirm that
-                                            the information provided is accurate and that you agree to the above
-                                            registration guidelines. Submission of the form does not guarantee admission
-                                            or seat allocation.
+        <section class="section" id="offer">
+            <div class="container-tbf">
+                <div class="offer-banner reveal">
+                    <div>
+                        <span class="badge-tbf badge-blue">Launch Pricing</span>
+                        <h3>Center fees — launch offer vs regular</h3>
+                        <p>Registration is free. Training fees are collected only at the Train Blazer Force Training Center after verification.</p>
+                        <div class="offer-price" style="display:flex;flex-wrap:wrap;gap:1.25rem;">
+                            <div><small style="color:var(--text-muted)">Campus-to-Career · 60 Days</small><br><strong>₹1999</strong> <small style="color:var(--text-muted)"><del>₹2999</del></small></div>
+                            <div><small style="color:var(--text-muted)">Career Switch · 70 Days</small><br><strong>₹2999</strong> <small style="color:var(--text-muted)"><del>₹3999</del></small></div>
+                            <div><small style="color:var(--text-muted)">Job Ready · 90 Days</small><br><strong>₹3999</strong> <small style="color:var(--text-muted)"><del>₹4999</del></small></div>
+                        </div>
+                        <p style="margin-top:0.9rem;font-size:0.9rem;color:var(--text-secondary)">Also included: <strong style="color:#fff">15-day refund policy</strong> · <strong style="color:#fff">₹250 referral reward</strong> · free joining kit (as announced).</p>
+                    </div>
+                    <a href="#section_2" class="btn-tbf btn-primary btn-glow smoothscroll">Register Now (FREE)</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="why-us">
+            <div class="container-tbf">
+                <div class="section-header reveal">
+                    <div class="section-eyebrow">Why Choose Us</div>
+                    <h2 class="section-title">Simple. Clear. Focused.</h2>
+                    <p class="section-lead">Everything centers on courses, free registration, and transparent guidelines.</p>
+                </div>
+                <div class="why-grid">
+                    <article class="why-card reveal"><div class="icon-box"><i data-lucide="book-open"></i></div><h4>Clear Courses</h4><p>Admin, Developer, and Interview paths with defined duration and pricing.</p></article>
+                    <article class="why-card reveal"><div class="icon-box purple"><i data-lucide="clipboard-check"></i></div><h4>Free Registration</h4><p>Register online in minutes — no registration fee required.</p></article>
+                    <article class="why-card reveal"><div class="icon-box orange"><i data-lucide="file-text"></i></div><h4>Transparent Guidelines</h4><p>Read and accept program guidelines before you submit.</p></article>
+                    <article class="why-card reveal"><div class="icon-box green"><i data-lucide="list-checks"></i></div><h4>3-Step Flow</h4><p>Select courses, fill details, accept guidelines — done.</p></article>
+                    <article class="why-card reveal"><div class="icon-box"><i data-lucide="shield-check"></i></div><h4>Admin Track</h4><p>Structured Salesforce Admin fundamentals in your program.</p></article>
+                    <article class="why-card reveal"><div class="icon-box purple"><i data-lucide="code-2"></i></div><h4>Developer Track</h4><p>Developer topics included where your selected course covers them.</p></article>
+                    <article class="why-card reveal"><div class="icon-box orange"><i data-lucide="rocket"></i></div><h4>Job Ready Track</h4><p>Interview preparation topics and guided practice inside the Job Ready Program.</p></article>
+                    <article class="why-card reveal"><div class="icon-box green"><i data-lucide="mail"></i></div><h4>Direct Support</h4><p>Reach us at support@trainblazerforce.com for any questions.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="journey">
+            <div class="container-tbf">
+                <div class="section-header reveal">
+                    <div class="section-eyebrow">How it works</div>
+                    <h2 class="section-title">From interest to registration</h2>
+                    <p class="section-lead">A focused flow — courses, registration, and guidelines.</p>
+                </div>
+                <div class="journey-timeline reveal">
+                    <div class="journey-step"><div class="journey-dot"></div><div class="journey-copy"><h4>Explore Courses</h4><p>Review Admin, Developer, and Interview programs.</p></div></div>
+                    <div class="journey-step"><div class="journey-dot"></div><div class="journey-copy"><h4>Select Interest</h4><p>Mark the courses you want to join.</p></div></div>
+                    <div class="journey-step"><div class="journey-dot"></div><div class="journey-copy"><h4>Register Free</h4><p>Submit your details in a short form.</p></div></div>
+                    <div class="journey-step"><div class="journey-dot"></div><div class="journey-copy"><h4>Read Guidelines</h4><p>Review program terms carefully.</p></div></div>
+                    <div class="journey-step"><div class="journey-dot"></div><div class="journey-copy"><h4>Accept &amp; Submit</h4><p>Confirm guidelines and complete registration.</p></div></div>
+                    <div class="journey-step"><div class="journey-dot"></div><div class="journey-copy"><h4>Get Updates</h4><p>Receive next steps on email and WhatsApp.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="curriculum-preview">
+            <div class="container-tbf">
+                <div class="section-header reveal">
+                    <div class="section-eyebrow">Curriculum</div>
+                    <h2 class="section-title">70 Days Learning Curriculum</h2>
+                    <p class="section-lead">Admin, Developer, AI tools, and interview preparation topics across a 70-day path.</p>
+                </div>
+                <div class="tbf-accordion reveal" id="curriculumAccordion">
+                    <div class="tbf-acc-item is-open">
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="true"><span style="color:#fff;font-size:1.05rem;">Phase 1 — Salesforce Admin</span><span>20 Days</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div>
+                            <p>Foundations of Salesforce Cloud, security, automation, and admin workflows.</p>
+                            <ul><li>Org setup &amp; data model</li><li>Users, profiles &amp; permission sets</li><li>Flows &amp; process automation</li><li>Reports &amp; dashboards</li></ul>
+                        </div></div></div>
+                    </div>
+                    <div class="tbf-acc-item">
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">Phase 2 — Salesforce Developer</span><span>30 Days</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div>
+                            <p>Apex, Lightning Web Components, integrations, and project delivery.</p>
+                            <ul><li>Apex basics &amp; triggers</li><li>SOQL / SOSL</li><li>LWC fundamentals</li><li>Git, VS Code, SFDX &amp; AI tools (Copilot / Cursor)</li></ul>
+                        </div></div></div>
+                    </div>
+                    <div class="tbf-acc-item">
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">Phase 3 — Interview Preparation</span><span>20 Days</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div>
+                            <p>Interview readiness with mocks, resume polish, and soft-skills coaching.</p>
+                            <ul><li>Technical Q&amp;A drills</li><li>Scenario-based questions</li><li>LinkedIn branding tips</li><li>HR preparation topics</li></ul>
+                        </div></div></div>
+                    </div>
+                </div>
+                <p style="margin-top:1.5rem;"><a class="btn-tbf btn-ghost" href="curriculum.html">View full curriculum</a></p>
+            </div>
+        </section>
+
+<section class="section section-alt" id="faq">
+            <div class="container-tbf">
+                <div class="section-header reveal">
+                    <div class="section-eyebrow">FAQ</div>
+                    <h2 class="section-title">Frequently asked questions</h2>
+                    <p class="section-lead">Quick answers about courses, free registration, and guidelines.</p>
+                </div>
+                <div class="faq-search reveal">
+                    <label class="visually-hidden" for="faqSearch">Search FAQ</label>
+                    <input type="search" id="faqSearch" placeholder="Search questions..." autocomplete="off">
+                </div>
+                <div class="tbf-accordion reveal" id="faqAccordion">
+                    <div class="tbf-acc-item is-open" data-faq-item>
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="true"><span style="color:#fff;font-size:1.05rem;">Is registration free?</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>Yes. Registration is free and does not guarantee admission. Admission is confirmed after document verification and fee payment at the training center.</p></div></div></div>
+                    </div>
+                    <div class="tbf-acc-item" data-faq-item>
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">Do you collect online payments for registration?</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>No. Training fees are collected only at the official Train Blazer Force Training Center. Beware of fraudulent payment requests.</p></div></div></div>
+                    </div>
+                    <div class="tbf-acc-item" data-faq-item>
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">What courses can I choose?</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>Campus-to-Career Program, Career Switch Program, and Job Ready Program. Pick one or more when you register.</p></div></div></div>
+                    </div>
+                    <div class="tbf-acc-item" data-faq-item>
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">What are the guidelines?</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>Guidelines cover admission, fees, batch communication, and your responsibilities. You must read and accept them in Step 3 before submitting.</p></div></div></div>
+                    </div>
+                    <div class="tbf-acc-item" data-faq-item>
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">Where is the training center?</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>Near IIMT University, Ganganagar. Exact location details are shared after registration via email/WhatsApp.</p></div></div></div>
+                    </div>
+                    <div class="tbf-acc-item" data-faq-item>
+                        <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">How do I get updates after registering?</span><i data-lucide="chevron-down"></i></button>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>Updates are sent to the email and mobile number you provide. Please check Inbox, Spam, and WhatsApp regularly.</p></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="contact-teaser">
+            <div class="container-tbf">
+                <div class="offer-banner reveal" style="grid-template-columns:1fr;">
+                    <div>
+                        <div class="section-eyebrow">Ready to start?</div>
+                        <h3>Register free — courses, form, guidelines</h3>
+                        <p>Questions? Call <a href="tel:+917678440305">+91 76784 40305</a> or email <a href="mailto:support@trainblazerforce.com">support@trainblazerforce.com</a></p>
+                        <div class="hero-actions" style="margin-top:1.25rem;">
+                            <a class="btn-tbf btn-primary smoothscroll" href="#section_2">Register Now (FREE)</a>
+                            <a class="btn-tbf btn-ghost" href="contact.html">Contact us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section class="section-padding registration-wizard-section" id="section_2">
+            <div class="container mobile-app-shell">
+                <div class="wizard-intro">
+                    <div class="hero-badge">Registration flow</div>
+                    <h2>Complete these 3 steps to register for free.</h2>
+                </div>
+
+                <div class="wizard-progress" role="list" aria-label="Registration steps">
+                    <button type="button" class="wizard-progress-item is-active" data-step="1" id="wizardTab1" role="listitem" aria-controls="wizard-step-1">
+                        <span class="wizard-progress-number">1</span>
+                        <span class="wizard-progress-copy">
+                            <strong>Courses</strong>
+                            <small>Select interested</small>
+                        </span>
+                    </button>
+                    <button type="button" class="wizard-progress-item is-locked" data-step="2" id="wizardTab2" role="listitem" aria-controls="wizard-step-2" disabled>
+                        <span class="wizard-progress-number">2</span>
+                        <span class="wizard-progress-copy">
+                            <strong>Register</strong>
+                            <small>Form — Free</small>
+                        </span>
+                    </button>
+                    <button type="button" class="wizard-progress-item is-locked" data-step="3" id="wizardTab3" role="listitem" aria-controls="wizard-step-3" disabled>
+                        <span class="wizard-progress-number">3</span>
+                        <span class="wizard-progress-copy">
+                            <strong>Guidelines</strong>
+                            <small>Accept & submit</small>
+                        </span>
+                    </button>
+                </div>
+
+                <div id="formMessage" class="message-banner" role="status" aria-live="polite"></div>
+
+                <!-- STEP 1: Courses -->
+                <div class="wizard-panel is-active" id="wizard-step-1" data-step-panel="1">
+                    <div class="program-catalog">
+                        <div class="program-catalog-hero">
+                            <h3>Choose your course</h3>
+                            <p>Pick a program, register free, and accept the guidelines to continue.</p>
+                        </div>
+
+                        <div class="program-list" id="programList">
+                            <button type="button" class="program-list-card" data-course="Student Program" data-open-course="Student Program" aria-label="View Campus-to-Career Program">
+                                <span class="program-icon program-icon-student" aria-hidden="true">
+                                    <i class="bi bi-mortarboard-fill"></i>
+                                </span>
+                                <span class="program-list-copy">
+                                    <strong>Campus-to-Career Program</strong>
+                                    <span class="program-meta">
+                                        <span class="program-duration">60 Days</span>
+                                        <span class="program-price">Launch ₹1999</span>
+                                    </span>
+                                </span>
+                                <span class="program-selected-mark" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                                <span class="program-chevron" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                            </button>
+
+                            <button type="button" class="program-list-card" data-course="Career Switch Program" data-open-course="Career Switch Program" aria-label="View Career Switch Program">
+                                <span class="program-icon program-icon-career" aria-hidden="true">
+                                    <i class="bi bi-people-fill"></i>
+                                </span>
+                                <span class="program-list-copy">
+                                    <strong>Career Switch Program</strong>
+                                    <span class="program-meta">
+                                        <span class="program-duration">70 Days</span>
+                                        <span class="program-price">Launch ₹2999</span>
+                                    </span>
+                                </span>
+                                <span class="program-selected-mark" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                                <span class="program-chevron" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                            </button>
+
+                            <button type="button" class="program-list-card" data-course="Interview Accelerator Program" data-open-course="Interview Accelerator Program" aria-label="View Job Ready Program">
+                                <span class="program-icon program-icon-interview" aria-hidden="true">
+                                    <i class="bi bi-chat-dots-fill"></i>
+                                </span>
+                                <span class="program-list-copy">
+                                    <strong>Job Ready Program</strong>
+                                    <span class="program-meta">
+                                        <span class="program-duration">90 Days</span>
+                                        <span class="program-price">Launch ₹3999</span>
+                                    </span>
+                                </span>
+                                <span class="program-selected-mark" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
+                                <span class="program-chevron" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+                            </button>
+                        </div>
+
+                        <p class="wizard-hint" id="step1Hint">Tap a program to view details and mark interest.</p>
+                    </div>
+
+                    <div class="mobile-sticky-actions" id="step1StickyActions">
+                        <button type="button" class="btn app-primary-btn" id="continueToStep2" disabled>
+                            Continue to Registration
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Registration Form -->
+                <div class="wizard-panel is-locked" id="wizard-step-2" data-step-panel="2" hidden>
+                    <div class="wizard-panel-header">
+                        <h3>Step 2 — Registration (Free)</h3>
+                        <p>Fill in your details. You’ll accept guidelines next, then submit.</p>
+                    </div>
+
+                    <div class="app-form-card">
+                        <div class="app-form-card-header">
+                            <div>
+                                <div class="app-form-card-title">Your details</div>
+                                <div class="app-form-card-subtitle">Required fields are marked with *</div>
+                            </div>
+                            <span class="status-pill">Open</span>
+                        </div>
+
+                        <form id="registrationForm" class="app-form" novalidate>
+                            <section class="app-form-section">
+                                <h4 class="app-form-section-title">Personal</h4>
+                                <div class="app-form-grid">
+                                    <label class="app-field" for="First_Name__c">
+                                        <span class="app-field-label">First name <em>*</em></span>
+                                        <input type="text" id="First_Name__c" name="First_Name__c" placeholder="e.g. Priya" autocomplete="given-name" required>
+                                    </label>
+                                    <label class="app-field" for="Last_Name__c">
+                                        <span class="app-field-label">Last name <em>*</em></span>
+                                        <input type="text" id="Last_Name__c" name="Last_Name__c" placeholder="e.g. Sharma" autocomplete="family-name" required>
+                                    </label>
+                                    <label class="app-field" for="Email__c">
+                                        <span class="app-field-label">Email <em>*</em></span>
+                                        <input type="email" id="Email__c" name="Email__c" placeholder="you@example.com" autocomplete="email" inputmode="email" required>
+                                    </label>
+                                    <label class="app-field" for="Phone__c">
+                                        <span class="app-field-label">Mobile number <em>*</em></span>
+                                        <input type="tel" id="Phone__c" name="Phone__c" placeholder="10-digit mobile number" autocomplete="tel" inputmode="tel" required>
+                                    </label>
+                                </div>
+                            </section>
+
+                            <section class="app-form-section">
+                                <h4 class="app-form-section-title">Academic & work</h4>
+                                <div class="app-form-grid">
+                                    <label class="app-field" for="College_Company_Email_Id__c">
+                                        <span class="app-field-label">College or company email</span>
+                                        <input type="email" id="College_Company_Email_Id__c" name="College_Company_Email_Id__c" placeholder="Optional work/college email" inputmode="email">
+                                    </label>
+                                    <label class="app-field" for="College_Name__c">
+                                        <span class="app-field-label">College name</span>
+                                        <input type="text" id="College_Name__c" name="College_Name__c" placeholder="Your college name">
+                                    </label>
+                                    <label class="app-field" for="University__c">
+                                        <span class="app-field-label">University</span>
+                                        <input type="text" id="University__c" name="University__c" placeholder="Your university">
+                                    </label>
+                                    <label class="app-field" for="Course__c">
+                                        <span class="app-field-label">Degree / course</span>
+                                        <div class="app-select">
+                                            <select id="Course__c" name="Course__c">
+                                                <option value="">Select course</option>
+                                                <option value="B.A.">B.A. (Bachelor of Arts)</option>
+                                                <option value="B.Sc.">B.Sc. (Bachelor of Science)</option>
+                                                <option value="B.Com.">B.Com. (Bachelor of Commerce)</option>
+                                                <option value="B.Tech.">B.Tech. (Bachelor of Technology)</option>
+                                                <option value="B.C.A.">B.C.A. (Bachelor of Computer Applications)</option>
+                                                <option value="B.B.A.">B.B.A. (Bachelor of Business Administration)</option>
+                                                <option value="LL.B.">LL.B. (Bachelor of Laws)</option>
+                                                <option value="MBBS">MBBS (Bachelor of Medicine, Bachelor of Surgery)</option>
+                                                <option value="B.Ed.">B.Ed. (Bachelor of Education)</option>
+                                                <option value="M.A.">M.A. (Master of Arts)</option>
+                                                <option value="M.Sc.">M.Sc. (Master of Science)</option>
+                                                <option value="M.Com.">M.Com. (Master of Commerce)</option>
+                                                <option value="M.Tech.">M.Tech. (Master of Technology)</option>
+                                                <option value="M.C.A.">M.C.A. (Master of Computer Applications)</option>
+                                                <option value="MBA">MBA (Master of Business Administration)</option>
+                                                <option value="Other / Diploma">Other / Diploma</option>
+                                            </select>
                                         </div>
+                                    </label>
+                                    <label class="app-field" for="Current_Year__c">
+                                        <span class="app-field-label">Current year</span>
+                                        <div class="app-select">
+                                            <select id="Current_Year__c" name="Current_Year__c">
+                                                <option value="">Select current year</option>
+                                                <option value="1st Year">1st Year</option>
+                                                <option value="2nd Year">2nd Year</option>
+                                                <option value="3rd Year">3rd Year</option>
+                                                <option value="4th Year">4th Year</option>
+                                                <option value="Final Year">Final Year</option>
+                                                <option value="Passed Out">Passed Out</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                    <label class="app-field" for="Passing_Year__c">
+                                        <span class="app-field-label">Passing year</span>
+                                        <input type="number" id="Passing_Year__c" name="Passing_Year__c" placeholder="e.g. 2026" max="2050" inputmode="numeric">
+                                    </label>
+                                </div>
+                            </section>
+
+                            <section class="app-form-section">
+                                <h4 class="app-form-section-title">More info</h4>
+                                <div class="app-form-grid">
+                                    <label class="app-field" for="City__c">
+                                        <span class="app-field-label">City</span>
+                                        <input type="text" id="City__c" name="City__c" placeholder="Your city" autocomplete="address-level2">
+                                    </label>
+                                    <label class="app-field" for="Referral_Name__c">
+                                        <span class="app-field-label">Referral code</span>
+                                        <input type="text" id="Referral_Name__c" name="Referral_Name__c" placeholder="Optional referral code">
+                                    </label>
+                                    <label class="app-field" for="Referral_Code__c" style="display:none;">
+                                        <span class="app-field-label">Referral code hidden</span>
+                                        <input type="text" id="Referral_Code__c" name="Referral_Code__c" placeholder="Enter Referral Code">
+                                    </label>
+                                    <label class="app-field" for="Source__c">
+                                        <span class="app-field-label">How did you hear about us?</span>
+                                        <div class="app-select">
+                                            <select id="Source__c" name="Source__c">
+                                                <option value="">Select source</option>
+                                                <option value="LinkedIn">LinkedIn</option>
+                                                <option value="Instagram">Instagram</option>
+                                                <option value="YouTube">YouTube</option>
+                                                <option value="College">College</option>
+                                                <option value="Friend">Friend</option>
+                                                <option value="Google Search">Google Search</option>
+                                                <option value="WhatsApp">WhatsApp</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                    <label class="app-field app-field-full" for="Remarks__c">
+                                        <span class="app-field-label">Questions or notes</span>
+                                        <textarea id="Remarks__c" name="Remarks__c" placeholder="Anything you’d like us to know" rows="4"></textarea>
+                                    </label>
+                                </div>
+                            </section>
+
+                            <div style="display:none;">
+                                <input type="text" id="Enrolled_Courses__c" name="Enrolled_Courses__c" placeholder="Selected Courses">
+                            </div>
+
+                            <div id="loaderOverlay" class="loader-overlay" style="display:none;">
+                                <div class="loader-box">
+                                    <div class="loader"></div>
+                                    <p>Please wait...Do not refresh or close the page.<br>Submitting
+                                        your registration.</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="wizard-actions step2-actions">
+                        <button type="button" class="btn app-secondary-btn" id="backToStep1">Back</button>
+                        <button type="button" class="btn app-primary-btn" id="continueToStep3">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Guidelines -->
+                <div class="wizard-panel is-locked" id="wizard-step-3" data-step-panel="3" hidden>
+                    <div class="wizard-panel-header">
+                        <h3>Step 3 — Accept Guidelines</h3>
+                        <p>Please read the program guidelines carefully, then confirm to submit your free registration.</p>
+                    </div>
+
+                    <div class="custom-block custom-block-overlay">
+                        <div class="d-flex flex-column h-100">
+                            <div class="custom-block-overlay-text d-flex">
+                                <div class="guidelines-container">
+                                    <h5>Program guidelines</h5>
+                                    <ul class="guidelines-list">
+                                        <li>Registration does <b>not guarantee admission</b>. Admission will be
+                                            confirmed only after document verification and fee payment.</li>
+                                        <li><b>Training fees will be collected only at the official Train Blazer
+                                                Force Training Center.</b> We do not ask for online payments for
+                                            registration.</li>
+                                        <li>The <b>Train Blazer Force Training Center</b> location will be shared
+                                            soon. It will be located near <b>IIMT University, Ganganagar</b>.</li>
+                                        <li>Batch timings, course schedule, and commencement date will be
+                                            communicated via <b>Email</b> and/or <b>WhatsApp</b> after registrations
+                                            are completed.</li>
+                                        <li><b>Registrations will close on 16 August 2026</b> or earlier if all
+                                            available seats are filled.</li>
+                                        <li>Once registrations are closed, <b>no further registrations</b> will be
+                                            accepted for the current batch.</li>
+                                        <li>The <b>first 50 eligible registered candidates</b> will receive priority
+                                            notifications and early-bird benefits (if applicable).</li>
+                                        <li>Please ensure that your <b>Name, Email Address, and Mobile Number</b>
+                                            are entered correctly. Train Blazer Force is not responsible for
+                                            communication issues caused by incorrect details.</li>
+                                        <li>Only <b>one registration per candidate</b> is allowed. Duplicate
+                                            registrations may be removed.</li>
+                                        <li>Please check your <b>Email Inbox, Spam Folder, and WhatsApp</b>
+                                            regularly for important updates.</li>
+                                        <li><b>Registration is free</b> and does not obligate the candidate to join
+                                            the training program.</li>
+                                        <li>Candidates may be required to present a <b>valid photo ID</b> during
+                                            admission.</li>
+                                        <li>Course curriculum, trainers, batch schedules, and training mode may
+                                            change based on operational requirements.</li>
+                                        <li>Train Blazer Force reserves the right to postpone, reschedule, merge, or
+                                            cancel a batch due to unforeseen circumstances or insufficient
+                                            registrations.</li>
+                                        <li>Providing false or misleading information may result in cancellation of
+                                            the registration.</li>
+                                        <li>Your personal information will be used only for admission,
+                                            communication, and training-related purposes. We do not sell or share
+                                            your information with third parties, except where required by law.</li>
+                                        <li>Official communication will only be sent through Train Blazer Force's
+                                            official contact details. Please beware of fraudulent payment requests.
+                                        </li>
+                                        <li>Scholarships, referral rewards, discounts, or promotional offers are
+                                            subject to the terms announced by Train Blazer Force and may be modified
+                                            or withdrawn without prior notice.</li>
+                                        <li>Launch center fees: <b>Campus-to-Career (60 Days) — Launch ₹1999 / Regular ₹2999</b>, <b>Career Switch (70 Days) — Launch ₹2999 / Regular ₹3999</b>, <b>Job Ready (90 Days) — Launch ₹3999 / Regular ₹4999</b>. Fees are collected only at the training center.</li>
+                                        <li><b>15-day refund policy</b> and <b>₹250 referral reward</b> apply as announced by Train Blazer Force and may be modified without prior notice.</li>
+                                        <li>For any queries, contact us at <a href="tel:+917678440305">+91 76784 40305</a> or <a
+                                                href="mailto:support@trainblazerforce.com">support@trainblazerforce.com</a>.
+                                        </li>
+                                    </ul>
+
+                                    <div class="important-note">
+                                        <b>Important:</b> By submitting this registration form, you confirm that
+                                        the information provided is accurate and that you agree to the above
+                                        registration guidelines. Submission of the form does not guarantee admission
+                                        or seat allocation.
                                     </div>
                                 </div>
-
-                                <div class="section-overlay"></div>
                             </div>
+                            <div class="section-overlay"></div>
                         </div>
+                    </div>
+
+                    <div class="guidelines-accept-box">
+                        <label class="guidelines-accept-label" for="acceptGuidelines">
+                            <input type="checkbox" id="acceptGuidelines" name="acceptGuidelines">
+                            <span>I have read and accept the program guidelines.</span>
+                        </label>
+                    </div>
+
+                    <div class="wizard-actions step3-actions">
+                        <button type="button" class="btn app-secondary-btn" id="backToStep2">Back</button>
+                        <button type="submit" form="registrationForm" class="btn app-primary-btn" id="registerBtn" disabled>
+                            Register Now
+                        </button>
+                    </div>
+
+                    <div class="guidelines-container text-center mt-3">
+                        Login portal access will be provided after successful registration and fee payment to track
+                        course progress and training updates.
                     </div>
                 </div>
             </div>
-        </section>
 
-        <section class="section-padding" id="section_2">
-            <div class="container">
-                <div class="row g-4 justify-content-center">
-                    <div class="col-12 mb-4 mb-lg-0">
-                        <div class="registration-panel">
-                            <div class="row g-4 align-items-start">
-                                <div class="form-shell">
-                                    <div class="form-shell-header">
-                                        <div>
-                                            <div class="form-shell-title">Registration form</div>
-                                        </div>
-                                        <span class="status-pill">Live</span>
-                                    </div>
-                                    <div id="formMessage" class="message-banner" role="status" aria-live="polite"></div>
-                                    <div class="formcontainer">
-                                        <form id="registrationForm">
-                                            <fieldset>
-                                                <legend class="form-section-title">Personal Details</legend>
-                                                <div class="user__details">
-                                                    <div class="input__box">
-                                                        <span class="details">First Name *</span>
-                                                        <input type="text" id="First_Name__c" name="First_Name__c" placeholder="Enter First Name" required>
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Last Name *</span>
-                                                        <input type="text" id="Last_Name__c" name="Last_Name__c" placeholder="Enter Last Name" required>
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Email *</span>
-                                                        <input type="email" id="Email__c" name="Email__c" placeholder="Enter Email Address" required>
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Phone *</span>
-                                                        <input type="tel" id="Phone__c" name="Phone__c" placeholder="Enter Mobile Number" required>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-
-                                            <fieldset>
-                                                <legend class="form-section-title">Academic & Professional Details</legend>
-                                                <div class="user__details">
-                                                    <div class="input__box">
-                                                        <span class="details">College or Company Email</span>
-                                                        <input type="email" id="College_Company_Email_Id__c" name="College_Company_Email_Id__c" placeholder="Enter College/Company Email">
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">College Name</span>
-                                                        <input type="text" id="College_Name__c" name="College_Name__c" placeholder="Enter College Name">
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">University</span>
-                                                        <input type="text" id="University__c" name="University__c" placeholder="Enter University Name">
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Course</span>
-                                                        <div class="select-box">
-                                                            <select id="Course__c" name="Course__c">
-                                                                <option value="">Select Course</option>
-                                                                <option value="B.A.">B.A. (Bachelor of Arts)</option>
-                                                                <option value="B.Sc.">B.Sc. (Bachelor of Science)</option>
-                                                                <option value="B.Com.">B.Com. (Bachelor of Commerce)</option>
-                                                                <option value="B.Tech.">B.Tech. (Bachelor of Technology)</option>
-                                                                <option value="B.C.A.">B.C.A. (Bachelor of Computer Applications)</option>
-                                                                <option value="B.B.A.">B.B.A. (Bachelor of Business Administration)</option>
-                                                                <option value="LL.B.">LL.B. (Bachelor of Laws)</option>
-                                                                <option value="MBBS">MBBS (Bachelor of Medicine, Bachelor of Surgery)</option>
-                                                                <option value="B.Ed.">B.Ed. (Bachelor of Education)</option>
-                                                                <option value="M.A.">M.A. (Master of Arts)</option>
-                                                                <option value="M.Sc.">M.Sc. (Master of Science)</option>
-                                                                <option value="M.Com.">M.Com. (Master of Commerce)</option>
-                                                                <option value="M.Tech.">M.Tech. (Master of Technology)</option>
-                                                                <option value="M.C.A.">M.C.A. (Master of Computer Applications)</option>
-                                                                <option value="MBA">MBA (Master of Business Administration)</option>
-                                                                <option value="Other / Diploma">Other / Diploma</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Current Year</span>
-                                                        <div class="select-box">
-                                                            <select id="Current_Year__c" name="Current_Year__c">
-                                                                <option value="">Select Current Year</option>
-                                                                <option value="1st Year">1st Year</option>
-                                                                <option value="2nd Year">2nd Year</option>
-                                                                <option value="3rd Year">3rd Year</option>
-                                                                <option value="4th Year">4th Year</option>
-                                                                <option value="Final Year">Final Year</option>
-                                                                <option value="Passed Out">Passed Out</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Passing Year</span>
-                                                        <input type="number" id="Passing_Year__c" name="Passing_Year__c" placeholder="2026" max="2050">
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-
-                                            <fieldset>
-                                                <legend class="form-section-title">Additional Information</legend>
-                                                <div class="user__details">
-                                                    <div class="input__box">
-                                                        <span class="details">City</span>
-                                                        <input type="text" id="City__c" name="City__c" placeholder="Enter City">
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Any Referral Code?</span>
-                                                        <input type="text" id="Referral_Name__c" name="Referral_Name__c" placeholder="Enter Referral Code">
-                                                    </div>
-                                                    <div class="input__box" style="display:none;">
-                                                        <span class="details">Not fr use it is hidden</span>
-                                                        <input type="text" id="Referral_Code__c" name="Referral_Code__c" placeholder="Enter Referral Code">
-                                                    </div>
-                                                    <div class="input__box">
-                                                        <span class="details">Source</span>
-                                                        <div class="select-box">
-                                                            <select id="Source__c" name="Source__c">
-                                                                <option value="">How did you hear about us?</option>
-                                                                <option value="LinkedIn">LinkedIn</option>
-                                                                <option value="Instagram">Instagram</option>
-                                                                <option value="Facebook">Facebook</option>
-                                                                <option value="YouTube">YouTube</option>
-                                                                <option value="College">College</option>
-                                                                <option value="Friend">Friend</option>
-                                                                <option value="Google Search">Google Search</option>
-                                                                <option value="WhatsApp">WhatsApp</option>
-                                                                <option value="Other">Other</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="input__box full-width">
-                                                        <span class="details">Ask your queries</span>
-                                                        <textarea id="Remarks__c" name="Remarks__c" placeholder="Enter your questions or doubts" rows="4"></textarea>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                                
-                                                <div class="input__box" style="display:none;">
-                                                    <span class="details">Enrolled Courses</span>
-                                                    <input type="text" id="Enrolled_Courses__c" name="Enrolled_Courses__c"
-                                                        placeholder="Selected Courses">
-                                                </div>
-
-                                            <div class="button">
-                                                <input type="submit" value="Register Now" id="registerBtn">
-                                            </div>
-                                            <div id="loaderOverlay" class="loader-overlay" style="display:none;">
-                                                <div class="loader-box">
-                                                    <div class="loader"></div>
-                                                    <p>Please wait...Do not refresh or close the page.<br>Submitting
-                                                        your registration.</p>
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Course detail bottom sheet -->
+            <div class="course-sheet-overlay" id="courseSheetOverlay" hidden></div>
+            <div class="course-sheet" id="courseSheet" role="dialog" aria-modal="true" aria-labelledby="courseSheetTitle" hidden>
+                <div class="course-sheet-handle" aria-hidden="true"></div>
+                <div class="course-sheet-nav">
+                    <button type="button" class="course-sheet-nav-btn" id="courseSheetBack" aria-label="Back">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button type="button" class="course-sheet-nav-btn" id="courseSheetClose" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="course-sheet-body">
+                    <div class="course-sheet-icon" id="courseSheetIcon" aria-hidden="true">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                    <h3 id="courseSheetTitle">Campus-to-Career Program</h3>
+                    <span class="program-duration" id="courseSheetDuration">60 Days</span>
+                    <p class="course-sheet-desc" id="courseSheetDesc"></p>
+                    <ul class="course-sheet-features" id="courseSheetFeatures"></ul>
+                    <div class="course-sheet-pricing">
+                        <div>
+                            <small>Launch Offer</small>
+                            <strong id="courseSheetOffer">₹1999</strong>
+                        </div>
+                        <div>
+                            <small>Regular</small>
+                            <span id="courseSheetRegular"><del>₹2999</del></span>
                         </div>
                     </div>
-
-                    <div class="col-12 mb-4 mb-lg-0">
-                        <div class="guidelines-container text-center">
-                            Login portal access will be provided after successful registration and fee payment to track
-                            course progress and training updates.
-                        </div>
-                    </div>
+                </div>
+                <div class="course-sheet-footer">
+                    <button type="button" class="btn app-primary-btn enroll-btn" id="courseSheetInterestBtn" data-course="">
+                        Yes, Interested
+                    </button>
                 </div>
             </div>
         </section>
@@ -462,518 +791,72 @@ https://templatemo.com/tm-590-topic-listing
             </div>
         </div>
 
-        <section class="explore-section section-padding" id="section_3">
-            <div class="container">
-
-                <div class="col-12 text-center">
-                    <h2 class="mb-4">Course Details</h2>
-                </div>
-
-            </div>
-            </div>
-
-            <!-- <div class="container-fluid">
-                <div class="row">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="design-tab" data-bs-toggle="tab"
-                                data-bs-target="#design-tab-pane" type="button" role="tab"
-                                aria-controls="design-tab-pane" aria-selected="true">Design</button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="marketing-tab" data-bs-toggle="tab"
-                                data-bs-target="#marketing-tab-pane" type="button" role="tab"
-                                aria-controls="marketing-tab-pane" aria-selected="false">Marketing</button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="finance-tab" data-bs-toggle="tab"
-                                data-bs-target="#finance-tab-pane" type="button" role="tab"
-                                aria-controls="finance-tab-pane" aria-selected="false">Finance</button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="music-tab" data-bs-toggle="tab"
-                                data-bs-target="#music-tab-pane" type="button" role="tab" aria-controls="music-tab-pane"
-                                aria-selected="false">Music</button>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="education-tab" data-bs-toggle="tab"
-                                data-bs-target="#education-tab-pane" type="button" role="tab"
-                                aria-controls="education-tab-pane" aria-selected="false">Education</button>
-                        </li>
-                    </ul>
-                </div>
-            </div> -->
-
-            <div class="container">
-                <div class="row">
-
-                    <!-- Student Launch Program -->
-                    <div class="col-lg-4 col-md-6 col-12 mb-4">
-                        <div class="course-card student-card">
-
-                            <span class="course-badge">🎓 STUDENTS</span>
-
-                            <img src="images/topics/TBF_Logo.png" class="course-image img-fluid">
-
-                            <div class="course-content">
-
-                                <h3>Student Launch Program</h3>
-
-                                <span class="duration">
-                                    <i class="bi bi-calendar-event"></i> 60 Days
-                                </span>
-
-                                <p class="course-text">
-                                    Perfect for college students and fresh graduates who want
-                                    to start their Salesforce career before graduation.
-                                </p>
-
-                                <ul class="course-list">
-                                    <li>Salesforce Admin</li>
-                                    <li>Salesforce Developer</li>
-                                    <li>Mini Project</li>
-                                    <li>Resume Building</li>
-                                    <li>LinkedIn Optimization</li>
-                                    <li>Mock Interviews</li>
-                                </ul>
-
-                                <div class="price-box">
-
-                                    <div>
-                                        <small>Launch Offer</small>
-                                        <h2>₹1999</h2>
-                                    </div>
-
-                                    <div>
-                                        <small>Regular</small>
-                                        <h4><del>₹2999</del></h4>
-                                    </div>
-
-                                </div>
-
-                                <a href="#section_2" class="btn enroll-btn smoothscroll" data-course="Student Program">
-                                    Yes, Intrested
-                                </a>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- Career Switch -->
-
-                    <div class="col-lg-4 col-md-6 col-12 mb-4">
-
-                        <div class="course-card career-card">
-
-                            <span class="course-badge">🚀 CAREER SWITCH</span>
-
-                            <img src="images/topics/TBF_Logo.png" class="course-image img-fluid">
-
-                            <div class="course-content">
-
-                                <h3>Career Switch Program</h3>
-
-                                <span class="duration">
-                                    <i class="bi bi-calendar-event"></i> 70 Days
-                                </span>
-
-                                <p class="course-text">
-
-                                    Designed for professionals who want to transition into
-                                    the IT industry with Salesforce.
-
-                                </p>
-
-                                <ul class="course-list">
-
-                                    <li>Salesforce Admin + Developer</li>
-
-                                    <li>Agile & Scrum</li>
-
-                                    <li>Git & GitHub</li>
-
-                                    <li>AI Tools</li>
-
-                                    <li>Requirement Gathering</li>
-
-                                    <li>Real-Time Project</li>
-
-                                </ul>
-
-                                <div class="price-box">
-
-                                    <div>
-
-                                        <small>Launch Offer</small>
-
-                                        <h2>₹2999</h2>
-
-                                    </div>
-
-                                    <div>
-
-                                        <small>Regular</small>
-
-                                        <h4><del>₹3999</del></h4>
-
-                                    </div>
-
-                                </div>
-
-                                <a href="#section_2" class="btn enroll-btn smoothscroll" data-course="Career Switch Program">
-
-                                    Yes, Intrested
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Interview Accelerator -->
-
-                    <div class="col-lg-4 col-md-6 col-12">
-
-                        <div class="course-card interview-card">
-
-                            <span class="course-badge">
-                                💼 INTERVIEW
-                            </span>
-
-                            <img src="images/topics/TBF_Logo.png" class="course-image img-fluid">
-
-                            <div class="course-content">
-
-                                <h3>Interview Accelerator</h3>
-
-                                <span class="duration">
-                                    <i class="bi bi-calendar-event"></i> 15 Days
-                                </span>
-
-                                <p class="course-text">
-
-                                    Master technical interviews with live coding,
-                                    mock interviews and resume guidance.
-
-                                </p>
-
-                                <ul class="course-list">
-
-                                    <li>Resume Review</li>
-
-                                    <li>LinkedIn Branding</li>
-
-                                    <li>Mock Interviews</li>
-
-                                    <li>Coding Practice</li>
-
-                                    <li>HR Preparation</li>
-
-                                    <li>Salary Negotiation</li>
-
-                                </ul>
-
-                                <div class="price-box">
-
-                                    <div>
-
-                                        <small>Launch Offer</small>
-
-                                        <h2>₹1299</h2>
-
-                                    </div>
-
-                                    <div>
-
-                                        <small>Regular</small>
-
-                                        <h4><del>₹1999</del></h4>
-
-                                    </div>
-
-                                </div>
-
-
-                                <a href="#section_2" class="btn enroll-btn smoothscroll" data-course="Interview Accelerator Program">
-
-                                    Yes, Intrested
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-
-        <!-- <section class="timeline-section section-padding" id="section_3">
-            <div class="section-overlay"></div>
-
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-12 text-center">
-                        <h2 class="text-white mb-4">How does it work?</h1>
-                    </div>
-
-                    <div class="col-lg-10 col-12 mx-auto">
-                        <div class="timeline-container">
-                            <ul class="vertical-scrollable-timeline" id="vertical-scrollable-timeline">
-                                <div class="list-progress">
-                                    <div class="inner"></div>
-                                </div>
-
-                                <li>
-                                    <h4 class="text-white mb-3">Search your favourite topic</h4>
-
-                                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Reiciendis, cumque magnam? Sequi, cupiditate quibusdam alias illum sed esse ad
-                                        dignissimos libero sunt, quisquam numquam aliquam? Voluptas, accusamus omnis?
-                                    </p>
-
-                                    <div class="icon-holder">
-                                        <i class="bi-search"></i>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <h4 class="text-white mb-3">Bookmark &amp; Keep it for yourself</h4>
-
-                                    <p class="text-white">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint
-                                        animi necessitatibus aperiam repudiandae nam omnis est vel quo, nihil repellat
-                                        quia velit error modi earum similique odit labore. Doloremque, repudiandae?</p>
-
-                                    <div class="icon-holder">
-                                        <i class="bi-bookmark"></i>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <h4 class="text-white mb-3">Read &amp; Enjoy</h4>
-
-                                    <p class="text-white">Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                        Animi vero quisquam, rem assumenda similique voluptas distinctio, iste est hic
-                                        eveniet debitis ut ducimus beatae id? Quam culpa deleniti officiis autem?</p>
-
-                                    <div class="icon-holder">
-                                        <i class="bi-book"></i>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-12 text-center mt-5">
-                        <p class="text-white">
-                            Want to learn more?
-                            <a href="#" class="btn custom-btn custom-border-btn ms-3">Check out Youtube</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section class="faq-section section-padding" id="section_4">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-6 col-12">
-                        <h2 class="mb-4">Frequently Asked Questions</h2>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <div class="col-lg-5 col-12">
-                        <img src="images/faq_graphic.jpg" class="img-fluid" alt="FAQs">
-                    </div>
-
-                    <div class="col-lg-6 col-12 m-auto">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        What is Topic Listing?
-                                    </button>
-                                </h2>
-
-                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        Topic Listing is free Bootstrap 5 CSS template. <b>You are not allowed to
-                                            redistribute this template</b> on any other template collection website
-                                        without our permission. Please contact TemplateMo for more detail. Thank you.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        How to find a topic?
-                                    </button>
-                                </h2>
-
-                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        You can search on Google with <b>keywords</b> such as templatemo
-                                        portfolio, templatemo one-page layouts, photography, digital marketing, etc.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        Does it need to paid?
-                                    </button>
-                                </h2>
-
-                                <div id="collapseThree" class="accordion-collapse collapse"
-                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        You can modify any of this with custom CSS or overriding our default variables.
-                                        It's also worth noting that just about any HTML can go within the
-                                        <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-
-        <section class="contact-section section-padding section-bg" id="section_4">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-lg-12 col-12 text-center">
-                        <h2 class="mb-5">Get in touch</h2>
-                    </div>
-
-                    <div class="col-lg-5 col-12 mb-4 mb-lg-0">
-                        <iframe class="google-map"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2595.065641062665!2d-122.4230416990949!3d37.80335401520422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858127459fabad%3A0x808ba520e5e9edb7!2sFrancisco%20Park!5e1!3m2!1sen!2sth!4v1684340239744!5m2!1sen!2sth"
-                            width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 col-12 mb-3 mb-lg- mb-md-0 ms-auto">
-                        <h4 class="mb-3">Head office</h4>
-
-                        <p>Bay St &amp;, Larkin St, San Francisco, CA 94109, United States</p>
-
-                        <hr>
-
-                        <p class="d-flex align-items-center mb-1">
-                            <span class="me-2">Phone</span>
-
-                            <a href="tel: 305-240-9671" class="site-footer-link">
-                                305-240-9671
-                            </a>
-                        </p>
-
-                        <p class="d-flex align-items-center">
-                            <span class="me-2">Email</span>
-
-                            <a href="mailto:info@company.com" class="site-footer-link">
-                                info@company.com
-                            </a>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 col-12 mx-auto">
-                        <h4 class="mb-3">Dubai office</h4>
-
-                        <p>Burj Park, Downtown Dubai, United Arab Emirates</p>
-
-                        <hr>
-
-                        <p class="d-flex align-items-center mb-1">
-                            <span class="me-2">Phone</span>
-
-                            <a href="tel: 110-220-3400" class="site-footer-link">
-                                110-220-3400
-                            </a>
-                        </p>
-
-                        <p class="d-flex align-items-center">
-                            <span class="me-2">Email</span>
-
-                            <a href="mailto:info@company.com" class="site-footer-link">
-                                info@company.com
-                            </a>
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </section> -->
     </main>
 
-    <footer class="site-footer section-padding" id="section_5">
-        <div class="container">
-            <div class="row g-4 align-items-center">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <a class="navbar-brand mb-2" href="index.html">
-                        <img src="images/topics/TBF_Logo.png" width="88" alt="">
+    <footer class="footer-dark" id="section_5">
+        <div class="container-tbf">
+            <div class="footer-grid">
+                <div>
+                    <a class="brand" href="index.html">
+                        <img src="images/topics/TBF_Logo.png" width="40" height="40" alt="">
                         <span>Train Blazer Force</span>
                     </a>
-                    <p class="footer-copy">A premium training experience crafted for students, mentors, and
-                        administrators who value clarity and momentum.</p>
+                    <p class="footer-copy" style="margin-top:1rem;">Salesforce courses with free registration and clear guidelines — built for students, freshers, and career switchers.</p>
+                    <div class="footer-social">
+                        <a href="https://www.linkedin.com/company/trainblazerforce" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+                        <a href="https://www.youtube.com/@trainblazerforce" target="_blank" rel="noopener" aria-label="YouTube"><i data-lucide="youtube"></i></a>
+                        <a href="https://www.instagram.com/trainblazerforce" target="_blank" rel="noopener" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                    </div>
+                    <p style="margin-top:1rem;"><a href="tel:+917678440305">+91 76784 40305</a></p>
                 </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <h6 class="site-footer-title mb-3">Support</h6>
-                    <ul class="site-footer-links">
-                        <li class="site-footer-link-item"><a href="mailto:support@trainblazerforce.com"
-                                class="site-footer-link">support@trainblazerforce.com</a></li>
-                        <li class="site-footer-link-item"><a href="#section_2" class="site-footer-link">Register now</a>
-                        </li>
-                        <li class="site-footer-link-item"><a href="#section_3" class="site-footer-link">Admin
-                                dashboard</a></li>
+                <div>
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="#section_2" class="smoothscroll">Register</a></li>
+                        <li><a href="about.html">About</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-4 col-12">
-                    <div class="footer-card">
-                        <div class="footer-card-title">Need a faster path?</div>
-                        <p>Begin your registration and receive a polished, tracked onboarding journey from day one.</p>
-                        <a href="#section_2" class="btn footer-btn">Get started</a>
-                    </div>
+                <div>
+                    <h6>Courses</h6>
+                    <ul class="footer-links">
+                        <li><a href="courses.html">All Courses</a></li>
+                        <li><a href="#section_2" class="smoothscroll">Campus-to-Career</a></li>
+                        <li><a href="#section_2" class="smoothscroll">Career Switch</a></li>
+                        <li><a href="#section_2" class="smoothscroll">Job Ready</a></li>
+                    </ul>
                 </div>
+                <div>
+                    <h6>Newsletter</h6>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;margin:0 0 0.75rem;">Get registration and batch updates.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" name="email" placeholder="Email address" required aria-label="Email for newsletter">
+                        <button class="btn-tbf btn-primary" type="submit">Join</button>
+                    </form>
+                    <p style="margin-top:1rem;"><a href="mailto:support@trainblazerforce.com">support@trainblazerforce.com</a><br><a href="tel:+917678440305">+91 76784 40305</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Train Blazer Force. All rights reserved.</span>
+                <span>Near IIMT University, Ganganagar · Meerut</span>
             </div>
         </div>
     </footer>
 
+    <nav class="bottom-nav" aria-label="Mobile">
+        <a href="index.html"><i data-lucide="home"></i>Home</a>
+        <a href="courses.html"><i data-lucide="book-open"></i>Courses</a>
+        <a href="index.html#section_2"><i data-lucide="clipboard-check"></i>Register</a>
+        <a href="index.html#section_2"><i data-lucide="file-text"></i>Guidelines</a>
+        <a href="contact.html"><i data-lucide="phone"></i>Contact</a>
+    </nav>
 
-    <!-- JAVASCRIPT FILES -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
     <script src="js/click-scroll.js"></script>
+    <script src="https://unpkg.com/lucide@0.469.0"></script>
+    <script src="js/ui.js"></script>
     <script src="js/custom.js"></script>
-
 </body>
-
 </html>
