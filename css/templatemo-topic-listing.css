@@ -2844,8 +2844,16 @@ blockquote {
 .btn.app-primary-btn:disabled {
   background: #9bb6f5;
   color: #ffffff;
-  opacity: 1;
+  opacity: 0.55;
   cursor: not-allowed;
+  pointer-events: none;
+}
+
+.app-primary-btn.is-submitting,
+.btn.app-primary-btn.is-submitting {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .app-primary-btn.enrolled,
@@ -3507,9 +3515,10 @@ body.course-sheet-open {
   padding-top: 0;
   border-top: 0;
   display: grid;
-  grid-template-columns: minmax(96px, 0.7fr) minmax(0, 1.3fr);
+  grid-template-columns: minmax(88px, 0.7fr) minmax(0, 1.3fr);
   gap: 10px;
   align-items: center;
+  overflow: hidden;
 }
 
 .step2-actions .app-primary-btn,
@@ -3521,10 +3530,14 @@ body.course-sheet-open {
 .step3-actions .btn.app-primary-btn,
 .step3-actions .btn.app-secondary-btn {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 48px;
   height: 48px;
   padding: 0 14px;
   font-size: 0.92rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #wizard-step-2 .wizard-panel-header {

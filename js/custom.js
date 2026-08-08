@@ -87,6 +87,7 @@
   let step1Complete = false;
   let step2Complete = false;
   let emailAlreadyRegistered = false;
+  let isSubmittingRegistration = false;
 
   const form = document.getElementById("registrationForm");
   const emailInput = document.getElementById("Email__c");
@@ -98,6 +99,8 @@
   const backToStep1Btn = document.getElementById("backToStep1");
   const backToStep2Btn = document.getElementById("backToStep2");
   const step1Hint = document.getElementById("step1Hint");
+  const wizardSubmitStatus = document.getElementById("wizardSubmitStatus");
+  const loaderOverlay = document.getElementById("loaderOverlay");
   const wizardTabs = {
     1: document.getElementById("wizardTab1"),
     2: document.getElementById("wizardTab2"),
@@ -131,17 +134,51 @@
     }, 5000);
   }
 
+  function setSubmittingState(isSubmitting) {
+    isSubmittingRegistration = isSubmitting;
+
+    if (wizardSubmitStatus) {
+      wizardSubmitStatus.hidden = !isSubmitting;
+    }
+
+    if (backToStep2Btn) {
+      backToStep2Btn.disabled = isSubmitting;
+    }
+
+    if (loaderOverlay) {
+      loaderOverlay.hidden = !isSubmitting;
+      loaderOverlay.style.display = isSubmitting ? "flex" : "none";
+    }
+
+    if (submitButton) {
+      submitButton.classList.toggle("is-submitting", isSubmitting);
+      if (isSubmitting) {
+        submitButton.disabled = true;
+        submitButton.setAttribute("aria-busy", "true");
+        submitButton.textContent = "Registering…";
+      } else {
+        submitButton.removeAttribute("aria-busy");
+      }
+    }
+  }
+
   function setSubmitButtonState() {
     if (!submitButton) {
       return;
     }
 
+    if (isSubmittingRegistration) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Registering…";
+      return;
+    }
+
+    const guidelinesAccepted = !!(acceptGuidelines && acceptGuidelines.checked);
     const canSubmit =
       step1Complete &&
       step2Complete &&
       currentWizardStep === 3 &&
-      acceptGuidelines &&
-      acceptGuidelines.checked &&
+      guidelinesAccepted &&
       !emailAlreadyRegistered;
 
     submitButton.disabled = !canSubmit;
@@ -169,7 +206,7 @@
       tab.classList.toggle("is-active", isActive);
       tab.classList.toggle("is-complete", isComplete);
       tab.classList.toggle("is-locked", isLocked);
-      tab.disabled = isLocked;
+      tab.disabled = isLocked || isSubmittingRegistration;
 
       panel.hidden = !isActive;
       panel.classList.toggle("is-active", isActive);
@@ -177,7 +214,23 @@
     });
 
     if (continueToStep2Btn) {
-      continueToStep2Btn.disabled = !step1Complete;
+      continueToStep2Btn.disabled = !step1Complete || isSubmittingRegistration;
+      continueToStep2Btn.setAttribute(
+        "aria-disabled",
+        continueToStep2Btn.disabled ? "true" : "false"
+      );
+    }
+
+    if (continueToStep3Btn) {
+      continueToStep3Btn.disabled = isSubmittingRegistration;
+    }
+
+    if (backToStep1Btn) {
+      backToStep1Btn.disabled = isSubmittingRegistration;
+    }
+
+    if (backToStep2Btn && !isSubmittingRegistration) {
+      backToStep2Btn.disabled = false;
     }
 
     if (step1Hint) {
@@ -185,7 +238,7 @@
         step1Hint.textContent = `${selectedCourses.length} program${selectedCourses.length > 1 ? "s" : ""} selected. Continue when ready.`;
         step1Hint.classList.add("is-ready");
       } else {
-        step1Hint.textContent = "Tap a program to view details and mark interest.";
+        step1Hint.textContent = "Select at least one program to continue.";
         step1Hint.classList.remove("is-ready");
       }
     }
@@ -194,7 +247,11 @@
   }
 
   function goToWizardStep(step) {
+    if (isSubmittingRegistration) {
+      return;
+    }
     if (step === 2 && !step1Complete) {
+      showFormMessage("error", "Please select at least one course before continuing.");
       return;
     }
     if (step === 3 && !(step1Complete && step2Complete)) {
@@ -250,6 +307,10 @@
     form.addEventListener("submit", async function (event) {
       event.preventDefault();
 
+      if (isSubmittingRegistration) {
+        return;
+      }
+
       if (!(step1Complete && step2Complete && currentWizardStep === 3)) {
         showFormMessage("error", "Please complete all steps before submitting.");
         return;
@@ -257,6 +318,7 @@
 
       if (!acceptGuidelines || !acceptGuidelines.checked) {
         showFormMessage("error", "Please accept the program guidelines to continue.");
+        setSubmitButtonState();
         return;
       }
 
@@ -270,9 +332,7 @@
       }
 
       showFormMessage("success", "");
-      submitButton.disabled = true;
-      submitButton.textContent = "Registering... Do not refresh or close the page.";
-      document.getElementById("loaderOverlay").style.display = "flex";
+      setSubmittingState(true);
 
       try {
         const formData = new FormData(form);
@@ -280,8 +340,6 @@
         delete data.acceptGuidelines;
         data.Referral_Code__c = generateReferralCode();
         data.Enrolled_Courses__c = selectedCourses.join(";");
-
-        showReferralModal(data.Referral_Code__c);
 
         await saveToSalesforce(data);
 
@@ -294,12 +352,13 @@
         selectedCourses = [];
         resetCourseButtons();
         resetWizardAfterSuccess();
+        setSubmittingState(false);
+        showReferralModal(data.Referral_Code__c);
       } catch (error) {
         console.error(error);
         showFormMessage("error", error.message || "Registration failed. Please try again.");
-        setSubmitButtonState();
+        setSubmittingState(false);
       } finally {
-        document.getElementById("loaderOverlay").style.display = "none";
         setSubmitButtonState();
       }
     });
@@ -334,7 +393,8 @@
 
   if (continueToStep2Btn) {
     continueToStep2Btn.addEventListener("click", function () {
-      if (!step1Complete) {
+      if (!step1Complete || isSubmittingRegistration) {
+        showFormMessage("error", "Please select at least one course before continuing.");
         return;
       }
       goToWizardStep(2);
@@ -343,6 +403,9 @@
 
   if (continueToStep3Btn) {
     continueToStep3Btn.addEventListener("click", function () {
+      if (isSubmittingRegistration) {
+        return;
+      }
       if (!step1Complete) {
         goToWizardStep(1);
         return;
@@ -357,13 +420,16 @@
 
   if (backToStep1Btn) {
     backToStep1Btn.addEventListener("click", function () {
+      if (isSubmittingRegistration) {
+        return;
+      }
       goToWizardStep(1);
     });
   }
 
   if (backToStep2Btn) {
     backToStep2Btn.addEventListener("click", function () {
-      if (!step1Complete) {
+      if (isSubmittingRegistration || !step1Complete) {
         return;
       }
       goToWizardStep(2);
@@ -371,7 +437,9 @@
   }
 
   if (acceptGuidelines) {
-    acceptGuidelines.addEventListener("change", setSubmitButtonState);
+    acceptGuidelines.addEventListener("change", function () {
+      setSubmitButtonState();
+    });
   }
 
   Object.keys(wizardTabs).forEach((key) => {

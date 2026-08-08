@@ -460,7 +460,7 @@
                             </button>
                         </div>
 
-                        <p class="wizard-hint" id="step1Hint">Tap a program to view details and mark interest.</p>
+                        <p class="wizard-hint" id="step1Hint">Select at least one program to continue.</p>
                     </div>
 
                     <div class="mobile-sticky-actions" id="step1StickyActions">
@@ -610,14 +610,6 @@
                             <div style="display:none;">
                                 <input type="text" id="Enrolled_Courses__c" name="Enrolled_Courses__c" placeholder="Selected Courses">
                             </div>
-
-                            <div id="loaderOverlay" class="loader-overlay" style="display:none;">
-                                <div class="loader-box">
-                                    <div class="loader"></div>
-                                    <p>Please wait...Do not refresh or close the page.<br>Submitting
-                                        your registration.</p>
-                                </div>
-                            </div>
                         </form>
                     </div>
 
@@ -711,7 +703,11 @@
                         </label>
                     </div>
 
-                    <div class="wizard-actions step3-actions">
+                    <p class="wizard-submit-status" id="wizardSubmitStatus" hidden role="status" aria-live="polite">
+                        Registering… Do not refresh or close the page.
+                    </p>
+
+                    <div class="wizard-actions step3-actions" id="step3Actions">
                         <button type="button" class="btn app-secondary-btn" id="backToStep2">Back</button>
                         <button type="submit" form="registrationForm" class="btn app-primary-btn" id="registerBtn" disabled>
                             Register Now
@@ -851,6 +847,13 @@
         <a href="index.html#section_2"><i data-lucide="file-text"></i>Guidelines</a>
         <a href="contact.html"><i data-lucide="phone"></i>Contact</a>
     </nav>
+
+    <div id="loaderOverlay" class="loader-overlay" style="display:none;" hidden>
+        <div class="loader-box">
+            <div class="loader"></div>
+            <p>Please wait… Do not refresh or close the page.<br>Submitting your registration.</p>
+        </div>
+    </div>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
