@@ -728,7 +728,7 @@
   const courseSheetIcon = document.getElementById("courseSheetIcon");
 
   const COURSE_CATALOG = {
-    "Student Program": {
+    "Campus-to-Career Program": {
       title: "Campus-to-Career Program",
       tone: "student",
       icon: "bi-mortarboard-fill",
@@ -764,7 +764,7 @@
         "Certificate of Completion"
       ]
     },
-    "Interview Accelerator Program": {
+    "Job Ready Program": {
       title: "Job Ready Program",
       tone: "interview",
       icon: "bi-chat-dots-fill",
