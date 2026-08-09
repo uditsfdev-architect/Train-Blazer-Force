@@ -349,6 +349,7 @@
         );
 
         form.reset();
+        clearStoredReferral();
         selectedCourses = [];
         resetCourseButtons();
         resetWizardAfterSuccess();
@@ -397,6 +398,7 @@
         showFormMessage("error", "Please select at least one course before continuing.");
         return;
       }
+      populateReferralFromUrl();
       goToWizardStep(2);
     });
   }
@@ -497,13 +499,18 @@
       });
   }
 
+  const REFERRAL_STORAGE_KEY = "tbf_referral_code";
+
+  function getReferralLandingUrl(code) {
+      const baseUrl = `${window.location.origin}${window.location.pathname.replace(/[^/]+$/, "") || "/"}index.html`;
+      return `${baseUrl}?referral=${encodeURIComponent(code)}`;
+  }
+
   function shareReferralLink() {
       const modalInput = document.getElementById("generatedReferralCode");
       if (!modalInput) return;
       const code = modalInput.value;
-      const currentUrl = window.location.href.split('#')[0];
-      const referralName = encodeURIComponent(code);
-      const shareUrl = `${currentUrl}?referral=${referralName}`;
+      const shareUrl = getReferralLandingUrl(code);
 
       if (navigator.share) {
           navigator.share({
@@ -518,14 +525,56 @@
       }
   }
 
+  function readStoredReferral() {
+      try {
+          return sessionStorage.getItem(REFERRAL_STORAGE_KEY) || "";
+      } catch (e) {
+          return "";
+      }
+  }
+
+  function storeReferral(code) {
+      try {
+          if (code) {
+              sessionStorage.setItem(REFERRAL_STORAGE_KEY, code);
+          }
+      } catch (e) {
+          // Ignore storage failures (private mode, etc.)
+      }
+  }
+
+  function clearStoredReferral() {
+      try {
+          sessionStorage.removeItem(REFERRAL_STORAGE_KEY);
+      } catch (e) {
+          // Ignore storage failures
+      }
+  }
+
   function populateReferralFromUrl() {
       const params = new URLSearchParams(window.location.search);
-      const referralValue = params.get('referral');
-      if (referralValue) {
-          const referralInput = document.getElementById('Referral_Name__c');
-          const referralCodeInput = document.getElementById('Referral_Code__c');
-          if (referralInput) referralInput.value = referralValue;
-          if (referralCodeInput && !referralCodeInput.value) referralCodeInput.value = referralValue;
+      // Prefer ?referral= from the URL; fall back to sessionStorage so
+      // links like index.html#section_2 (which drop the query string) still work.
+      const referralFromUrl = (params.get("referral") || "").trim();
+      const storedReferral = readStoredReferral();
+      const referralValue = referralFromUrl || storedReferral;
+
+      if (!referralValue) {
+          return;
+      }
+
+      if (referralFromUrl) {
+          storeReferral(referralFromUrl);
+      }
+
+      const referralInput = document.getElementById("Referral_Name__c");
+      if (!referralInput) {
+          return;
+      }
+
+      // URL always wins; storage only fills an empty field.
+      if (referralFromUrl || !referralInput.value) {
+          referralInput.value = referralValue;
       }
   }
 
@@ -641,6 +690,10 @@
     }
 
   }
+
+  // Form fields already exist (script is at end of body). Run immediately so
+  // referral is filled even if something later delays or skips the load event.
+  populateReferralFromUrl();
 
   window.addEventListener("load", () => {
     populateReferralFromUrl();

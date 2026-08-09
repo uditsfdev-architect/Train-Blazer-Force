@@ -210,6 +210,127 @@
     });
   }
 
+  /* First-visit mobile bottom-nav guide (index only) */
+  function initNavGuide() {
+    const STORAGE_KEY = "tbf_bottom_nav_guide_seen";
+    const page = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+    const isIndex = page === "" || page === "index.html";
+    const isMobile = () => window.matchMedia("(max-width: 991.98px)").matches;
+
+    if (!isIndex || !isMobile() || localStorage.getItem(STORAGE_KEY) === "1") return;
+
+    const nav = document.getElementById("mobileBottomNav");
+    const guide = document.getElementById("navGuide");
+    if (!nav || !guide) return;
+
+    const steps = [
+      {
+        key: "home",
+        title: "Home",
+        desc: "Jump back to the homepage from anywhere.",
+      },
+      {
+        key: "courses",
+        title: "Courses",
+        desc: "Browse Campus-to-Career, Career Switch, and Job Ready programs.",
+      },
+      {
+        key: "register",
+        title: "Register",
+        desc: "Start your free registration in a few quick steps.",
+      },
+      {
+        key: "guidelines",
+        title: "Guidelines",
+        desc: "Read the program guidelines before you submit.",
+      },
+      {
+        key: "contact",
+        title: "Contact",
+        desc: "Reach the Train Blazer Force team when you need help.",
+      },
+    ];
+
+    const progressEl = document.getElementById("navGuideProgress");
+    const titleEl = document.getElementById("navGuideTitle");
+    const descEl = document.getElementById("navGuideDesc");
+    const nextBtn = document.getElementById("navGuideNext");
+    const card = guide.querySelector(".nav-guide-card");
+    let stepIndex = 0;
+    let previousTarget = null;
+
+    function finish() {
+      localStorage.setItem(STORAGE_KEY, "1");
+      guide.hidden = true;
+      guide.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("nav-guide-open");
+      nav.classList.remove("nav-guide-active");
+      if (previousTarget) previousTarget.classList.remove("nav-guide-target");
+      document.removeEventListener("keydown", onKeydown);
+    }
+
+    function positionArrow(target) {
+      if (!card || !target) return;
+      const cardRect = card.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const x = targetRect.left + targetRect.width / 2 - cardRect.left;
+      const clamped = Math.max(18, Math.min(cardRect.width - 18, x));
+      card.style.setProperty("--guide-arrow-x", `${clamped}px`);
+    }
+
+    function showStep(index) {
+      const step = steps[index];
+      const target = nav.querySelector(`[data-guide="${step.key}"]`);
+      if (!target) {
+        finish();
+        return;
+      }
+
+      if (previousTarget) previousTarget.classList.remove("nav-guide-target");
+      target.classList.add("nav-guide-target");
+      previousTarget = target;
+
+      if (progressEl) progressEl.textContent = `${index + 1} / ${steps.length}`;
+      if (titleEl) titleEl.textContent = step.title;
+      if (descEl) descEl.textContent = step.desc;
+      if (nextBtn) nextBtn.textContent = index === steps.length - 1 ? "Got it" : "Next";
+
+      requestAnimationFrame(() => positionArrow(target));
+    }
+
+    function next() {
+      if (stepIndex >= steps.length - 1) {
+        finish();
+        return;
+      }
+      stepIndex += 1;
+      showStep(stepIndex);
+    }
+
+    function onKeydown(e) {
+      if (e.key === "Escape") finish();
+      if (e.key === "Enter" || e.key === "ArrowRight") next();
+    }
+
+    guide.hidden = false;
+    guide.setAttribute("aria-hidden", "false");
+    document.body.classList.add("nav-guide-open");
+    nav.classList.add("nav-guide-active");
+
+    guide.querySelectorAll("[data-guide-skip]").forEach((el) => {
+      el.addEventListener("click", finish);
+    });
+    if (nextBtn) nextBtn.addEventListener("click", next);
+    document.addEventListener("keydown", onKeydown);
+    window.addEventListener("resize", () => {
+      if (!isMobile()) finish();
+      else if (previousTarget) positionArrow(previousTarget);
+    });
+
+    // Slight delay so first paint + icons settle before spotlight
+    window.setTimeout(() => showStep(0), 450);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initNav();
     initCounters();
@@ -220,5 +341,6 @@
     initNewsletter();
     initBottomNav();
     initLucide();
+    initNavGuide();
   });
 })();

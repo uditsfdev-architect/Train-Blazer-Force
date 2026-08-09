@@ -20,7 +20,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
     <link href="css/templatemo-topic-listing.css?v=20260808k" rel="stylesheet">
-    <link href="css/design-system.css?v=20260808k" rel="stylesheet">
+    <link href="css/design-system.css?v=20260809a" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -840,13 +840,26 @@
         </div>
     </footer>
 
-    <nav class="bottom-nav" aria-label="Mobile">
-        <a href="index.html"><i data-lucide="home"></i>Home</a>
-        <a href="courses.html"><i data-lucide="book-open"></i>Courses</a>
-        <a href="index.html#section_2"><i data-lucide="clipboard-check"></i>Register</a>
-        <a href="index.html#section_2"><i data-lucide="file-text"></i>Guidelines</a>
-        <a href="contact.html"><i data-lucide="phone"></i>Contact</a>
+    <nav class="bottom-nav" aria-label="Mobile" id="mobileBottomNav">
+        <a href="index.html" data-guide="home"><i data-lucide="home"></i>Home</a>
+        <a href="courses.html" data-guide="courses"><i data-lucide="book-open"></i>Courses</a>
+        <a href="#section_2" class="smoothscroll" data-guide="register"><i data-lucide="clipboard-check"></i>Register</a>
+        <a href="#section_2" class="smoothscroll" data-guide="guidelines"><i data-lucide="file-text"></i>Guidelines</a>
+        <a href="contact.html" data-guide="contact"><i data-lucide="phone"></i>Contact</a>
     </nav>
+
+    <div class="nav-guide" id="navGuide" hidden aria-hidden="true">
+        <div class="nav-guide-backdrop" data-guide-skip></div>
+        <div class="nav-guide-card" role="dialog" aria-modal="true" aria-labelledby="navGuideTitle" aria-describedby="navGuideDesc">
+            <p class="nav-guide-progress" id="navGuideProgress">1 / 5</p>
+            <h3 id="navGuideTitle">Home</h3>
+            <p id="navGuideDesc">Return to the homepage anytime from here.</p>
+            <div class="nav-guide-actions">
+                <button type="button" class="nav-guide-btn nav-guide-skip" data-guide-skip>Skip</button>
+                <button type="button" class="nav-guide-btn nav-guide-next" id="navGuideNext">Next</button>
+            </div>
+        </div>
+    </div>
 
     <div id="loaderOverlay" class="loader-overlay" style="display:none;" hidden>
         <div class="loader-box">
@@ -859,7 +872,7 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/click-scroll.js"></script>
     <script src="https://unpkg.com/lucide@0.469.0"></script>
-    <script src="js/ui.js"></script>
+    <script src="js/ui.js?v=20260809a"></script>
     <script src="js/custom.js"></script>
 </body>
 </html>
