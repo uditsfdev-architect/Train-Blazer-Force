@@ -491,7 +491,9 @@
           ? preferredTimeSlotInput.value.trim()
           : "";
 
-        await saveToSalesforce(data);
+        saveToSalesforce(data).catch((error) => {
+          console.error("Salesforce save failed:", error);
+        });
 
         showFormMessage(
           "success",
@@ -747,7 +749,9 @@
         "Content-Type": "application/json"
       },
 
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+
+      keepalive: true
 
     });
 
