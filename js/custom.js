@@ -786,8 +786,8 @@
       tone: "student",
       icon: "bi-mortarboard-fill",
       duration: "60 Days",
-      offer: "₹1999",
-      regular: "₹2999",
+      offer: "₹3999",
+      regular: "₹5999",
       description:
         "For UG/PG students (B.Tech, BCA, MCA, B.Sc and more) building Salesforce Admin, Developer, and AI fundamentals.",
       features: [
@@ -804,8 +804,8 @@
       tone: "career",
       icon: "bi-people-fill",
       duration: "70 Days",
-      offer: "₹2999",
-      regular: "₹3999",
+      offer: "₹4999",
+      regular: "₹7999",
       description:
         "For working professionals who want to switch into Salesforce / upgrade Salesforce skills with Admin, Developer, and modern AI tools.",
       features: [
@@ -822,8 +822,8 @@
       tone: "interview",
       icon: "bi-chat-dots-fill",
       duration: "90 Days",
-      offer: "₹3999",
-      regular: "₹4999",
+      offer: "₹5999",
+      regular: "₹9999",
       description:
         "Structured Salesforce + AI learning path with interview preparation topics to strengthen confidence before interviews.",
       features: [
