@@ -19,8 +19,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/templatemo-topic-listing.css?v=20260808k" rel="stylesheet">
-    <link href="css/design-system.css?v=20260809a" rel="stylesheet">
+    <link href="css/templatemo-topic-listing.css?v=20260819a" rel="stylesheet">
+    <link href="css/design-system.css?v=20260819a" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -422,7 +422,7 @@
                                     <strong>Campus-to-Career Program</strong>
                                     <span class="program-meta">
                                         <span class="program-duration">60 Days</span>
-                                        <span class="program-price">Launch ₹3999</span>
+                                        <span class="program-price">Launch Offer ₹3999</span>
                                     </span>
                                 </span>
                                 <span class="program-selected-mark" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
@@ -437,7 +437,7 @@
                                     <strong>Career Switch Program</strong>
                                     <span class="program-meta">
                                         <span class="program-duration">70 Days</span>
-                                        <span class="program-price">Launch ₹4999</span>
+                                        <span class="program-price">Launch Offer ₹4999</span>
                                     </span>
                                 </span>
                                 <span class="program-selected-mark" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
@@ -452,7 +452,7 @@
                                     <strong>Job Ready Program</strong>
                                     <span class="program-meta">
                                         <span class="program-duration">90 Days</span>
-                                        <span class="program-price">Launch ₹5999</span>
+                                        <span class="program-price">Launch Offer ₹5999</span>
                                     </span>
                                 </span>
                                 <span class="program-selected-mark" aria-hidden="true"><i class="bi bi-check-lg"></i></span>
@@ -584,6 +584,34 @@
                                         <span class="app-field-label">Referral code hidden</span>
                                         <input type="text" id="Referral_Code__c" name="Referral_Code__c" placeholder="Enter Referral Code">
                                     </label>
+                                    <label class="app-field" for="Training_Mode__c">
+                                        <span class="app-field-label">Which mode of training you prefer? <em>*</em></span>
+                                        <div class="app-select">
+                                            <select id="Training_Mode__c" name="Training_Mode__c" required>
+                                                <option value="">Select mode</option>
+                                                <option value="Online">Online</option>
+                                                <option value="Offline">Offline</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                    <label class="app-field" for="Batch_Type__c">
+                                        <span class="app-field-label">Which type of batch you prefer? <em>*</em></span>
+                                        <div class="app-select">
+                                            <select id="Batch_Type__c" name="Batch_Type__c" required>
+                                                <option value="">Select batch type</option>
+                                                <option value="Weekday Online">Weekday Online</option>
+                                                <option value="Weekend Online">Weekend Online</option>
+                                                <option value="Weekday Regular">Weekday Regular</option>
+                                                <option value="Weekend Regular">Weekend Regular</option>
+                                            </select>
+                                        </div>
+                                    </label>
+                                    <div class="app-field app-field-full" id="preferredTimeSlotField" hidden>
+                                        <span class="app-field-label" id="preferredTimeSlotLabel">Preferred time slot <em>*</em></span>
+                                        <p class="app-field-hint" id="preferredTimeSlotHint">Select one or more preferred slots.</p>
+                                        <div class="time-slot-pills" id="preferredTimeSlotOptions" role="group" aria-labelledby="preferredTimeSlotLabel"></div>
+                                        <input type="hidden" id="Preferred_Time_Slot__c" name="Preferred_Time_Slot__c" value="">
+                                    </div>
                                     <label class="app-field" for="Source__c">
                                         <span class="app-field-label">How did you hear about us?</span>
                                         <div class="app-select">
@@ -873,6 +901,6 @@
     <script src="js/click-scroll.js"></script>
     <script src="https://unpkg.com/lucide@0.469.0"></script>
     <script src="js/ui.js?v=20260809a"></script>
-    <script src="js/custom.js"></script>
+    <script src="js/custom.js?v=20260819a"></script>
 </body>
 </html>

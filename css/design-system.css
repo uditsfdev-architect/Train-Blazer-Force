@@ -2344,7 +2344,7 @@ main {
   }
 }
 
-.app-field input,
+.app-field input:not(.time-slot-pill-input),
 .app-field textarea,
 .app-field select,
 .app-select select {
@@ -3004,10 +3004,10 @@ a.btn-tbf.btn-ghost {
   -webkit-text-fill-color: #ffffff !important;
 }
 
-input,
+input:not(.time-slot-pill-input),
 select,
 textarea,
-.app-field input,
+.app-field input:not(.time-slot-pill-input),
 .app-field textarea,
 .app-field select,
 .app-select select,
@@ -3968,5 +3968,214 @@ small {
 
   .why-choose-panel {
     padding: 1.2rem 1rem;
+  }
+}
+
+/* =========================================================
+   Preferred time slot pills (registration form)
+   ========================================================= */
+
+#preferredTimeSlotField.app-field {
+  gap: 12px;
+}
+
+#preferredTimeSlotField .app-field-hint {
+  color: var(--text-muted) !important;
+  -webkit-text-fill-color: var(--text-muted) !important;
+  margin: 0;
+}
+
+.time-slot-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+}
+
+.time-slot-pill {
+  position: relative;
+  display: block;
+  margin: 0;
+  cursor: pointer;
+  flex: 1 1 calc(50% - 10px);
+  min-width: 0;
+  max-width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.time-slot-pill-input {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  min-height: 0 !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  caret-color: transparent !important;
+  pointer-events: none;
+}
+
+.time-slot-pill-face {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    var(--bg-secondary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.time-slot-pill-check {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  position: relative;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.time-slot-pill-check::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 9px;
+  border: solid #041018;
+  border-width: 0 2px 2px 0;
+  transform: scale(0) rotate(45deg);
+  opacity: 0;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.time-slot-pill-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+  min-width: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+}
+
+.time-slot-pill-start,
+.time-slot-pill-end,
+.time-slot-pill-sep {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+.time-slot-pill-sep {
+  opacity: 0.55;
+  font-weight: 500;
+}
+
+.time-slot-pill:hover .time-slot-pill-face {
+  border-color: rgba(0, 161, 224, 0.45);
+  background:
+    linear-gradient(180deg, rgba(0, 161, 224, 0.12), rgba(0, 161, 224, 0.04)),
+    var(--bg-elevated);
+  transform: translateY(-1px);
+}
+
+.time-slot-pill:active .time-slot-pill-face {
+  transform: translateY(0) scale(0.985);
+}
+
+.time-slot-pill.is-selected .time-slot-pill-face,
+.time-slot-pill-input:checked + .time-slot-pill-face {
+  border-color: rgba(0, 161, 224, 0.85);
+  background:
+    linear-gradient(135deg, rgba(0, 161, 224, 0.28), rgba(124, 58, 237, 0.16)),
+    #0d1a2d;
+  box-shadow:
+    0 0 0 1px rgba(0, 161, 224, 0.25),
+    0 10px 28px rgba(0, 161, 224, 0.18);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.time-slot-pill.is-selected .time-slot-pill-check,
+.time-slot-pill-input:checked + .time-slot-pill-face .time-slot-pill-check {
+  border-color: transparent;
+  background: linear-gradient(135deg, #00A1E0, #38bdf8);
+  box-shadow: 0 0 12px rgba(0, 161, 224, 0.55);
+}
+
+.time-slot-pill.is-selected .time-slot-pill-check::after,
+.time-slot-pill-input:checked + .time-slot-pill-face .time-slot-pill-check::after {
+  opacity: 1;
+  transform: scale(1) rotate(45deg);
+}
+
+.time-slot-pill-input:focus-visible + .time-slot-pill-face {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 419px) {
+  .time-slot-pill {
+    flex: 1 1 100%;
+  }
+
+  .time-slot-pill-face {
+    border-radius: 16px;
+    min-height: 46px;
+    padding: 11px 14px;
+  }
+
+  .time-slot-pill-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 720px) {
+  .time-slot-pills {
+    gap: 12px;
+  }
+
+  .time-slot-pill {
+    flex: 0 1 calc(33.333% - 12px);
+  }
+
+  .time-slot-pill-face {
+    min-height: 50px;
+    padding: 11px 16px;
+  }
+
+  .time-slot-pill-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .time-slot-pill {
+    flex: 0 1 calc(25% - 12px);
   }
 }

@@ -3441,7 +3441,14 @@ body.course-sheet-open {
   font-weight: 700;
 }
 
-.app-field input,
+.app-field-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #6b7f97;
+}
+
+.app-field input:not(.time-slot-pill-input),
 .app-field textarea,
 .app-select select {
   width: 100%;
@@ -3627,7 +3634,7 @@ body.course-sheet-open {
     gap: 18px;
   }
 
-  .app-field input,
+  .app-field input:not(.time-slot-pill-input),
   .app-field textarea,
   .app-select select {
     min-height: 54px;

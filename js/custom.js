@@ -111,6 +111,143 @@
     2: document.getElementById("wizard-step-2"),
     3: document.getElementById("wizard-step-3")
   };
+  const batchTypeSelect = document.getElementById("Batch_Type__c");
+  const preferredTimeSlotField = document.getElementById("preferredTimeSlotField");
+  const preferredTimeSlotOptions = document.getElementById("preferredTimeSlotOptions");
+  const preferredTimeSlotHint = document.getElementById("preferredTimeSlotHint");
+  const preferredTimeSlotInput = document.getElementById("Preferred_Time_Slot__c");
+  const DAY_START_MINUTES = 7 * 60;
+  const DAY_END_MINUTES = 21 * 60;
+  const WEEKDAY_SLOT_MINUTES = 90;
+  const WEEKEND_SLOT_MINUTES = 210;
+
+  function formatClockLabel(totalMinutes) {
+    const hours24 = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    const period = hours24 >= 12 ? "PM" : "AM";
+    const hours12 = hours24 % 12 || 12;
+    return `${hours12}:${String(minutes).padStart(2, "0")} ${period}`;
+  }
+
+  function buildTimeSlots(intervalMinutes) {
+    const slots = [];
+    for (
+      let start = DAY_START_MINUTES;
+      start + intervalMinutes <= DAY_END_MINUTES;
+      start += intervalMinutes
+    ) {
+      slots.push(`${formatClockLabel(start)} - ${formatClockLabel(start + intervalMinutes)}`);
+    }
+    return slots;
+  }
+
+  function getBatchSlotInterval(batchType) {
+    if (!batchType) {
+      return null;
+    }
+    if (batchType.includes("Weekend")) {
+      return WEEKEND_SLOT_MINUTES;
+    }
+    if (batchType.includes("Weekday")) {
+      return WEEKDAY_SLOT_MINUTES;
+    }
+    return null;
+  }
+
+  function syncPreferredTimeSlotValue() {
+    if (!preferredTimeSlotInput || !preferredTimeSlotOptions) {
+      return;
+    }
+
+    const selected = Array.from(
+      preferredTimeSlotOptions.querySelectorAll('input[type="checkbox"]:checked')
+    ).map((input) => input.value);
+
+    preferredTimeSlotInput.value = selected.join(";");
+
+    preferredTimeSlotOptions.querySelectorAll(".time-slot-pill").forEach((option) => {
+      const checkbox = option.querySelector('input[type="checkbox"]');
+      option.classList.toggle("is-selected", Boolean(checkbox && checkbox.checked));
+    });
+  }
+
+  function renderPreferredTimeSlots(batchType) {
+    if (!preferredTimeSlotField || !preferredTimeSlotOptions || !preferredTimeSlotInput) {
+      return;
+    }
+
+    const intervalMinutes = getBatchSlotInterval(batchType);
+    preferredTimeSlotOptions.innerHTML = "";
+    preferredTimeSlotInput.value = "";
+
+    if (!intervalMinutes) {
+      preferredTimeSlotField.hidden = true;
+      return;
+    }
+
+    const slots = buildTimeSlots(intervalMinutes);
+    const intervalLabel = intervalMinutes === WEEKEND_SLOT_MINUTES ? "3.5-hour" : "1.5-hour";
+
+    if (preferredTimeSlotHint) {
+      preferredTimeSlotHint.textContent = `Select one or more ${intervalLabel} slots between 7:00 AM and 9:00 PM.`;
+    }
+
+    slots.forEach((slot, index) => {
+      const optionId = `preferred_time_slot_${index}`;
+      const [startLabel, endLabel] = slot.split(" - ");
+
+      const label = document.createElement("label");
+      label.className = "time-slot-pill";
+      label.setAttribute("for", optionId);
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = optionId;
+      checkbox.className = "time-slot-pill-input";
+      checkbox.value = slot;
+      checkbox.addEventListener("change", syncPreferredTimeSlotValue);
+
+      const face = document.createElement("span");
+      face.className = "time-slot-pill-face";
+      face.setAttribute("aria-hidden", "true");
+
+      const check = document.createElement("span");
+      check.className = "time-slot-pill-check";
+
+      const text = document.createElement("span");
+      text.className = "time-slot-pill-text";
+
+      const start = document.createElement("span");
+      start.className = "time-slot-pill-start";
+      start.textContent = startLabel;
+
+      const separator = document.createElement("span");
+      separator.className = "time-slot-pill-sep";
+      separator.textContent = "–";
+
+      const end = document.createElement("span");
+      end.className = "time-slot-pill-end";
+      end.textContent = endLabel;
+
+      text.appendChild(start);
+      text.appendChild(separator);
+      text.appendChild(end);
+      face.appendChild(check);
+      face.appendChild(text);
+      label.appendChild(checkbox);
+      label.appendChild(face);
+      preferredTimeSlotOptions.appendChild(label);
+    });
+
+    preferredTimeSlotField.hidden = false;
+  }
+
+  if (batchTypeSelect) {
+    batchTypeSelect.addEventListener("change", function () {
+      renderPreferredTimeSlots(this.value);
+    });
+    renderPreferredTimeSlots(batchTypeSelect.value);
+  }
 
   function showFormMessage(type, message) {
     if (!formMessage) {
@@ -289,6 +426,16 @@
       return false;
     }
 
+    if (
+      batchTypeSelect &&
+      batchTypeSelect.value &&
+      preferredTimeSlotInput &&
+      !preferredTimeSlotInput.value.trim()
+    ) {
+      showFormMessage("error", "Please select at least one preferred time slot.");
+      return false;
+    }
+
     return true;
   }
 
@@ -340,6 +487,9 @@
         delete data.acceptGuidelines;
         data.Referral_Code__c = generateReferralCode();
         data.Enrolled_Courses__c = selectedCourses.join(";");
+        data.Preferred_Time_Slot__c = preferredTimeSlotInput
+          ? preferredTimeSlotInput.value.trim()
+          : "";
 
         await saveToSalesforce(data);
 
@@ -352,6 +502,7 @@
         clearStoredReferral();
         selectedCourses = [];
         resetCourseButtons();
+        renderPreferredTimeSlots("");
         resetWizardAfterSuccess();
         setSubmittingState(false);
         showReferralModal(data.Referral_Code__c);
