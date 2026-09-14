@@ -20,8 +20,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/templatemo-topic-listing.css?v=20260914c" rel="stylesheet">
-    <link href="css/design-system.css?v=20260914c" rel="stylesheet">
+    <link href="css/templatemo-topic-listing.css?v=20260915a" rel="stylesheet">
+    <link href="css/design-system.css?v=20260915b" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -313,7 +313,7 @@
                     </div>
                     <div class="tbf-acc-item" data-faq-item>
                         <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">Where is the training center?</span><i data-lucide="chevron-down"></i></button>
-                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>Near IIMT University, Ganganagar. Exact location details are shared after registration via email/WhatsApp.</p></div></div></div>
+                        <div class="tbf-acc-panel"><div class="tbf-acc-panel-inner"><div><p>2nd floor, Sanjay Plaza, Thana Road, L- Pocket, Near IIMT University, Ganga Nagar, Meerut, Uttar Pradesh (250001).</p></div></div></div>
                     </div>
                     <div class="tbf-acc-item" data-faq-item>
                         <button class="tbf-acc-trigger" type="button" aria-expanded="false"><span style="color:#fff;font-size:1.05rem;">How do I get updates after registering?</span><i data-lucide="chevron-down"></i></button>
@@ -832,34 +832,6 @@
                 </div>
             </div>
         </section>
-
-        <div class="modal fade" id="referralModal" tabindex="-1" aria-labelledby="referralModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="referralModalLabel">Your referral code</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Share this code with your friends to track referrals.</p>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" id="generatedReferralCode" readonly>
-                            <button class="btn btn-outline-secondary" type="button" id="copyReferralCodeBtn"
-                                aria-label="Copy referral code">
-                                <i class="bi bi-clipboard"></i>
-                            </button>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted">Share the link and the referral name will be tracked
-                                automatically.</small>
-                            <button type="button" class="btn btn-primary" id="shareReferralBtn">Share</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </main>
 
     <footer class="footer-dark" id="section_5">
@@ -934,6 +906,79 @@
         </div>
     </div>
 
+    <div class="modal fade" id="referralModal" tabindex="-1" aria-labelledby="referralModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered referral-modal-dialog">
+            <div class="modal-content referral-modal">
+                <div class="referral-modal-head">
+                    <div class="referral-modal-hero">
+                        <span class="referral-modal-gift" aria-hidden="true">🎁</span>
+                        <div>
+                            <h5 class="modal-title" id="referralModalLabel">Refer &amp; Earn <span>₹250 OFF</span></h5>
+                            <p class="referral-modal-lead">Share your referral code with friends and get ₹250 OFF on your course fee for every successful enrollment.</p>
+                        </div>
+                    </div>
+                    <button type="button" class="referral-modal-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="referral-code-block">
+                    <label class="referral-code-label" for="generatedReferralCode">Your Referral Code</label>
+                    <div class="referral-code-row">
+                        <input type="text" class="form-control" id="generatedReferralCode" readonly>
+                        <button class="referral-copy-btn" type="button" id="copyReferralCodeBtn"
+                            aria-label="Copy referral code">
+                            <i class="bi bi-clipboard" aria-hidden="true"></i>
+                            <span>Copy</span>
+                        </button>
+                    </div>
+                    <p class="referral-code-hint">Share this code with your friends. It will be tracked automatically.</p>
+                </div>
+                <div class="referral-how">
+                    <h6>How it works?</h6>
+                    <ol class="referral-steps">
+                        <li>
+                            <span class="referral-step-icon is-blue" aria-hidden="true">
+                                <i class="bi bi-share-fill"></i>
+                                <em>1</em>
+                            </span>
+                            <span class="referral-step-copy">Share your referral code with friends</span>
+                        </li>
+                        <li class="referral-step-arrow" aria-hidden="true"><i class="bi bi-arrow-right"></i></li>
+                        <li>
+                            <span class="referral-step-icon is-purple" aria-hidden="true">
+                                <i class="bi bi-people-fill"></i>
+                                <em>2</em>
+                            </span>
+                            <span class="referral-step-copy">Your friend registers &amp; enrolls in any course</span>
+                        </li>
+                        <li class="referral-step-arrow" aria-hidden="true"><i class="bi bi-arrow-right"></i></li>
+                        <li>
+                            <span class="referral-step-icon is-green" aria-hidden="true">
+                                <i class="bi bi-gift-fill"></i>
+                                <em>3</em>
+                            </span>
+                            <span class="referral-step-copy">You get <strong>₹250 OFF</strong> on your course fee</span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="referral-reward-banner">
+                    <span class="referral-reward-icon" aria-hidden="true">💰</span>
+                    <div>
+                        <strong>₹250 OFF per successful referral</strong>
+                        <p>Maximum discount up to <b>₹2,000 OFF</b> on your course fee.</p>
+                    </div>
+                    <span class="referral-reward-spark" aria-hidden="true"></span>
+                </div>
+                <button type="button" class="referral-share-btn" id="shareReferralBtn">
+                    <i class="bi bi-share-fill" aria-hidden="true"></i>
+                    Share Referral Code
+                </button>
+                <p class="referral-share-hint">Share via WhatsApp, Email or any other platform</p>
+            </div>
+        </div>
+    </div>
+
     <div id="loaderOverlay" class="loader-overlay" style="display:none;" hidden>
         <div class="loader-box">
             <div class="loader"></div>
@@ -946,6 +991,6 @@
     <script src="js/click-scroll.js"></script>
     <script src="https://unpkg.com/lucide@0.469.0"></script>
     <script src="js/ui.js?v=20260809a"></script>
-    <script src="js/custom.js?v=20260914c"></script>
+    <script src="js/custom.js?v=20260915a"></script>
 </body>
 </html>

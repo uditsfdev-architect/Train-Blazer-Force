@@ -654,9 +654,23 @@
       const modalInput = document.getElementById("generatedReferralCode");
       if (!modalInput) return;
 
-      navigator.clipboard.writeText(modalInput.value).catch(() => {
+      const copyBtn = document.getElementById("copyReferralCodeBtn");
+      const copyLabel = copyBtn ? copyBtn.querySelector("span") : null;
+
+      const markCopied = () => {
+          if (!copyBtn || !copyLabel) return;
+          copyLabel.textContent = "Copied";
+          copyBtn.classList.add("is-copied");
+          window.setTimeout(() => {
+              copyLabel.textContent = "Copy";
+              copyBtn.classList.remove("is-copied");
+          }, 1600);
+      };
+
+      navigator.clipboard.writeText(modalInput.value).then(markCopied).catch(() => {
           modalInput.select();
           document.execCommand('copy');
+          markCopied();
       });
   }
 
