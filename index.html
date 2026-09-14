@@ -370,8 +370,6 @@
                     </button>
                 </div>
 
-                <div id="formMessage" class="message-banner" role="status" aria-live="polite"></div>
-
                 <!-- STEP 1: Courses -->
                 <div class="wizard-panel is-active" id="wizard-step-1" data-step-panel="1">
                     <div class="program-catalog">
@@ -593,18 +591,19 @@
                                         <input type="hidden" id="Preferred_Time_Slot__c" name="Preferred_Time_Slot__c" value="">
                                     </div>
                                     <label class="app-field" for="Source__c">
-                                        <span class="app-field-label">How did you hear about us?</span>
+                                        <span class="app-field-label">How did you hear about us? <em>*</em></span>
                                         <div class="app-select">
-                                            <select id="Source__c" name="Source__c">
+                                            <select id="Source__c" name="Source__c" required>
                                                 <option value="">Select source</option>
-                                                <option value="LinkedIn">LinkedIn</option>
-                                                <option value="Instagram">Instagram</option>
-                                                <option value="Newspaper">Newspaper</option>
-                                                <option value="YouTube">YouTube</option>
                                                 <option value="College">College</option>
                                                 <option value="Friend">Friend</option>
                                                 <option value="Google Search">Google Search</option>
+                                                <option value="Instagram">Instagram</option>
+                                                <option value="LinkedIn">LinkedIn</option>
+                                                <option value="Newspaper">Newspaper</option>
+                                                <option value="Pamphlet">Pamphlet</option>
                                                 <option value="WhatsApp">WhatsApp</option>
+                                                <option value="YouTube">YouTube</option>
                                                 <option value="Other">Other</option>
                                             </select>
                                         </div>
@@ -622,7 +621,7 @@
                             </div>
                         </form>
                     </div>
-
+                    <div id="formMessage" class="message-banner" role="status" aria-live="polite"></div>
                     <div class="wizard-actions step2-actions">
                         <button type="button" class="btn app-secondary-btn" id="backToStep1">Back</button>
                         <button type="button" class="btn app-primary-btn" id="continueToStep3">
