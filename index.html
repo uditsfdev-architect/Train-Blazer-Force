@@ -20,8 +20,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/templatemo-topic-listing.css?v=20260819a" rel="stylesheet">
-    <link href="css/design-system.css?v=20260819a" rel="stylesheet">
+    <link href="css/templatemo-topic-listing.css?v=20260914c" rel="stylesheet">
+    <link href="css/design-system.css?v=20260914c" rel="stylesheet">
 </head>
 
 <body id="top">
@@ -566,13 +566,26 @@
                                         <div class="app-select">
                                             <select id="Batch_Type__c" name="Batch_Type__c" required>
                                                 <option value="">Select batch type</option>
-                                                <option value="Weekday Online">Weekday Online</option>
-                                                <option value="Weekend Online">Weekend Online</option>
-                                                <option value="Weekday Regular">Weekday Regular</option>
-                                                <option value="Weekend Regular">Weekend Regular</option>
+                                                <option value="Weekday">Weekday</option>
+                                                <option value="Weekend">Weekend</option>
                                             </select>
                                         </div>
                                     </label>
+                                    <div class="app-field-full fee-summary" id="feeSummary" hidden>
+                                        <div class="fee-summary-card">
+                                            <div class="fee-summary-top">
+                                                <span class="fee-summary-label">Estimated course fee</span>
+                                                <button type="button" class="fee-summary-review" id="reviewFeeBtn">Review fee</button>
+                                            </div>
+                                            <div class="fee-summary-course">
+                                                <span class="fee-summary-course-label">Selected course</span>
+                                                <div class="fee-course-options fee-course-options-compact" id="feeSummaryCourses" role="group" aria-label="Selected course"></div>
+                                            </div>
+                                            <strong id="feeSummaryTotal">₹0</strong>
+                                            <p class="fee-summary-combo" id="feeSummaryCombo"></p>
+                                            <div class="fee-summary-chips" id="feeSummaryChips"></div>
+                                        </div>
+                                    </div>
                                     <div class="app-field app-field-full" id="preferredTimeSlotField" hidden>
                                         <span class="app-field-label" id="preferredTimeSlotLabel">Preferred time slot <em>*</em></span>
                                         <p class="app-field-hint" id="preferredTimeSlotHint">Select one or more preferred slots.</p>
@@ -605,6 +618,7 @@
 
                             <div style="display:none;">
                                 <input type="text" id="Enrolled_Courses__c" name="Enrolled_Courses__c" placeholder="Selected Courses">
+                                <input type="number" id="Course_Fee__c" name="Course_Fee__c" value="" step="1">
                             </div>
                         </form>
                     </div>
@@ -754,6 +768,69 @@
                     </button>
                 </div>
             </div>
+
+            <div class="fee-sheet-overlay" id="feeSheetOverlay" hidden></div>
+            <div class="fee-sheet" id="feeSheet" role="dialog" aria-modal="true" aria-labelledby="feeSheetTitle" hidden>
+                <div class="fee-sheet-handle" aria-hidden="true"></div>
+                <div class="fee-sheet-nav">
+                    <h3 id="feeSheetTitle">Confirm your course fee</h3>
+                    <button type="button" class="fee-sheet-nav-btn" id="feeSheetClose" aria-label="Close fee confirmation">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+                <div class="fee-sheet-body">
+                    <p class="fee-sheet-intro">You can change the course, training mode, or batch here. The fee updates instantly.</p>
+                    <div class="app-field fee-sheet-course-field">
+                        <span class="app-field-label">Selected course <em>*</em></span>
+                        <div class="fee-course-options" id="feeSheetCourses" role="group" aria-label="Selected course"></div>
+                    </div>
+                    <div class="fee-sheet-fields">
+                        <label class="app-field" for="feeSheetMode">
+                            <span class="app-field-label">Training mode <em>*</em></span>
+                            <div class="app-select">
+                                <select id="feeSheetMode">
+                                    <option value="">Select mode</option>
+                                    <option value="Online">Online</option>
+                                    <option value="Offline">Offline</option>
+                                </select>
+                            </div>
+                        </label>
+                        <label class="app-field" for="feeSheetBatch">
+                            <span class="app-field-label">Batch type <em>*</em></span>
+                            <div class="app-select">
+                                <select id="feeSheetBatch">
+                                    <option value="">Select batch type</option>
+                                    <option value="Weekday">Weekday</option>
+                                    <option value="Weekend">Weekend</option>
+                                </select>
+                            </div>
+                        </label>
+                    </div>
+                    <ul class="fee-breakdown">
+                        <li>
+                            <span id="feeBaseLabel">Program launch fee</span>
+                            <strong id="feeBaseAmount">₹0</strong>
+                        </li>
+                        <li id="feeOnlineRow" hidden>
+                            <span>Online mode</span>
+                            <strong>+ ₹2,000</strong>
+                        </li>
+                        <li id="feeWeekendRow" hidden>
+                            <span>Weekend batch</span>
+                            <strong>+ ₹2,000</strong>
+                        </li>
+                        <li class="fee-breakdown-total">
+                            <span>Total course fee</span>
+                            <strong id="feeTotalAmount">₹0</strong>
+                        </li>
+                    </ul>
+                    <p class="fee-sheet-note">Fees are collected only at the official training center. This amount is saved as your course fee.</p>
+                </div>
+                <div class="fee-sheet-footer">
+                    <button type="button" class="btn app-secondary-btn" id="feeSheetStayBtn">Keep editing form</button>
+                    <button type="button" class="btn app-primary-btn" id="feeSheetConfirmBtn">Confirm fee</button>
+                </div>
+            </div>
         </section>
 
         <div class="modal fade" id="referralModal" tabindex="-1" aria-labelledby="referralModalLabel"
@@ -869,6 +946,6 @@
     <script src="js/click-scroll.js"></script>
     <script src="https://unpkg.com/lucide@0.469.0"></script>
     <script src="js/ui.js?v=20260809a"></script>
-    <script src="js/custom.js?v=20260819a"></script>
+    <script src="js/custom.js?v=20260914c"></script>
 </body>
 </html>

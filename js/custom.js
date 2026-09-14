@@ -112,6 +112,8 @@
     3: document.getElementById("wizard-step-3")
   };
   const batchTypeSelect = document.getElementById("Batch_Type__c");
+  const trainingModeSelect = document.getElementById("Training_Mode__c");
+  const courseFeeInput = document.getElementById("Course_Fee__c");
   const preferredTimeSlotField = document.getElementById("preferredTimeSlotField");
   const preferredTimeSlotOptions = document.getElementById("preferredTimeSlotOptions");
   const preferredTimeSlotHint = document.getElementById("preferredTimeSlotHint");
@@ -490,6 +492,7 @@
         data.Preferred_Time_Slot__c = preferredTimeSlotInput
           ? preferredTimeSlotInput.value.trim()
           : "";
+        data.Course_Fee__c = getCourseFeeTotal();
 
         saveToSalesforce(data).catch((error) => {
           console.error("Salesforce save failed:", error);
@@ -505,6 +508,7 @@
         selectedCourses = [];
         resetCourseButtons();
         renderPreferredTimeSlots("");
+        resetCourseFeeState();
         resetWizardAfterSuccess();
         setSubmittingState(false);
         showReferralModal(data.Referral_Code__c);
@@ -566,6 +570,10 @@
         return;
       }
       if (!validateRegistrationForm()) {
+        return;
+      }
+      if (!isCourseFeeConfirmed()) {
+        openFeeSheet({ proceedOnConfirm: true });
         return;
       }
       step2Complete = true;
@@ -992,6 +1000,372 @@
     }
   };
 
+  const ONLINE_FEE_ADDON = 2000;
+  const WEEKEND_FEE_ADDON = 2000;
+  const feeSummary = document.getElementById("feeSummary");
+  const feeSummaryTotal = document.getElementById("feeSummaryTotal");
+  const feeSummaryCombo = document.getElementById("feeSummaryCombo");
+  const feeSummaryChips = document.getElementById("feeSummaryChips");
+  const feeSummaryCourses = document.getElementById("feeSummaryCourses");
+  const reviewFeeBtn = document.getElementById("reviewFeeBtn");
+  const feeSheet = document.getElementById("feeSheet");
+  const feeSheetOverlay = document.getElementById("feeSheetOverlay");
+  const feeSheetClose = document.getElementById("feeSheetClose");
+  const feeSheetStayBtn = document.getElementById("feeSheetStayBtn");
+  const feeSheetConfirmBtn = document.getElementById("feeSheetConfirmBtn");
+  const feeSheetMode = document.getElementById("feeSheetMode");
+  const feeSheetBatch = document.getElementById("feeSheetBatch");
+  const feeSheetCourses = document.getElementById("feeSheetCourses");
+  const feeBaseAmount = document.getElementById("feeBaseAmount");
+  const feeBaseLabel = document.getElementById("feeBaseLabel");
+  const feeOnlineRow = document.getElementById("feeOnlineRow");
+  const feeWeekendRow = document.getElementById("feeWeekendRow");
+  const feeTotalAmount = document.getElementById("feeTotalAmount");
+  let lastConfirmedFeeKey = "";
+  let hasAutoOpenedFeeSheet = false;
+  let proceedToStep3AfterFeeConfirm = false;
+  let isSyncingFeeSelects = false;
+
+  function parseRupeeAmount(value) {
+    const amount = Number(String(value || "").replace(/[^\d]/g, ""));
+    return Number.isFinite(amount) ? amount : 0;
+  }
+
+  function formatRupeeAmount(amount) {
+    return `₹${Number(amount || 0).toLocaleString("en-IN")}`;
+  }
+
+  function getCatalogCourseNames() {
+    return Object.keys(COURSE_CATALOG);
+  }
+
+  function courseOptionId(container, courseName) {
+    return `${container.id}_${String(courseName).replace(/[^a-z0-9]+/gi, "_")}`;
+  }
+
+  function renderCourseFeeOptions(container) {
+    if (!container) {
+      return;
+    }
+
+    container.innerHTML = getCatalogCourseNames()
+      .map((name) => {
+        const course = COURSE_CATALOG[name];
+        const selected = selectedCourses.includes(name);
+        const optionId = courseOptionId(container, name);
+        return `
+          <label class="fee-course-option${selected ? " is-selected" : ""}" for="${optionId}">
+            <input type="checkbox" id="${optionId}" value="${name}" ${selected ? "checked" : ""}>
+            <span class="fee-course-option-copy">
+              <strong>${course.title}</strong>
+              <small>${course.duration} · Launch ${course.offer}</small>
+            </span>
+          </label>
+        `;
+      })
+      .join("");
+
+    container.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+      input.addEventListener("change", function () {
+        onFeeCourseOptionChange(container, this);
+      });
+    });
+  }
+
+  function syncCourseFeeOptions() {
+    [feeSummaryCourses, feeSheetCourses].forEach((container) => {
+      if (!container) {
+        return;
+      }
+      if (!container.children.length) {
+        renderCourseFeeOptions(container);
+        return;
+      }
+      container.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+        const selected = selectedCourses.includes(input.value);
+        input.checked = selected;
+        const option = input.closest(".fee-course-option");
+        if (option) {
+          option.classList.toggle("is-selected", selected);
+        }
+      });
+    });
+  }
+
+  function onFeeCourseOptionChange(container, input) {
+    const nextCourses = Array.from(
+      container.querySelectorAll('input[type="checkbox"]:checked')
+    ).map((item) => item.value);
+
+    if (!nextCourses.length) {
+      input.checked = true;
+      const option = input.closest(".fee-course-option");
+      if (option) {
+        option.classList.add("is-selected");
+      }
+      showFormMessage("error", "Please keep at least one course selected.");
+      return;
+    }
+
+    selectedCourses = nextCourses;
+    updateCourseTracker();
+  }
+
+  function getSelectedTrainingMode() {
+    return trainingModeSelect ? trainingModeSelect.value : "";
+  }
+
+  function getSelectedBatchType() {
+    return batchTypeSelect ? batchTypeSelect.value : "";
+  }
+
+  function getCourseFeeBreakdown(mode, batchType) {
+    const selectedMode = mode == null ? getSelectedTrainingMode() : mode;
+    const selectedBatch = batchType == null ? getSelectedBatchType() : batchType;
+    const base = selectedCourses.reduce((sum, name) => {
+      const course = COURSE_CATALOG[name];
+      return sum + (course ? parseRupeeAmount(course.offer) : 0);
+    }, 0);
+    const onlineAddon = selectedMode === "Online" ? ONLINE_FEE_ADDON : 0;
+    const weekendAddon = selectedBatch === "Weekend" ? WEEKEND_FEE_ADDON : 0;
+
+    return {
+      mode: selectedMode,
+      batchType: selectedBatch,
+      base,
+      onlineAddon,
+      weekendAddon,
+      total: base + onlineAddon + weekendAddon
+    };
+  }
+
+  function getCourseFeeKey(breakdown) {
+    const fee = breakdown || getCourseFeeBreakdown();
+    return [selectedCourses.slice().sort().join(";"), fee.mode, fee.batchType, fee.total].join("|");
+  }
+
+  function getCourseFeeTotal() {
+    return getCourseFeeBreakdown().total;
+  }
+
+  function isFeeSheetOpen() {
+    return Boolean(feeSheet && !feeSheet.hidden);
+  }
+
+  function isCourseFeeConfirmed() {
+    const fee = getCourseFeeBreakdown();
+    return Boolean(fee.mode && fee.batchType && lastConfirmedFeeKey === getCourseFeeKey(fee));
+  }
+
+  function confirmCourseFee() {
+    const fee = getCourseFeeBreakdown();
+    if (!selectedCourses.length) {
+      showFormMessage("error", "Please select at least one course.");
+      return false;
+    }
+
+    if (!fee.mode || !fee.batchType) {
+      showFormMessage("error", "Please select a training mode and batch type.");
+      return false;
+    }
+
+    lastConfirmedFeeKey = getCourseFeeKey(fee);
+    if (courseFeeInput) {
+      courseFeeInput.value = String(fee.total);
+    }
+    refreshCourseFeeDisplay({ autoOpen: false });
+    return true;
+  }
+
+  function syncFeeSheetSelectsFromForm() {
+    if (!feeSheetMode || !feeSheetBatch) {
+      return;
+    }
+
+    isSyncingFeeSelects = true;
+    feeSheetMode.value = getSelectedTrainingMode();
+    feeSheetBatch.value = getSelectedBatchType();
+    isSyncingFeeSelects = false;
+  }
+
+  function applyFeeSheetSelectionsToForm() {
+    if (!trainingModeSelect || !batchTypeSelect || !feeSheetMode || !feeSheetBatch) {
+      return;
+    }
+
+    const previousBatch = batchTypeSelect.value;
+    isSyncingFeeSelects = true;
+    trainingModeSelect.value = feeSheetMode.value;
+    batchTypeSelect.value = feeSheetBatch.value;
+    isSyncingFeeSelects = false;
+    if (previousBatch !== batchTypeSelect.value) {
+      renderPreferredTimeSlots(batchTypeSelect.value);
+    }
+  }
+
+  function refreshCourseFeeDisplay(options) {
+    const autoOpen = Boolean(options && options.autoOpen);
+    const fee = getCourseFeeBreakdown();
+    const hasPreferences = Boolean(fee.mode && fee.batchType);
+    const hasCourses = selectedCourses.length > 0;
+    const addonParts = [];
+
+    if (fee.onlineAddon) {
+      addonParts.push("Online +₹2,000");
+    }
+    if (fee.weekendAddon) {
+      addonParts.push("Weekend +₹2,000");
+    }
+
+    if (courseFeeInput) {
+      courseFeeInput.value = hasPreferences ? String(fee.total) : "";
+    }
+
+    if (feeSummary) {
+      feeSummary.hidden = !(hasPreferences && hasCourses);
+    }
+
+    if (feeSummaryTotal) {
+      feeSummaryTotal.textContent = formatRupeeAmount(fee.total);
+    }
+
+    if (feeSummaryCombo) {
+      feeSummaryCombo.textContent = hasPreferences ? `${fee.mode} · ${fee.batchType}` : "";
+    }
+
+    if (feeSummaryChips) {
+      feeSummaryChips.innerHTML = addonParts
+        .map((part) => `<span class="fee-summary-chip">${part}</span>`)
+        .join("");
+    }
+
+    if (feeBaseLabel) {
+      if (selectedCourses.length === 1) {
+        feeBaseLabel.textContent = `${selectedCourses[0]} launch fee`;
+      } else if (selectedCourses.length > 1) {
+        feeBaseLabel.textContent = "Combined program launch fee";
+      } else {
+        feeBaseLabel.textContent = "Program launch fee";
+      }
+    }
+
+    if (feeBaseAmount) {
+      feeBaseAmount.textContent = formatRupeeAmount(fee.base);
+    }
+
+    if (feeTotalAmount) {
+      feeTotalAmount.textContent = formatRupeeAmount(fee.total);
+    }
+
+    if (feeOnlineRow) {
+      feeOnlineRow.hidden = !fee.onlineAddon;
+    }
+
+    if (feeWeekendRow) {
+      feeWeekendRow.hidden = !fee.weekendAddon;
+    }
+
+    if (feeSheetConfirmBtn) {
+      feeSheetConfirmBtn.textContent = proceedToStep3AfterFeeConfirm
+        ? "Confirm and continue"
+        : "Confirm fee";
+    }
+
+    if (
+      autoOpen &&
+      hasPreferences &&
+      hasCourses &&
+      !hasAutoOpenedFeeSheet &&
+      !isFeeSheetOpen() &&
+      !isSyncingFeeSelects
+    ) {
+      hasAutoOpenedFeeSheet = true;
+      openFeeSheet({ proceedOnConfirm: false });
+    }
+  }
+
+  function closeFeeSheet() {
+    if (!feeSheet || !feeSheetOverlay) {
+      return;
+    }
+
+    proceedToStep3AfterFeeConfirm = false;
+    feeSheet.classList.remove("is-open");
+    document.body.classList.remove("fee-sheet-open");
+
+    window.setTimeout(() => {
+      if (!feeSheet.classList.contains("is-open")) {
+        feeSheet.hidden = true;
+        feeSheetOverlay.hidden = true;
+      }
+    }, 220);
+  }
+
+  function openFeeSheet(options) {
+    if (!feeSheet || !feeSheetOverlay) {
+      return;
+    }
+
+    proceedToStep3AfterFeeConfirm = Boolean(options && options.proceedOnConfirm);
+    syncFeeSheetSelectsFromForm();
+    syncCourseFeeOptions();
+    refreshCourseFeeDisplay({ autoOpen: false });
+
+    feeSheetOverlay.hidden = false;
+    feeSheet.hidden = false;
+    document.body.classList.add("fee-sheet-open");
+
+    requestAnimationFrame(() => {
+      feeSheet.classList.add("is-open");
+    });
+  }
+
+  function resetCourseFeeState() {
+    lastConfirmedFeeKey = "";
+    hasAutoOpenedFeeSheet = false;
+    proceedToStep3AfterFeeConfirm = false;
+    if (courseFeeInput) {
+      courseFeeInput.value = "";
+    }
+    refreshCourseFeeDisplay({ autoOpen: false });
+    closeFeeSheet();
+  }
+
+  function handleFeeConfirmation() {
+    if (!confirmCourseFee()) {
+      return;
+    }
+
+    const shouldContinue = proceedToStep3AfterFeeConfirm;
+    closeFeeSheet();
+
+    if (!shouldContinue) {
+      return;
+    }
+
+    if (!validateRegistrationForm()) {
+      return;
+    }
+
+    step2Complete = true;
+    goToWizardStep(3);
+  }
+
+  function onTrainingPreferenceChanged(source) {
+    if (isSyncingFeeSelects) {
+      refreshCourseFeeDisplay({ autoOpen: false });
+      return;
+    }
+
+    if (source === "sheet") {
+      applyFeeSheetSelectionsToForm();
+    } else {
+      syncFeeSheetSelectsFromForm();
+    }
+
+    refreshCourseFeeDisplay({ autoOpen: source === "form" });
+  }
+
   function syncProgramListCards() {
     document.querySelectorAll(".program-list-card").forEach((card) => {
       const courseName = card.getAttribute("data-course");
@@ -1103,6 +1477,8 @@
     }
 
     syncProgramListCards();
+    syncCourseFeeOptions();
+    refreshCourseFeeDisplay({ autoOpen: false });
     updateWizardProgressUI();
   }
 
@@ -1143,10 +1519,71 @@
   }
 
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && courseSheet && !courseSheet.hidden) {
+    if (event.key !== "Escape") {
+      return;
+    }
+    if (feeSheet && !feeSheet.hidden) {
+      closeFeeSheet();
+      return;
+    }
+    if (courseSheet && !courseSheet.hidden) {
       closeCourseSheet();
     }
   });
+
+  if (trainingModeSelect) {
+    trainingModeSelect.addEventListener("change", function () {
+      onTrainingPreferenceChanged("form");
+    });
+  }
+
+  if (batchTypeSelect) {
+    batchTypeSelect.addEventListener("change", function () {
+      onTrainingPreferenceChanged("form");
+    });
+  }
+
+  if (feeSheetMode) {
+    feeSheetMode.addEventListener("change", function () {
+      onTrainingPreferenceChanged("sheet");
+    });
+  }
+
+  if (feeSheetBatch) {
+    feeSheetBatch.addEventListener("change", function () {
+      onTrainingPreferenceChanged("sheet");
+    });
+  }
+
+  if (reviewFeeBtn) {
+    reviewFeeBtn.addEventListener("click", function () {
+      openFeeSheet({ proceedOnConfirm: false });
+    });
+  }
+
+  if (feeSheetOverlay) {
+    feeSheetOverlay.addEventListener("click", closeFeeSheet);
+  }
+
+  if (feeSheetClose) {
+    feeSheetClose.addEventListener("click", closeFeeSheet);
+  }
+
+  if (feeSheetStayBtn) {
+    feeSheetStayBtn.addEventListener("click", function () {
+      if (!confirmCourseFee()) {
+        return;
+      }
+      closeFeeSheet();
+    });
+  }
+
+  if (feeSheetConfirmBtn) {
+    feeSheetConfirmBtn.addEventListener("click", handleFeeConfirmation);
+  }
+
+  renderCourseFeeOptions(feeSummaryCourses);
+  renderCourseFeeOptions(feeSheetCourses);
 
   if (courseTrackerIcon) {
     courseTrackerIcon.addEventListener("click", function () {
